@@ -35,7 +35,11 @@
         </td>
         <td>{{ app.company }}</td>
         <td>{{ app.created_date.strftime('%Y-%m-%d %I:%M %p') }} (UTC)</td>
+        {% if app.updated_date %}
         <td>{{ app.updated_date.strftime('%Y-%m-%d %I:%M %p') }} (UTC)</td>
+        {% else %}
+        <td></td>
+        {% endif %}
       </tr>
       {% endfor %} {% else %}
       <!-- If no apps found, extend all 6 columns -->
