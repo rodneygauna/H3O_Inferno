@@ -161,3 +161,6 @@ cython_debug/
 
 # VS Code project settings
 .vscode/
+
+# Database - Local SQLite files
+src/database.db
