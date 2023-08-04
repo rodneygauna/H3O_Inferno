@@ -13,6 +13,7 @@ from datetime import datetime
 from src import db
 from src.models import HealthApp
 from flask import current_app
+from flask_login import current_user
 
 
 def scrape_carin_health_apps_and_store():
@@ -41,34 +42,36 @@ def scrape_carin_health_apps_and_store():
             }
         )
 
-    try:
-        with current_app.app_context():
-            for app_info in app_list_CARIN:
-                existing_app = HealthApp.query.filter_by(
-                    name=app_info["name"]).first()
-                if existing_app:
-                    if (existing_app.name != app_info["name"] or
-                        existing_app.company != app_info["company"] or
-                            existing_app.description != app_info["description"] or
-                            existing_app.link != app_info["link"]):
-                        existing_app.name = app_info["name"]
-                        existing_app.company = app_info["company"]
-                        existing_app.description = app_info["description"]
-                        existing_app.updated_date = datetime.utcnow()
-                else:
-                    new_app = HealthApp(
-                        source="CARIN",
-                        name=app_info["name"],
-                        company=app_info["company"],
-                        description=app_info["description"],
-                        link=app_info["link"],
-                        created_date=datetime.utcnow(),
-                    )
-                    db.session.add(new_app)
+    with current_app.app_context():
+        for app_info in app_list_CARIN:
+            existing_app = HealthApp.query.filter_by(
+                name=app_info["name"], source="CARIN"
+            ).first()
+            if existing_app:
+                if (
+                    existing_app.name != app_info["name"]
+                    or existing_app.company != app_info["company"]
+                    or existing_app.description != app_info["description"]
+                    or existing_app.link != app_info["link"]
+                ):
+                    existing_app.name = app_info["name"]
+                    existing_app.company = app_info["company"]
+                    existing_app.description = app_info["description"]
+                    existing_app.link = app_info["link"]
+                    existing_app.updated_date = datetime.utcnow()
+                    existing_app.updated_by = current_user.id
+            else:
+                new_app = HealthApp(
+                    source="CARIN",
+                    name=app_info["name"],
+                    company=app_info["company"],
+                    description=app_info["description"],
+                    link=app_info["link"],
+                    created_date=datetime.utcnow(),
+                    created_by=current_user.id,
+                )
+                db.session.add(new_app)
 
-            db.session.commit()
+        db.session.commit()
 
-        print("Scraped CARIN data saved to the database.")
-
-    except Exception as e:
-        print(f"Error saving CARIN data to the database: {e}")
+    print("Scraped CARIN data saved to the database.")

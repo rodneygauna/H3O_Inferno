@@ -17,6 +17,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from flask_login import current_user
 
 
 def scrape_medicare_blue_button_health_apps_and_store():
@@ -50,63 +51,59 @@ def scrape_medicare_blue_button_health_apps_and_store():
 
     app_list_medicare_blue_button = []
 
-    if ul_element:
-        for li_element in ul_element.find_all("li", class_="bb-apps__item"):
-            link = li_element.find("a")["href"]
-            name = li_element.find(
-                "h4", class_="bb-apps__item-title").text.strip()
-            company = li_element.find(
-                "h4", class_="bb-apps__item-title").text.strip()
-            description = li_element.find(
-                "p", class_="bb-apps__item-description"
-            ).text.strip()
+    # Loop through the list items
+    for li_element in ul_element.find_all("li", class_="bb-apps__item"):
+        link = li_element.find("a")["href"]
+        name = li_element.find(
+            "h4", class_="bb-apps__item-title").text.strip()
+        company = li_element.find(
+            "h4", class_="bb-apps__item-title").text.strip()
+        description = li_element.find(
+            "p", class_="bb-apps__item-description"
+        ).text.strip()
 
-            # Add the app to the list
-            app_list_medicare_blue_button.append(
-                {
-                    "link": link,
-                    "name": name,
-                    "company": company,
-                    "description": description,
-                }
-            )
+        # Add the app to the list
+        app_list_medicare_blue_button.append(
+            {
+                "link": link,
+                "name": name,
+                "company": company,
+                "description": description,
+            }
+        )
 
-        try:
-            with current_app.app_context():
-                for app_info in app_list_medicare_blue_button:
-                    existing_app = HealthApp.query.filter_by(
-                        name=app_info["name"]
-                    ).first()
-                    if existing_app:
-                        if (
-                            existing_app.name != app_info["name"]
-                            or existing_app.company != app_info["company"]
-                            or existing_app.description != app_info["description"]
-                            or existing_app.link != app_info["link"]
-                        ):
-                            existing_app.name = app_info["name"]
-                            existing_app.company = app_info["company"]
-                            existing_app.description = app_info["description"]
-                            existing_app.updated_date = datetime.utcnow()
-                    else:
-                        new_app = HealthApp(
-                            source="Medicare Blue Button",
-                            name=app_info["name"],
-                            company=app_info["company"],
-                            description=app_info["description"],
-                            link=app_info["link"],
-                            created_date=datetime.utcnow(),
-                        )
-                        db.session.add(new_app)
-
-                db.session.commit()
-
-            print("Scraped Medicare data saved to the database.")
-
-        except Exception as e:
-            print("Error saving Medicare data to the database:", e)
-    else:
-        return f"No {ul_element} found."
+    # Save to the database
+    with current_app.app_context():
+        for app_info in app_list_medicare_blue_button:
+            existing_app = HealthApp.query.filter_by(
+                name=app_info["name"], source="Medicare Blue Button"
+            ).first()
+            if existing_app:
+                if (
+                    existing_app.name != app_info["name"]
+                    or existing_app.company != app_info["company"]
+                    or existing_app.description != app_info["description"]
+                    or existing_app.link != app_info["link"]
+                ):
+                    existing_app.name = app_info["name"]
+                    existing_app.company = app_info["company"]
+                    existing_app.description = app_info["description"]
+                    existing_app.link = app_info["link"]
+                    existing_app.updated_date = datetime.utcnow()
+                    existing_app.updated_by = current_user.id
+            else:
+                new_app = HealthApp(
+                    source="Medicare Blue Button",
+                    name=app_info["name"],
+                    company=app_info["company"],
+                    description=app_info["description"],
+                    link=app_info["link"],
+                    created_date=datetime.utcnow(),
+                    created_by=current_user.id,
+                )
+                db.session.add(new_app)
+        db.session.commit()
+    print("Scraped Medicare data saved to the database.")
 
     # Close the driver
     driver.quit()
