@@ -1,9 +1,9 @@
 :root {
     font-size: 12px;
-    --text-primary: #2b2a33;
-    --text-secondary: #1c1b22;
-    --bg-primary: #b6b6b6;
-    --bg-secondary: #ececec;
+    --text-primary: #1c1b22;
+    --text-secondary: #2b2a33;
+    --bg-primary: #ffffff;
+    --bg-secondary: #b6b6b6;
     --transition-speed: 600ms;
 }
 
