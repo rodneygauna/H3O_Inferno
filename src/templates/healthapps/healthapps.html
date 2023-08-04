@@ -22,8 +22,8 @@
         <th>App Name</th>
         <th>Company</th>
         <th>Link</th>
-        <th>Description</th>
         <th>Created Date</th>
+        <th>Updated Date</th>
       </tr>
     </thead>
     <tbody>
@@ -32,9 +32,11 @@
         <td>{{ app.source }}</td>
         <td>{{ app.name }}</td>
         <td>{{ app.company }}</td>
-        <td>{{ app.link }}</td>
-        <td>{{ app.description }}</td>
-        <td>{{ app.created_date.strftime('%Y-%m-%d') }}</td>
+        <td>
+          <a href="{{ app.link }}" target="_blank">{{ app.link }}</a>
+        </td>
+        <td>{{ app.created_date.strftime('%Y-%m-%d %I:%M %p') }} (UTC)</td>
+        <td>{{ app.updated_date.strftime('%Y-%m-%d %I:%M %p') }} (UTC)</td>
       </tr>
       {% endfor %} {% else %}
       <!-- If no apps found, extend all 6 columns -->
