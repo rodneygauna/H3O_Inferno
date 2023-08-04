@@ -119,7 +119,7 @@ main {
 
 .topbar-link:hover {
     filter: grayscale(0%) opacity(1);
-    color: var(--text-secondary);
+    color: var(--bg-tertiary);
 }
 
 .topbar-link-text {
