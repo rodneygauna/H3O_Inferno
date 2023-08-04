@@ -49,3 +49,24 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         """Checks if the password is correct"""
         return check_password_hash(self.password_hash, password)
+
+
+# Model - Health App
+class HealthApp(db.Model):
+    """Third-party Health App model"""
+
+    __tablename__ = "health_apps"
+
+    # IDs
+    id = db.Column(db.Integer, primary_key=True)
+    # Web Scraping Source
+    source = db.Column(db.Text, nullable=False)
+    # App Information
+    name = db.Column(db.Text, nullable=False)
+    company = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    link = db.Column(db.Text, nullable=False)
+    # Timestamps
+    created_date = db.Column(db.DateTime, nullable=False,
+                             default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime, default=datetime.utcnow)

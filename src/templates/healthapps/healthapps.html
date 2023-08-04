@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Health Apps</h1>
+<!-- Health Apps - Force Scraping - Start -->
+<div class="row">
+  <div>
+    <form action="{{ url_for('healthapps.scrape_carin') }}" method="post">
+      <input
+        type="submit"
+        value="CARIN Force Scraping"
+        class="button-primary"
+      />
+    </form>
+  </div>
+</div>
+<!-- Health Apps - Force Scraping - End -->
+<!-- Health Apps - Start -->
+<div class="row">
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>App Name</th>
+        <th>Company</th>
+        <th>Link</th>
+        <th>Description</th>
+        <th>Created Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if healthapps %} {% for app in healthapps %}
+      <tr>
+        <td>{{ app.source }}</td>
+        <td>{{ app.name }}</td>
+        <td>{{ app.company }}</td>
+        <td>{{ app.link }}</td>
+        <td>{{ app.description }}</td>
+        <td>{{ app.created_date.strftime('%Y-%m-%d') }}</td>
+      </tr>
+      {% endfor %} {% else %}
+      <!-- If no apps found, extend all 6 columns -->
+      <tr>
+        <td colspan="6">No apps found</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+<!-- Health Apps - End -->
+{% endblock content %}
