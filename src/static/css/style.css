@@ -1,9 +1,10 @@
 :root {
     font-size: 12px;
-    --text-primary: #1c1b22;
-    --text-secondary: #2b2a33;
-    --bg-primary: #ffffff;
-    --bg-secondary: #b6b6b6;
+    --text-primary: #ffffff;
+    --text-secondary: #13111e;
+    --bg-primary: #2d2846;
+    --bg-secondary: #453d6c;
+    --bg-tertiary: #7568b8;
     --transition-speed: 600ms;
 }
 
