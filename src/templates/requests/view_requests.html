@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Connection Requests</h1>
+<!-- Requests Table - Start -->
+<div class="row">
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th>Health Plan</th>
+        <th>App Name</th>
+        <th>Requested Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if requests %} {% for request in requests %}
+      <tr>
+        <td>{{ request.health_plan_name }}</td>
+        <td>{{ request.app_name }}</td>
+        <td>{{ request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</td>
+        <td>
+          <a href="#" class="button button-primary">View</a>
+          <a href="#" class="button button-primary">Change Status</a>
+        </td>
+      </tr>
+      {% endfor %} {% else %}
+      <!-- If no requests found, extend all columns -->
+      <tr>
+        <td colspan="4">No requests found</td>
+        {% endif %}
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Requests Table - End -->
+{% endblock content %}

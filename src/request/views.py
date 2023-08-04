@@ -64,3 +64,17 @@ def connection_request():
     return render_template("requests/connection_request.html",
                            title="Connection Request",
                            form=form)
+
+
+# Route - View Requests
+@requests_bp.route("/view_requests", methods=["GET", "POST"])
+@login_required
+def view_requests():
+    """View all requests. This is an authenticated route."""
+
+    requests = ConnectionRequest.query.order_by(
+        ConnectionRequest.created_date.desc()).all()
+
+    return render_template("requests/view_requests.html",
+                           title="View Requests",
+                           requests=requests)
