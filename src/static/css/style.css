@@ -255,6 +255,20 @@ main {
     background-color: #ececec;
 }
 
+/* Button Group */
+.button-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.button-group form {
+    margin-right: 1rem;
+}
+
 /* Small screens */
 @media only screen and (max-width: 600px) {
     .navbar {
