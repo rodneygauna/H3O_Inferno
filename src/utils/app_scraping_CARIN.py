@@ -18,7 +18,7 @@ from flask import current_app
 def scrape_carin_health_apps_and_store():
     """
     This function scrapes the CARIN My Health Application website
-    and stores the information for each app in the database.
+    and stores or updates the information for each app in the database.
     """
 
     url = "https://myhealthapplication.com/health-apps/gallery"
@@ -43,15 +43,27 @@ def scrape_carin_health_apps_and_store():
 
     with current_app.app_context():
         for app_info in app_list_CARIN:
-            new_app = HealthApp(
-                source="CARIN",
-                name=app_info["name"],
-                company=app_info["company"],
-                description=app_info["description"],
-                link=app_info["link"],
-                created_date=datetime.utcnow(),
-            )
-            db.session.add(new_app)
+            existing_app = HealthApp.query.filter_by(
+                name=app_info["name"]).first()
+            if existing_app:
+                if (existing_app.name != app_info["name"] or
+                    existing_app.company != app_info["company"] or
+                        existing_app.description != app_info["description"] or
+                        existing_app.link != app_info["link"]):
+                    existing_app.name = app_info["name"]
+                    existing_app.company = app_info["company"]
+                    existing_app.description = app_info["description"]
+                    existing_app.updated_date = datetime.utcnow()
+            else:
+                new_app = HealthApp(
+                    source="CARIN",
+                    name=app_info["name"],
+                    company=app_info["company"],
+                    description=app_info["description"],
+                    link=app_info["link"],
+                    created_date=datetime.utcnow(),
+                )
+                db.session.add(new_app)
 
         db.session.commit()
 
