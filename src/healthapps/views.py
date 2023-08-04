@@ -22,6 +22,9 @@ from src.models import (
 from src.utils.app_scraping_CARIN import (
     scrape_carin_health_apps_and_store,
 )
+from src.utils.app_scraping_MedicareBlueButton import (
+    scrape_medicare_blue_button_health_apps_and_store,
+)
 
 
 # Blueprint Configuration
@@ -45,7 +48,29 @@ def healthapps():
 def scrape_carin():
     """Scrape and store health apps from CARIN website"""
 
-    scrape_carin_health_apps_and_store()
-    flash('CARIN health apps successfully scraped and stored.', 'success')
+    try:
+        scrape_carin_health_apps_and_store()
+        flash('CARIN health apps successfully scraped and stored.',
+              'success')
+    except Exception as e:
+        flash(f'Error scraping CARIN health apps. {e}', 'error')
+        print(e)
+
+    return redirect(url_for('healthapps.healthapps'))
+
+
+# Function - Medicare Blue Button Scraper
+@healthapps_bp.route('/healthapps/scrape_medicare', methods=['POST'])
+@login_required
+def scrape_medicare():
+    """Scrape and store health apps from Medicare website"""
+
+    try:
+        scrape_medicare_blue_button_health_apps_and_store()
+        flash('Medicare Blue Button health apps successfully scraped and stored.',
+              'success')
+    except Exception as e:
+        flash(f'Error scraping Medicare Blue Button health apps. {e}', 'error')
+        print(e)
 
     return redirect(url_for('healthapps.healthapps'))
