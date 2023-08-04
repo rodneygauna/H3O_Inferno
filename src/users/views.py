@@ -41,7 +41,12 @@ def register_user():
     if form.validate_on_submit():
         # Check if email is already registered
         if User.query.filter_by(email=form.email.data).first():
-            flash('This email is already registered.', 'danger')
+            flash('This email is already registered.', 'error')
+            return redirect(url_for('users.register_user'))
+
+        # Check if email ends with @healthtrio.com
+        if not form.email.data.endswith('@healthtrio.com'):
+            flash('Please use your HealthTrio email.', 'error')
             return redirect(url_for('users.register_user'))
 
         # Commit the new user to the database
