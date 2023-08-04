@@ -6,7 +6,11 @@
     <input type="submit" value="Update CARIN" class="button-primary" />
   </form>
   <form action="{{ url_for('healthapps.scrape_medicare') }}" method="post">
-    <input type="submit" value="Update Medicare BB" class="button-primary" />
+    <input
+      type="submit"
+      value="Update Medicare BB (Takes up to 2 minutes)"
+      class="button-primary"
+    />
   </form>
 </div>
 <!-- Health Apps - Force Scraping - End -->
