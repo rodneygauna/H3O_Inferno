@@ -38,6 +38,7 @@ def connection_request():
     form = ConnectionRequestForm()
 
     if form.validate_on_submit():
+        app_type_string = ", ".join(form.app_type.data)
         new_request = ConnectionRequest(
             firstname=form.firstname.data,
             lastname=form.lastname.data,
@@ -47,7 +48,7 @@ def connection_request():
             company_website=form.company_website.data,
             app_name=form.app_name.data,
             app_link=form.app_link.data,
-            app_type=form.app_type.data,
+            app_type=app_type_string,
             app_description=form.app_description.data,
             carin_link=form.carin_link.data,
             medicare_link=form.medicare_link.data,
