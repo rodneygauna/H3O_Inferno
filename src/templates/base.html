@@ -10,10 +10,12 @@
     {% include 'navigation.html' %}
     <!-- Navbar - End -->
     <main>
-      <!-- Flash - Start -->
-      {% include 'flash.html' %}
-      <!-- Flash - End -->
-      {% block content %}{% endblock content %}
+      <div class="container">
+        <!-- Flash - Start -->
+        {% include 'flash.html' %}
+        <!-- Flash - End -->
+        {% block content %}{% endblock content %}
+      </div>
     </main>
     {% include 'javascript.html' %}
   </body>

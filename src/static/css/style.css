@@ -29,14 +29,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 main {
-    margin-left: 5rem;
     margin-top: 5rem;
     padding: 1rem;
 }
 
 @media (max-width: 425px) {
     main {
-        margin-left: 0;
         padding-top: 3.5rem;
     }
 }
