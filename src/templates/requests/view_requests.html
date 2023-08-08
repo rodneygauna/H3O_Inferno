@@ -7,7 +7,11 @@
       <tr>
         <th>Health Plan</th>
         <th>App Name</th>
+        <th>Patient Access API</th>
+        <th>Provider Directory API</th>
+        <th>Drug Formulary API</th>
         <th>Requested Date</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -16,7 +20,23 @@
       <tr>
         <td>{{ request.health_plan_name }}</td>
         <td>{{ request.app_name }}</td>
+        <td>
+          {% if request.fhir_patient_access_api %}
+          <i class="fa fa-check" aria-hidden="true"></i>
+          {% else %} {% endif %}
+        </td>
+        <td>
+          {% if request.fhir_provider_directory_api %}
+          <i class="fa fa-check" aria-hidden="true"></i>
+          {% else %} {% endif %}
+        </td>
+        <td>
+          {% if request.fhir_drug_formulary_api %}
+          <i class="fa fa-check" aria-hidden="true"></i>
+          {% else %} {% endif %}
+        </td>
         <td>{{ request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</td>
+        <td>Status goes here</td>
         <td>
           <a href="#" class="button button-primary">View</a>
           <a href="#" class="button button-primary">Change Status</a>
@@ -25,7 +45,7 @@
       {% endfor %} {% else %}
       <!-- If no requests found, extend all columns -->
       <tr>
-        <td colspan="4">No requests found</td>
+        <td colspan="6">No requests found</td>
         {% endif %}
       </tr>
     </tbody>
