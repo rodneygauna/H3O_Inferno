@@ -1,0 +1,105 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h1>View Connection Request</h1>
+  <div class="row">
+    <div class="six columns">
+      <h5>Health Plan</h5>
+      <p>{{ connection_request.health_plan_name }}</p>
+    </div>
+    <div class="six columns">
+      <h5>APIs Requested</h5>
+      <div>
+        {% if connection_request.fhir_patient_access_api %}
+        <p>
+          <i class="fas fa-check-circle"></i><span> Patient Access API</span>
+        </p>
+        {% endif %} {% if connection_request.fhir_provider_directory_api %}
+        <p>
+          <i class="fas fa-check-circle"></i
+          ><span> Provider Directory API</span>
+        </p>
+        {% endif %} {% if connection_request.fhir_drug_formulary_api %}
+        <p>
+          <i class="fas fa-check-circle"></i><span> Drug Formulary API</span>
+        </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      <h5>App Name</h5>
+      <p>{{ connection_request.app_name }}</p>
+      <a
+        href="{{ connection_request.app_link }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ connection_request.app_link }}</a
+      >
+    </div>
+    <div class="six columns">
+      <h5>App Description</h5>
+      <p>{{ connection_request.app_description }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      <h5>Requestor Information</h5>
+      <p>
+        {{ connection_request.firstname }} {{ connection_request.lastname }}
+      </p>
+      <p>{{ connection_request.email }}</p>
+      <p>{{ connection_request.phone_number }}</p>
+    </div>
+    <div class="six columns">
+      <h5>Company Information</h5>
+      <p>{{ connection_request.company }}</p>
+      <a
+        href="{{ connection_request.company_website}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ connection_request.company_website }}</a
+      >
+    </div>
+  </div>
+  <div class="row">
+    {% if connection_request.carin_link %}
+    <div class="four columns">
+      <h5>CARIN App</h5>
+      <a
+        href="{{ connection_request.carin_link }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ connection_request.carin_link }}</a
+      >
+    </div>
+    {% endif %} {% if connection_request.medicare_link %}
+    <div class="four columns">
+      <h5>Medicare Blue Button App</h5>
+      <a
+        href="{{ connection_request.medicare_link }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ connection_request.medicare_link }}</a
+      >
+    </div>
+    {% endif %} {% if connection_request.caqh_link %}
+    <div class="four columns">
+      <h5>CAQH App</h5>
+      <a
+        href="{{ connection_request.caqh_link }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ connection_request.caqh_link }}</a
+      >
+    </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="u-full-width">
+      <h5>Request Date</h5>
+      <p>{{ connection_request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

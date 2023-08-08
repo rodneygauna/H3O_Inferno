@@ -39,10 +39,17 @@ main {
     }
 }
 
+/* Rows */
+.row {
+    margin-bottom: 3rem;
+}
+
+
 /* Forms */
 form .row {
     margin-bottom: 3rem;
 }
+
 
 
 /* Navbar */

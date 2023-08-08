@@ -38,7 +38,11 @@
         <td>{{ request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</td>
         <td>Status goes here</td>
         <td>
-          <a href="#" class="button button-primary">View</a>
+          <a
+            href=" {{url_for('requests.view_request', request_id=request.id) }}"
+            class="button button-primary"
+            >View</a
+          >
           <a href="#" class="button button-primary">Change Status</a>
         </td>
       </tr>

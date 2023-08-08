@@ -71,7 +71,7 @@ def connection_request():
                            form=form)
 
 
-# Route - View Requests
+# Route - View All Requests
 @requests_bp.route("/view_requests", methods=["GET", "POST"])
 @login_required
 def view_requests():
@@ -83,3 +83,16 @@ def view_requests():
     return render_template("requests/view_requests.html",
                            title="View Requests",
                            requests=requests)
+
+
+# Route - View Request
+@requests_bp.route("/view_request/<int:request_id>")
+@login_required
+def view_request(request_id):
+    """View a request. This is an authenticated route."""
+
+    connection_request = ConnectionRequest.query.get_or_404(request_id)
+
+    return render_template("requests/view_request.html",
+                           title="View Request",
+                           connection_request=connection_request)
