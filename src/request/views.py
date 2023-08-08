@@ -38,7 +38,6 @@ def connection_request():
     form = ConnectionRequestForm()
 
     if form.validate_on_submit():
-        app_type_string = ", ".join(form.app_type.data)
         new_request = ConnectionRequest(
             firstname=form.firstname.data,
             lastname=form.lastname.data,
@@ -48,12 +47,17 @@ def connection_request():
             company_website=form.company_website.data,
             app_name=form.app_name.data,
             app_link=form.app_link.data,
-            app_type=app_type_string,
+            app_type_web=form.app_type_web.data,
+            app_type_mobile=form.app_type_mobile.data,
+            app_type_native=form.app_type_native.data,
+            app_type_other=form.app_type_other.data,
             app_description=form.app_description.data,
             carin_link=form.carin_link.data,
             medicare_link=form.medicare_link.data,
             caqh_link=form.caqh_link.data,
-            fhir_api=form.fhir_api.data,
+            fhir_patient_access_api=form.fhir_patient_access_api.data,
+            fhir_provider_directory_api=form.fhir_provider_directory_api.data,
+            fhir_drug_formulary_api=form.fhir_drug_formulary_api.data,
             health_plan_name=form.health_plan_name.data,
         )
         db.session.add(new_request)

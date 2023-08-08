@@ -93,13 +93,18 @@ class ConnectionRequest(db.Model):
     # Application Information
     app_name = db.Column(db.String(255), nullable=False)
     app_link = db.Column(db.String(255), nullable=False)
-    app_type = db.Column(db.Text, nullable=False)
+    app_type_web = db.Column(db.Boolean, nullable=False)
+    app_type_mobile = db.Column(db.Boolean, nullable=False)
+    app_type_native = db.Column(db.Boolean, nullable=False)
+    app_type_other = db.Column(db.Boolean, nullable=False)
     app_description = db.Column(db.Text, nullable=False)
     carin_link = db.Column(db.Text)
     medicare_link = db.Column(db.Text)
     caqh_link = db.Column(db.Text)
     # Requesting Information
-    fhir_api = db.Column(db.Text, nullable=False)
+    fhir_patient_access_api = db.Column(db.Boolean, nullable=False)
+    fhir_provider_directory_api = db.Column(db.Boolean, nullable=False)
+    fhir_drug_formulary_api = db.Column(db.Boolean, nullable=False)
     # Health Plan Information
     health_plan_name = db.Column(db.Text, nullable=False)
     # Timestamps

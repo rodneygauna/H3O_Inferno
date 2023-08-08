@@ -41,9 +41,23 @@
       {{ form.app_name.label }} {{ form.app_name }}
     </div>
   </div>
+  <h4>App Type</h4>
   <div class="row">
-    <div class="u-full-width">
-      {{ form.app_type.label }} {{ form.app_type }}
+    <div class="three columns checkbox-group">
+      {{ form.app_type_web(class="checkbox-input") }} {{ form.app_type_web.label
+      }}
+    </div>
+    <div class="three columns checkbox-group">
+      {{ form.app_type_mobile(class="checkbox-input") }} {{
+      form.app_type_mobile.label }}
+    </div>
+    <div class="three columns checkbox-group">
+      {{ form.app_type_native(class="checkbox-input") }} {{
+      form.app_type_native.label }}
+    </div>
+    <div class="three columns checkbox-group">
+      {{ form.app_type_other(class="checkbox-input") }} {{
+      form.app_type_other.label }}
     </div>
   </div>
   <div class="row">
@@ -68,9 +82,19 @@
       {{ form.caqh_link.label }} {{ form.caqh_link }}
     </div>
   </div>
+  <h4>Tell us which API(s) you want to connect to</h4>
   <div class="row">
-    <div class="u-full-width">
-      {{ form.fhir_api.label }} {{ form.fhir_api }}
+    <div class="four columns checkbox-group">
+      {{ form.fhir_patient_access_api(class="checkbox-input") }} {{
+      form.fhir_patient_access_api.label }}
+    </div>
+    <div class="four columns checkbox-group">
+      {{ form.fhir_provider_directory_api(class="checkbox-input") }} {{
+      form.fhir_provider_directory_api.label }}
+    </div>
+    <div class="four columns checkbox-group">
+      {{ form.fhir_drug_formulary_api(class="checkbox-input") }} {{
+      form.fhir_drug_formulary_api.label }}
     </div>
   </div>
   <div class="row">

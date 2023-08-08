@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import (
     StringField,
     TextAreaField,
-    SelectMultipleField,
+    BooleanField,
     SubmitField,
 )
 from wtforms.validators import (
@@ -38,15 +38,13 @@ class ConnectionRequestForm(FlaskForm):
                            render_kw={"class": "u-full-width"})
     app_link = StringField('Application Link*', validators=[DataRequired()],
                            render_kw={"class": "u-full-width"})
-    app_type = SelectMultipleField('Application Type*',
-                                   choices=[('Web App', 'Web App'),
-                                            ('Mobile App', 'Mobile App'),
-                                            ('Native App', 'Native App'),
-                                            ('Other', 'Other')],
-                                   coerce=str,
-                                   validators=[DataRequired()],
-                                   render_kw={"class": "u-full-width",
-                                              "style": "height: 120px;"})
+    app_type_web = BooleanField('Web App', render_kw={"class": "u-full-width"})
+    app_type_mobile = BooleanField('Mobile App',
+                                   render_kw={"class": "u-full-width"})
+    app_type_native = BooleanField('Native App',
+                                   render_kw={"class": "u-full-width"})
+    app_type_other = BooleanField('Other',
+                                  render_kw={"class": "u-full-width"})
     app_description = TextAreaField(
         'Application Description*', validators=[DataRequired()],
         render_kw={"class": "u-full-width"})
@@ -57,8 +55,15 @@ class ConnectionRequestForm(FlaskForm):
     caqh_link = StringField('CAQH Link',
                             render_kw={"class": "u-full-width"})
     # Requesting Information
-    fhir_api = StringField('FHIR API*', validators=[DataRequired()],
-                           render_kw={"class": "u-full-width"})
+    fhir_patient_access_api = BooleanField(
+        'Patient Access API',
+        render_kw={"class": "u-full-width"})
+    fhir_provider_directory_api = BooleanField(
+        'Provider Directory API',
+        render_kw={"class": "u-full-width"})
+    fhir_drug_formulary_api = BooleanField(
+        'Drug Formulary API',
+        render_kw={"class": "u-full-width"})
     # Health Plan Information
     health_plan_name = StringField(
         'Health Plan Name*', validators=[DataRequired()],
