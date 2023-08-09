@@ -79,8 +79,24 @@ def connection_request():
 def view_requests():
     """View all requests. This is an authenticated route."""
 
-    requests = ConnectionRequest.query.order_by(
-        ConnectionRequest.created_date.desc()).all()
+    requests = (
+        db.session.query(
+            ConnectionRequest.id,
+            ConnectionRequest.app_name,
+            ConnectionRequest.fhir_patient_access_api,
+            ConnectionRequest.fhir_provider_directory_api,
+            ConnectionRequest.fhir_drug_formulary_api,
+            ConnectionRequest.health_plan_name,
+            ConnectionRequest.created_date,
+            RequestWorkingStatus.working_status,
+        )
+        .join(
+            RequestWorkingStatus,
+            RequestWorkingStatus.connectionrequest_id == ConnectionRequest.id,
+        )
+        .order_by(ConnectionRequest.created_date.desc())
+        .all()
+    )
 
     return render_template("requests/view_requests.html",
                            title="View Requests",
@@ -93,7 +109,39 @@ def view_requests():
 def view_request(request_id):
     """View a request. This is an authenticated route."""
 
-    connection_request = ConnectionRequest.query.get_or_404(request_id)
+    connection_request = (
+        db.session.query(
+            ConnectionRequest.id,
+            ConnectionRequest.firstname,
+            ConnectionRequest.lastname,
+            ConnectionRequest.email,
+            ConnectionRequest.phone_number,
+            ConnectionRequest.company,
+            ConnectionRequest.company_website,
+            ConnectionRequest.app_name,
+            ConnectionRequest.app_link,
+            ConnectionRequest.app_type_web,
+            ConnectionRequest.app_type_mobile,
+            ConnectionRequest.app_type_native,
+            ConnectionRequest.app_type_other,
+            ConnectionRequest.app_description,
+            ConnectionRequest.carin_link,
+            ConnectionRequest.medicare_link,
+            ConnectionRequest.caqh_link,
+            ConnectionRequest.fhir_patient_access_api,
+            ConnectionRequest.fhir_provider_directory_api,
+            ConnectionRequest.fhir_drug_formulary_api,
+            ConnectionRequest.health_plan_name,
+            ConnectionRequest.created_date,
+            RequestWorkingStatus.working_status,
+        )
+        .filter(ConnectionRequest.id == request_id)
+        .join(
+            RequestWorkingStatus,
+            RequestWorkingStatus.connectionrequest_id == ConnectionRequest.id,
+        )
+        .first()
+    )
 
     return render_template("requests/view_request.html",
                            title="View Request",
