@@ -147,6 +147,7 @@ class RequestWorkingStatus(db.Model):
         db.Integer, db.ForeignKey("connection_requests.id"))
     # Working Status Information
     working_status = db.Column(db.String(255), nullable=False)
+    notes = db.Column(db.Text)
     # Timestamps
     created_date = db.Column(db.DateTime, nullable=False,
                              default=datetime.utcnow)

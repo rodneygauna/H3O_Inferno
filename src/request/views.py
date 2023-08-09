@@ -18,6 +18,7 @@ from flask_login import (
 )
 from src.request.forms import (
     ConnectionRequestForm,
+    RequestWorkingStatusForm,
 )
 from src import db
 from src.models import (
@@ -163,9 +164,61 @@ def edit_request(request_id):
         connection_request.updated_by = current_user.id
         db.session.commit()
         flash("Connection request has been updated.", "success")
-        return redirect(url_for("requests.view_request", request_id=request_id))
+        return redirect(url_for("requests.view_request",
+                                request_id=request_id))
 
     return render_template("requests/connection_request.html",
                            title="Edit Request",
+                           form=form,
+                           connection_request=connection_request)
+
+
+# Route - Status Updates
+@requests_bp.route("/status_updates/<int:request_id>", methods=["GET", "POST"])
+@login_required
+def status_updates(request_id):
+    """Allows the HealthTrio user to update the status of a request."""
+
+    form = RequestWorkingStatusForm()
+
+    connection_request = ConnectionRequest.query.get_or_404(request_id)
+    connection_status = RequestWorkingStatus.query.filter_by(
+        connectionrequest_id=request_id).first()
+
+    # If this is the first time adding a status update, create a new record
+    if connection_status is None:
+        connection_status = RequestWorkingStatus(
+            connectionrequest_id=request_id,
+            working_status=form.working_status.data,
+            notes=form.notes.data,
+            created_date=datetime.utcnow(),
+            created_by=current_user.id,
+        )
+        db.session.add(connection_status)
+        db.session.commit()
+        flash("Status has been updated.", "success")
+        return redirect(url_for("requests.view_request",
+                                request_id=request_id))
+
+    # If there is an existing status update, update the record
+    if connection_status is not None:
+        # Populate form fields with existing data
+        if request.method == "GET":
+            form.working_status.data = connection_status.working_status
+            form.notes.data = connection_status.notes
+
+        # Update the status of the request
+        if form.validate_on_submit():
+            connection_status.working_status = form.working_status.data
+            connection_status.notes = form.notes.data
+            connection_status.updated_date = datetime.utcnow()
+            connection_status.updated_by = current_user.id
+            db.session.commit()
+            flash("Status has been updated.", "success")
+            return redirect(url_for("requests.view_request",
+                                    request_id=request_id))
+
+    return render_template("requests/status_updates.html",
+                           title="Status Updates",
                            form=form,
                            connection_request=connection_request)

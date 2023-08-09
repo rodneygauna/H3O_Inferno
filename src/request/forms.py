@@ -8,10 +8,14 @@ from wtforms import (
     StringField,
     TextAreaField,
     BooleanField,
+    SelectField,
     SubmitField,
 )
 from wtforms.validators import (
     DataRequired,
+)
+from src.dictionaries.working_status import (
+    WORKING_STATUS,
 )
 
 
@@ -70,3 +74,17 @@ class ConnectionRequestForm(FlaskForm):
         render_kw={"class": "u-full-width"})
     # Submit
     submit = SubmitField('Submit')
+
+
+# Form - Request Working Status
+class RequestWorkingStatusForm(FlaskForm):
+    """Form - Request Working Status"""
+
+    # Working Status
+    working_status = SelectField(
+        'Working Status', choices=WORKING_STATUS,
+        validators=[DataRequired()]
+    )
+    notes = TextAreaField('Notes', render_kw={"class": "u-full-width"})
+    # Submit
+    submit = SubmitField('Save')

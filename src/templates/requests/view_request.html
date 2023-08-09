@@ -6,10 +6,16 @@
     <div class="button-group">
       <a
         href="{{ url_for('requests.edit_request', request_id=connection_request.id) }}"
-        ><button>Edit Request</button></a
+        ><button>Edit Connection Request</button></a
       >
-      <button>Edit Jira Tickets</button>
-      <button>Edit Request Status</button>
+      <a
+        href="{{ url_for('requests.status_updates', request_id=connection_request.id) }}"
+      >
+        <button>Edit Request Status</button>
+      </a>
+      <a href="#">
+        <button>Edit Jira Tickets</button>
+      </a>
     </div>
   </div>
   <!-- Actions - End -->
