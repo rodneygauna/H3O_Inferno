@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Jira Ticket Updates</h1>
+<p>Add or update the Jira CC and CSM1 IDs and URLs below.</p>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="row">
+    <div class="three columns">
+      {{ form.jira_cc_id.label }} {{ form.jira_cc_id }}
+    </div>
+    <div class="nine columns">
+      {{ form.jira_cc_url.label }} {{ form.jira_cc_url }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="three columns">
+      {{ form.jira_csm1_id.label }} {{ form.jira_csm1_id }}
+    </div>
+    <div class="nine columns">
+      {{ form.jira_csm1_url.label }} {{ form.jira_csm1_url }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="u-full-width">{{ form.submit() }}</div>
+  </div>
+</form>
+{% endblock content %}

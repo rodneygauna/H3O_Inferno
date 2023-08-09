@@ -19,12 +19,17 @@ from flask_login import (
 from src.request.forms import (
     ConnectionRequestForm,
     RequestWorkingStatusForm,
+    JiraTicketsForm,
 )
 from src import db
 from src.models import (
     ConnectionRequest,
-    RequestJira,
     RequestWorkingStatus,
+    RequestJira,
+)
+from src.request.sql_queries import (
+    get_all_connection_requests,
+    get_connection_request,
 )
 
 
@@ -79,24 +84,7 @@ def connection_request():
 def view_requests():
     """View all requests. This is an authenticated route."""
 
-    requests = (
-        db.session.query(
-            ConnectionRequest.id,
-            ConnectionRequest.app_name,
-            ConnectionRequest.fhir_patient_access_api,
-            ConnectionRequest.fhir_provider_directory_api,
-            ConnectionRequest.fhir_drug_formulary_api,
-            ConnectionRequest.health_plan_name,
-            ConnectionRequest.created_date,
-            RequestWorkingStatus.working_status,
-        )
-        .join(
-            RequestWorkingStatus,
-            RequestWorkingStatus.connectionrequest_id == ConnectionRequest.id,
-        )
-        .order_by(ConnectionRequest.created_date.desc())
-        .all()
-    )
+    requests = get_all_connection_requests()
 
     return render_template("requests/view_requests.html",
                            title="View Requests",
@@ -109,39 +97,7 @@ def view_requests():
 def view_request(request_id):
     """View a request. This is an authenticated route."""
 
-    connection_request = (
-        db.session.query(
-            ConnectionRequest.id,
-            ConnectionRequest.firstname,
-            ConnectionRequest.lastname,
-            ConnectionRequest.email,
-            ConnectionRequest.phone_number,
-            ConnectionRequest.company,
-            ConnectionRequest.company_website,
-            ConnectionRequest.app_name,
-            ConnectionRequest.app_link,
-            ConnectionRequest.app_type_web,
-            ConnectionRequest.app_type_mobile,
-            ConnectionRequest.app_type_native,
-            ConnectionRequest.app_type_other,
-            ConnectionRequest.app_description,
-            ConnectionRequest.carin_link,
-            ConnectionRequest.medicare_link,
-            ConnectionRequest.caqh_link,
-            ConnectionRequest.fhir_patient_access_api,
-            ConnectionRequest.fhir_provider_directory_api,
-            ConnectionRequest.fhir_drug_formulary_api,
-            ConnectionRequest.health_plan_name,
-            ConnectionRequest.created_date,
-            RequestWorkingStatus.working_status,
-        )
-        .filter(ConnectionRequest.id == request_id)
-        .join(
-            RequestWorkingStatus,
-            RequestWorkingStatus.connectionrequest_id == ConnectionRequest.id,
-        )
-        .first()
-    )
+    connection_request = get_connection_request(request_id)
 
     return render_template("requests/view_request.html",
                            title="View Request",
@@ -235,18 +191,19 @@ def status_updates(request_id):
 
     # If this is the first time adding a status update, create a new record
     if connection_status is None:
-        connection_status = RequestWorkingStatus(
-            connectionrequest_id=request_id,
-            working_status=form.working_status.data,
-            notes=form.notes.data,
-            created_date=datetime.utcnow(),
-            created_by=current_user.id,
-        )
-        db.session.add(connection_status)
-        db.session.commit()
-        flash("Status has been updated.", "success")
-        return redirect(url_for("requests.view_request",
-                                request_id=request_id))
+        if form.validate_on_submit():
+            connection_status = RequestWorkingStatus(
+                connectionrequest_id=request_id,
+                working_status=form.working_status.data,
+                notes=form.notes.data,
+                created_date=datetime.utcnow(),
+                created_by=current_user.id,
+            )
+            db.session.add(connection_status)
+            db.session.commit()
+            flash("Status has been updated.", "success")
+            return redirect(url_for("requests.view_request",
+                                    request_id=request_id))
 
     # If there is an existing status update, update the record
     if connection_status is not None:
@@ -268,5 +225,64 @@ def status_updates(request_id):
 
     return render_template("requests/status_updates.html",
                            title="Status Updates",
+                           form=form,
+                           connection_request=connection_request)
+
+
+# Route - Jira Ticket Updates
+@requests_bp.route("/jira_ticket_updates/<int:request_id>",
+                   methods=["GET", "POST"])
+@login_required
+def jira_ticket_updates(request_id):
+    """Allows the HealthTrio user to update the Jira ticket of a request."""
+
+    form = JiraTicketsForm()
+
+    connection_request = ConnectionRequest.query.get_or_404(request_id)
+    jira_tickets = RequestJira.query.filter_by(
+        connectionrequest_id=request_id).first()
+
+    # If this is the first time adding a Jira ticket, create a new record
+    if jira_tickets is None:
+        if form.validate_on_submit():
+            jira_tickets = RequestJira(
+                connectionrequest_id=request_id,
+                jira_cc_id=form.jira_cc_id.data,
+                jira_cc_url=form.jira_cc_url.data,
+                jira_csm1_id=form.jira_csm1_id.data,
+                jira_csm1_url=form.jira_csm1_url.data,
+                created_date=datetime.utcnow(),
+                created_by=current_user.id,
+            )
+            db.session.add(jira_tickets)
+            db.session.commit()
+            flash("Jira tickets has been updated.", "success")
+            return redirect(url_for("requests.view_request",
+                                    request_id=request_id))
+
+    # If there is an existing Jira ticket, update the record
+    if jira_tickets is not None:
+        # Populate form fields with existing data
+        if request.method == "GET":
+            form.jira_cc_id.data = jira_tickets.jira_cc_id
+            form.jira_cc_url.data = jira_tickets.jira_cc_url
+            form.jira_csm1_id.data = jira_tickets.jira_csm1_id
+            form.jira_csm1_url.data = jira_tickets.jira_csm1_url
+
+        # Update the Jira ticket of the request
+        if form.validate_on_submit():
+            jira_tickets.jira_cc_id = form.jira_cc_id.data
+            jira_tickets.jira_cc_url = form.jira_cc_url.data
+            jira_tickets.jira_csm1_id = form.jira_csm1_id.data
+            jira_tickets.jira_csm1_url = form.jira_csm1_url.data
+            jira_tickets.updated_date = datetime.utcnow()
+            jira_tickets.updated_by = current_user.id
+            db.session.commit()
+            flash("Jira tickets has been updated.", "success")
+            return redirect(url_for("requests.view_request",
+                                    request_id=request_id))
+
+    return render_template("requests/jira_ticket_updates.html",
+                           title="Jira Ticket Updates",
                            form=form,
                            connection_request=connection_request)

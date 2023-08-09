@@ -123,9 +123,10 @@ class RequestJira(db.Model):
     connectionrequest_id = db.Column(
         db.Integer, db.ForeignKey("connection_requests.id"))
     # Jira Information
-    jira_id = db.Column(db.String(255), nullable=False)
-    jira_url = db.Column(db.String(255), nullable=False)
-    jira_status = db.Column(db.String(255))
+    jira_cc_id = db.Column(db.String(255), nullable=False)
+    jira_cc_url = db.Column(db.String(255), nullable=False)
+    jira_csm1_id = db.Column(db.String(255))
+    jira_csm1_url = db.Column(db.String(255))
     # Timestamps
     created_date = db.Column(db.DateTime, nullable=False,
                              default=datetime.utcnow)
@@ -146,7 +147,7 @@ class RequestWorkingStatus(db.Model):
     connectionrequest_id = db.Column(
         db.Integer, db.ForeignKey("connection_requests.id"))
     # Working Status Information
-    working_status = db.Column(db.String(255), nullable=False)
+    working_status = db.Column(db.String(255))
     notes = db.Column(db.Text)
     # Timestamps
     created_date = db.Column(db.DateTime, nullable=False,

@@ -47,9 +47,27 @@
           <i class="fa fa-bolt" aria-hidden="true"></i>
           {% else %} {% endif %}
         </td>
-        <td>{{request.working_status }}</td>
-        <td></td>
-        <td></td>
+        <td>{{ request.working_status }}</td>
+        <td>
+          {% if request.jira_cc_id %}
+          <a
+            href="{{ request.jira_cc_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            >CC-{{ request.jira_cc_id }}</a
+          >
+          {% endif %}
+        </td>
+        <td>
+          {% if request.jira_csm1_id %}
+          <a
+            href="{{ request.jira_csm1_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            >CSM1-{{ request.jira_csm1_id }}</a
+          >
+          {% endif %}
+        </td>
         <td>
           <a
             href=" {{url_for('requests.view_request', request_id=request.id) }}"

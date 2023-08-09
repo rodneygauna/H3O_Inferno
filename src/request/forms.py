@@ -88,3 +88,18 @@ class RequestWorkingStatusForm(FlaskForm):
     notes = TextAreaField('Notes', render_kw={"class": "u-full-width"})
     # Submit
     submit = SubmitField('Save')
+
+
+# Form - Jira Tickets
+class JiraTicketsForm(FlaskForm):
+    """Form - Jira Tickets"""
+
+    # Jira Tickets
+    jira_cc_id = StringField('Jira CC ID', validators=[DataRequired()])
+    jira_cc_url = StringField('Jira CC URL', validators=[DataRequired()],
+                              render_kw={"class": "u-full-width"})
+    jira_csm1_id = StringField('Jira CSM1 ID')
+    jira_csm1_url = StringField('Jira CSM1 URL',
+                                render_kw={"class": "u-full-width"})
+    # Submit
+    submit = SubmitField('Save')

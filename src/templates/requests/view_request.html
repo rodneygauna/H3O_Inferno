@@ -13,7 +13,9 @@
       >
         <button>Edit Request Status</button>
       </a>
-      <a href="#">
+      <a
+        href="{{ url_for('requests.jira_ticket_updates', request_id=connection_request.id) }}"
+      >
         <button>Edit Jira Tickets</button>
       </a>
     </div>
@@ -28,9 +30,25 @@
     </div>
     <div class="four columns">
       <h5>CC Jira Ticket</h5>
+      {% if connection_request.jira_cc_id %}
+      <a
+        href="{{ connection_request.jira_cc_url}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >CC-{{ connection_request.jira_cc_id }}</a
+      >
+      {% endif %}
     </div>
     <div class="four columns">
       <h5>CSM1 Jira Ticket</h5>
+      {% if connection_request.jira_csm1_id %}
+      <a
+        href="{{ connection_request.jira_csm1_url}}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >CSM1-{{ connection_request.jira_csm1_id }}</a
+      >
+      {% endif %}
     </div>
   </div>
   <!-- Status - End -->
