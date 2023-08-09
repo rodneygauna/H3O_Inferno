@@ -4,7 +4,10 @@
   <!-- Actions - Start -->
   <div class="row">
     <div class="button-group">
-      <button>Edit Submitted Request</button>
+      <a
+        href="{{ url_for('requests.edit_request', request_id=connection_request.id) }}"
+        ><button>Edit Request</button></a
+      >
       <button>Edit Jira Tickets</button>
       <button>Edit Request Status</button>
     </div>

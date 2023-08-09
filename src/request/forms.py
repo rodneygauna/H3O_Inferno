@@ -69,4 +69,4 @@ class ConnectionRequestForm(FlaskForm):
         'Health Plan Name*', validators=[DataRequired()],
         render_kw={"class": "u-full-width"})
     # Submit
-    submit = SubmitField('Submit for Review')
+    submit = SubmitField('Submit')
