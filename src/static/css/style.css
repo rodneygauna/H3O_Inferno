@@ -278,6 +278,10 @@ form .row {
     margin-bottom: 1rem;
 }
 
+.button-group button {
+    margin-right: 1rem;
+}
+
 .button-group form {
     margin-right: 1rem;
 }

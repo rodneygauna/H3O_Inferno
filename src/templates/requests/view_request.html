@@ -1,6 +1,31 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
   <h1>View Connection Request</h1>
+  <!-- Actions - Start -->
+  <div class="row">
+    <div class="button-group">
+      <button>Edit Submitted Request</button>
+      <button>Edit Jira Tickets</button>
+      <button>Edit Request Status</button>
+    </div>
+  </div>
+  <!-- Actions - End -->
+  <!-- Status - Start -->
+  <h3>Connection Request Status</h3>
+  <div class="row">
+    <div class="four columns">
+      <h5>Status</h5>
+    </div>
+    <div class="four columns">
+      <h5>CC Jira Ticket</h5>
+    </div>
+    <div class="four columns">
+      <h5>CSM1 Jira Ticket</h5>
+    </div>
+  </div>
+  <!-- Status - End -->
+  <!-- Connect Request Information - Start -->
+  <h3>Connect Request Information</h3>
   <div class="row">
     <div class="six columns">
       <h5>Health Plan</h5>
@@ -10,18 +35,11 @@
       <h5>APIs Requested</h5>
       <div>
         {% if connection_request.fhir_patient_access_api %}
-        <p>
-          <i class="fas fa-check-circle"></i><span> Patient Access API</span>
-        </p>
+        <p><i class="fas fa-bolt"></i><span> Patient Access API</span></p>
         {% endif %} {% if connection_request.fhir_provider_directory_api %}
-        <p>
-          <i class="fas fa-check-circle"></i
-          ><span> Provider Directory API</span>
-        </p>
+        <p><i class="fas fa-bolt"></i><span> Provider Directory API</span></p>
         {% endif %} {% if connection_request.fhir_drug_formulary_api %}
-        <p>
-          <i class="fas fa-check-circle"></i><span> Drug Formulary API</span>
-        </p>
+        <p><i class="fas fa-bolt"></i><span> Drug Formulary API</span></p>
         {% endif %}
       </div>
     </div>
@@ -101,5 +119,6 @@
       <p>{{ connection_request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</p>
     </div>
   </div>
+  <!-- Connect Request Information - End -->
 </div>
 {% endblock content %}

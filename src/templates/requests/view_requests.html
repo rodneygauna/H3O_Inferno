@@ -1,42 +1,55 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Connection Requests</h1>
+<p style="font-size: 10px">
+  Legend:
+  <br />
+  PA = Patient Access API
+  <br />
+  PD = Provider Directory API
+  <br />
+  DF = Drug Formulary API
+</p>
 <!-- Requests Table - Start -->
 <div class="row">
   <table class="u-full-width">
     <thead>
       <tr>
+        <th>Requested Date</th>
         <th>Health Plan</th>
         <th>App Name</th>
-        <th>Patient Access API</th>
-        <th>Provider Directory API</th>
-        <th>Drug Formulary API</th>
-        <th>Requested Date</th>
+        <th>PA</th>
+        <th>PD</th>
+        <th>DF</th>
         <th>Status</th>
+        <th>CC <i class="fa-solid fa-arrow-up-right-from-square"></i></th>
+        <th>CSM1 <i class="fa-solid fa-arrow-up-right-from-square"></i></th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {% if requests %} {% for request in requests %}
       <tr>
+        <td>{{ request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</td>
         <td>{{ request.health_plan_name }}</td>
         <td>{{ request.app_name }}</td>
         <td>
           {% if request.fhir_patient_access_api %}
-          <i class="fa fa-check" aria-hidden="true"></i>
+          <i class="fa fa-bolt" aria-hidden="true"></i>
           {% else %} {% endif %}
         </td>
         <td>
           {% if request.fhir_provider_directory_api %}
-          <i class="fa fa-check" aria-hidden="true"></i>
+          <i class="fa fa-bolt" aria-hidden="true"></i>
           {% else %} {% endif %}
         </td>
         <td>
           {% if request.fhir_drug_formulary_api %}
-          <i class="fa fa-check" aria-hidden="true"></i>
+          <i class="fa fa-bolt" aria-hidden="true"></i>
           {% else %} {% endif %}
         </td>
-        <td>{{ request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</td>
-        <td>Status goes here</td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td>
           <a
             href=" {{url_for('requests.view_request', request_id=request.id) }}"
@@ -48,7 +61,7 @@
       {% endfor %} {% else %}
       <!-- If no requests found, extend all columns -->
       <tr>
-        <td colspan="6">No requests found</td>
+        <td colspan="10">No requests found</td>
         {% endif %}
       </tr>
     </tbody>
