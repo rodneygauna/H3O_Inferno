@@ -46,16 +46,16 @@ This ensures that all packages for the application are specific to this instance
 
 Follow these steps in the terminal:
 
-1. Navigate outside the project folder (ensure you one directory above the 'KudoTrio' folder)
+1. Navigate outside the project folder (ensure you one directory above the 'H3O_Inferno' folder)
 2. Type the following command:
-Windows: `python -m venv KudoTrio\venv`
-MacOS or Linux: `python3 -m venv KudoTrio/venv`
+Windows: `python -m venv H3O_Inferno\venv`
+MacOS or Linux: `python3 -m venv H3O_Inferno/venv`
 
-Once completed, you should see a direction/folder titled 'venv' as a sub-directory in the 'KudoTrio' folder.
+Once completed, you should see a direction/folder titled 'venv' as a sub-directory in the 'H3O_Inferno' folder.
 
 ### Step 3: Python Packages
 
-Once the Python virtual enviroment is set up, navigate into the 'KudoTrio' directory and follow these steps using the terminal:
+Once the Python virtual enviroment is set up, navigate into the 'H3O_Inferno' directory and follow these steps using the terminal:
 
 1. Active your Python virtual environment with the following command:
 Windows - Command Prompt: `venv\Scripts\activate.bat`
@@ -69,7 +69,7 @@ Python will install all the packages and their appropriate versions from the req
 
 ### Step 4: Enviroment Keys
 
-After changing your email settings, create a new file in the parent directory ('KudoTrio') with the filename of `.env`.
+After changing your email settings, create a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
 
 Open the '.env' file and add the following:
 
@@ -98,7 +98,7 @@ You should see the following output:
 "Database created!"
 
 This will create the database and tables for the application.
-You should find the database in the 'src' folder (KudoTrio/src/database.db).
+You should find the database in the 'src' folder (H3O_Inferno/src/database.db).
 
 ### Step 6: Run App
 
