@@ -11,6 +11,7 @@ from flask import (
     flash,
     redirect,
     url_for,
+    jsonify,
 )
 from flask_login import (
     login_required,
@@ -30,6 +31,9 @@ from src.models import (
 from src.request.sql_queries import (
     get_all_connection_requests,
     get_connection_request,
+)
+from src.utils.app_match import (
+    calculate_affiliate_match_probability
 )
 
 
@@ -286,3 +290,21 @@ def jira_ticket_updates(request_id):
                            title="Jira Ticket Updates",
                            form=form,
                            connection_request=connection_request)
+
+
+# Function - HealthApp Probability Matching
+@requests_bp.route("/healthapp_match/<int:request_id>")
+@login_required
+def healthapp_match(request_id):
+    """
+    This function matches the Connection Request with the HealthApp
+    based on the probability of the match using the
+    calculate_affiliate_match_probability function.
+    """
+
+    connection_request = ConnectionRequest.query.get_or_404(request_id)
+
+    # Calculate the match probability
+    match_info = calculate_affiliate_match_probability(connection_request)
+
+    return jsonify(match_info)

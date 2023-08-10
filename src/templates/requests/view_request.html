@@ -24,11 +24,11 @@
   <!-- Status - Start -->
   <h3>Connection Request Status</h3>
   <div class="row">
-    <div class="four columns">
+    <div class="three columns">
       <h5>Status</h5>
       <p>{{ connection_request.working_status }}</p>
     </div>
-    <div class="four columns">
+    <div class="three columns">
       <h5>CC Jira Ticket</h5>
       {% if connection_request.jira_cc_id %}
       <a
@@ -39,7 +39,7 @@
       >
       {% endif %}
     </div>
-    <div class="four columns">
+    <div class="three columns">
       <h5>CSM1 Jira Ticket</h5>
       {% if connection_request.jira_csm1_id %}
       <a
@@ -52,6 +52,30 @@
     </div>
   </div>
   <!-- Status - End -->
+  <!-- Health App Matching - Start -->
+  <h5>Health App Matching</h5>
+  <button id="matchButton" data-request-id="{{ connection_request.id }}">
+    Check Health App Match
+  </button>
+  <div class="row">
+    <div class="six columns">
+      <p>CARIN - Company: <span id="carinCompanyMatch"></span></p>
+      <p>CARIN - App Name: <span id="carinAppMatch"></span></p>
+    </div>
+    <div class="six columns">
+      <p>
+        Medicare Blue Button - Company:
+        <span id="medicareCompanyMatch"></span>
+      </p>
+      <p>
+        Medicare Blue Button - App Name:
+        <span id="medicareAppMatch"></span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <p>Affiliate match probability: <span id="matchProbability">?</span>%</p>
+  </div>
   <!-- Connect Request Information - Start -->
   <h3>Connect Request Information</h3>
   <div class="row">
@@ -149,4 +173,46 @@
   </div>
   <!-- Connect Request Information - End -->
 </div>
+
+<script>
+  // Fetch the health app match info
+  document.addEventListener("DOMContentLoaded", function () {
+    const matchButton = document.getElementById("matchButton");
+    const carinCompanyMatch = document.getElementById("carinCompanyMatch");
+    const medicareCompanyMatch = document.getElementById(
+      "medicareCompanyMatch"
+    );
+    const carinAppMatch = document.getElementById("carinAppMatch");
+    const medicareAppMatch = document.getElementById("medicareAppMatch");
+    const matchProbability = document.getElementById("matchProbability");
+
+    const requestId = matchButton.getAttribute("data-request-id");
+
+    matchButton.addEventListener("click", function () {
+      fetch(`/healthapp_match/${requestId}`, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Update the HTML content based on the returned data
+          carinCompanyMatch.innerHTML = data.carin_company_match
+            ? '<i class="fas fa-bolt"></i><span> Match</span>'
+            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
+          medicareCompanyMatch.innerHTML = data.medicare_company_match
+            ? '<i class="fas fa-bolt"></i><span> Match</span>'
+            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
+          carinAppMatch.innerHTML = data.carin_app_match
+            ? '<i class="fas fa-bolt"></i><span> Match</span>'
+            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
+          medicareAppMatch.innerHTML = data.medicare_app_match
+            ? '<i class="fas fa-bolt"></i><span> Match</span>'
+            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
+          matchProbability.textContent = data.match_probability;
+        })
+        .catch((error) => {
+          console.error("An error occurred:", error);
+        });
+    });
+  });
+</script>
 {% endblock content %}
