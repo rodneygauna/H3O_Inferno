@@ -8,6 +8,10 @@
     margin: 4rem;
   }
 
+  h4 {
+    margin-top: 2rem;
+  }
+
   /* Align right */
   .align-right {
     text-align: right;
@@ -27,7 +31,6 @@
   .two-columns {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
   }
 
   .column-section {
@@ -40,6 +43,7 @@
     border: 0.5px solid #e8f1f2;
     text-align: left;
     font-size: 0.85rem;
+    table-layout: fixed;
   }
 
   th {
@@ -56,6 +60,7 @@
     padding: 0.5rem;
     color: #11202c;
     border-bottom: 1px solid #c5c7d3;
+    width: 20%;
   }
 </style>
 <!-- Styling - End -->
@@ -69,7 +74,7 @@
 <!-- Title - Start -->
 <div class="two-columns">
   <div class="column-section">
-    <h3>App Review - {{ r.app_name }}</h3>
+    <h4>App Review - {{ r.app_name }}</h4>
   </div>
   <div class="column-section">
     <h4 class="align-right">
@@ -82,8 +87,8 @@
 <div>
   <h4>Background</h4>
   <p>
-    As part of the HealthTrio Interoperability Project – APP Intake SOP process,
-    the APP indicated in this document has been researched against the following
+    As part of the HealthTrio Interoperability Project APP Intake process, the
+    APP indicated in this document has been researched against the following
     organizations and the commercial marketplace to be a consumer facing
     application (defined as technology enabled platforms, services, and tools)
     that collects personal data and can be used by consumers to access
@@ -181,6 +186,10 @@
       <td>Drug Formulary API</td>
       {% else %}
       <td></td>
+      {% endif %} {% if r.fhir_other %}
+      <td>Other API</td>
+      {% else %}
+      <td></td>
       {% endif %}
     </tr>
     <tr>
@@ -231,35 +240,25 @@
       </td>
     </tr>
     <tr>
-      <td></td>
-      <td>
+      <td colspan="1">
         CARIN Alliance:
         <br />
-        {% if r.carin_alliance %}
-        <span>Match found: link and app name goes here</span>
-        {% else %}
-        <span>No match found.</span>
-        {% endif %}
+        {% if carin_true %} Match found. {% else %} No match found. {% endif %}
       </td>
+      <td colspan="1"></td>
       <td>
         Medicare Blue Button:
         <br />
-        {% if r.medicare_bb %}
-        <span>Match found: link and app name goes here</span>
-        {% else %}
-        <span>No match found.</span>
-        {% endif %}
+        {% if medicare_bb_true %} Match found. {% else %} No match found. {%
+        endif %}
       </td>
-      <td>
+      <td colspan="1"></td>
+      <td colspan="1">
         CAQH Endpoint Directory:
         <br />
-        {% if r.caqh %}
-        <span>Match found: link and app name goes here</span>
-        {% else %}
-        <span>No match found.</span>
-        {% endif %}
+        {% if caqh %} Match found: link and app name goes here {% else %} No
+        match found. {% endif %}
       </td>
-      <td></td>
     </tr>
   </tbody>
 </table>

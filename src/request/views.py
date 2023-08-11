@@ -296,12 +296,24 @@ def request_pdf(request_id):
     """Generates a PDF of the Connection Request
     to submit to the Health Plan."""
 
+    # Variables
     connection_request = ConnectionRequest.query.get_or_404(request_id)
     current_year = datetime.utcnow().year
 
+    # Match the Connection Request with the HealthApp
+    match_info = calculate_affiliate_match_probability(connection_request)
+    carin_true = False
+    medicare_bb_true = False
+    if match_info["carin_app_match"] is True:
+        carin_true = True
+    if match_info["medicare_app_match"] is True:
+        medicare_bb_true = True
+
     rendered = render_template("requests/request_pdf.html",
                                r=connection_request,
-                               current_year=current_year)
+                               current_year=current_year,
+                               carin_true=carin_true,
+                               medicare_bb_true=medicare_bb_true)
     config = pdfkit.configuration(wkhtmltopdf="/usr/bin/wkhtmltopdf")
     pdf = pdfkit.from_string(rendered, False, configuration=config)
     response = make_response(pdf)
