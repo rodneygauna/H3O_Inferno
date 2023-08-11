@@ -129,8 +129,8 @@ class RequestJira(db.Model):
     connectionrequest_id = db.Column(
         db.Integer, db.ForeignKey("connection_requests.id"))
     # Jira Information
-    jira_cc_id = db.Column(db.String(255), nullable=False)
-    jira_cc_url = db.Column(db.String(255), nullable=False)
+    jira_cc_id = db.Column(db.String(255))
+    jira_cc_url = db.Column(db.String(255))
     jira_csm1_id = db.Column(db.String(255))
     jira_csm1_url = db.Column(db.String(255))
     # Timestamps

@@ -85,7 +85,6 @@ class RequestWorkingStatusForm(FlaskForm):
         'Working Status', choices=WORKING_STATUS,
         validators=[DataRequired()]
     )
-    notes = TextAreaField('Notes', render_kw={"class": "u-full-width"})
     # Submit
     submit = SubmitField('Save')
 
@@ -95,8 +94,8 @@ class JiraTicketsForm(FlaskForm):
     """Form - Jira Tickets"""
 
     # Jira Tickets
-    jira_cc_id = StringField('Jira CC ID', validators=[DataRequired()])
-    jira_cc_url = StringField('Jira CC URL', validators=[DataRequired()],
+    jira_cc_id = StringField('Jira CC ID')
+    jira_cc_url = StringField('Jira CC URL',
                               render_kw={"class": "u-full-width"})
     jira_csm1_id = StringField('Jira CSM1 ID')
     jira_csm1_url = StringField('Jira CSM1 URL',
