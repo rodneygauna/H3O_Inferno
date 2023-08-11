@@ -23,7 +23,7 @@
         <th>App Name</th>
         <th>Company</th>
         <th>Created Date</th>
-        <th>Updated Date</th>
+        <th>Source Updated Date</th>
       </tr>
     </thead>
     <tbody>
@@ -34,9 +34,15 @@
           <a href="{{ app.link }}" target="_blank">{{ app.name }}</a>
         </td>
         <td>{{ app.company }}</td>
-        <td>{{ app.created_date.strftime('%Y-%m-%d %I:%M %p') }} (UTC)</td>
+        <td
+          class="timestamp"
+          data-utc="{{ app.created_date.isoformat() }}Z"
+        ></td>
         {% if app.updated_date %}
-        <td>{{ app.updated_date.strftime('%Y-%m-%d %I:%M %p') }} (UTC)</td>
+        <td
+          class="timestamp"
+          data-utc="{{ app.updated_date.isoformat() }}Z"
+        ></td>
         {% else %}
         <td></td>
         {% endif %}
@@ -51,4 +57,5 @@
   </table>
 </div>
 <!-- Health Apps - End -->
+<script src=" {{ url_for('static', filename='js/convert_timezone.js') }}"></script>
 {% endblock content %}

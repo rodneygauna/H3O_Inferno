@@ -168,7 +168,10 @@
   <div class="row">
     <div class="u-full-width">
       <h5>Request Date</h5>
-      <p>{{ connection_request.created_date.strftime('%Y-%m-%d %I:%M %p') }}</p>
+      <p
+        class="timestamp"
+        data-utc="{{ connection_request.created_date.isoformat() }}Z"
+      ></p>
     </div>
   </div>
   <!-- Connect Request Information - End -->
@@ -222,5 +225,5 @@
     fetchMatchInfo(requestId);
   });
 </script>
-
+<script src=" {{ url_for('static', filename='js/convert_timezone.js') }}"></script>
 {% endblock content %}
