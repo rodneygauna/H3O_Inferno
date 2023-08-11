@@ -299,6 +299,10 @@ def request_pdf(request_id):
     # Variables
     connection_request = ConnectionRequest.query.get_or_404(request_id)
     current_year = datetime.utcnow().year
+    request_date = connection_request.created_date.strftime("%Y-%m-%d")
+    current_date = datetime.utcnow().strftime("%Y-%m-%d")
+    app_name = connection_request.app_name
+    filename = f"{app_name}_{request_date}_{current_date}.pdf"
 
     # Match the Connection Request with the HealthApp
     match_info = calculate_affiliate_match_probability(connection_request)
@@ -318,5 +322,5 @@ def request_pdf(request_id):
     pdf = pdfkit.from_string(rendered, False, configuration=config)
     response = make_response(pdf)
     response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = "inline; filename=visit_note.pdf"
+    response.headers["Content-Disposition"] = f"inline; filename={filename}"
     return response
