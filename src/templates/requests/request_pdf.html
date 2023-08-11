@@ -1,0 +1,303 @@
+<!-- Styling - Start -->
+<style>
+  /* Font */
+  @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
+
+  body {
+    font-family: "Roboto", sans-serif;
+    margin: 4rem;
+  }
+
+  /* Align right */
+  .align-right {
+    text-align: right;
+  }
+
+  /* Align center */
+  .align-center {
+    text-align: center;
+  }
+
+  /* Align left */
+  .align-left {
+    text-align: left;
+  }
+
+  /* Custom styles for the two-column layout */
+  .two-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .column-section {
+    flex-basis: 48%;
+  }
+
+  /* Style the table */
+  table {
+    border-collapse: collapse;
+    border: 0.5px solid #e8f1f2;
+    text-align: left;
+    font-size: 0.85rem;
+  }
+
+  th {
+    background-color: #172a3a;
+    color: #a4c8cb;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #e5eff0;
+  }
+
+  td {
+    padding: 0.5rem;
+    color: #11202c;
+    border-bottom: 1px solid #c5c7d3;
+  }
+</style>
+<!-- Styling - End -->
+<!-- Logo - Start -->
+<img
+  src="https://healthtrio.wpenginepowered.com/wp-content/uploads/2018/10/health-trio-logo-final.jpg"
+  alt="HealthTrio logo"
+  style="width: 30%"
+/>
+<!-- Logo - End -->
+<!-- Title - Start -->
+<div class="two-columns">
+  <div class="column-section">
+    <h3>App Review - {{ r.app_name }}</h3>
+  </div>
+  <div class="column-section">
+    <h4 class="align-right">
+      Request Date: {{ r.created_date.strftime('%B %d, %Y') }}
+    </h4>
+  </div>
+</div>
+<!-- Title - End -->
+<!-- Background - Start -->
+<div>
+  <h4>Background</h4>
+  <p>
+    As part of the HealthTrio Interoperability Project – APP Intake SOP process,
+    the APP indicated in this document has been researched against the following
+    organizations and the commercial marketplace to be a consumer facing
+    application (defined as technology enabled platforms, services, and tools)
+    that collects personal data and can be used by consumers to access
+    healthcare data using a FHIR-standard API.
+  </p>
+  <ol>
+    <li>
+      The CARIN Alliance -
+      <a href="https://myhealthapplication.com/health-apps/"
+        >My Health Application App Gallery</a
+      >
+      and has attested to
+      <a
+        href="https://www.carinalliance.com/wp-content/uploads/2020/07/2020_CARIN_Code_of_Conduct_May-2020.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        >"The CARIN Trust Framework and Code of Conduct"</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.medicare.gov/manage-your-health/medicares-blue-button-blue-button-20/blue-button-apps"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Medicare's Blue Button Apps</a
+      >
+    </li>
+    <li>
+      The
+      <a
+        href="https://www.caqh.org/solutions/endpoint-directory"
+        target="_blank"
+        rel="noopener noreferrer"
+        >CAQH (Council for Affordable Quality Healthcare) Endpoint Directory</a
+      >
+    </li>
+    <li>
+      <a
+        href="{{ r.company_website }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ r.company }} website</a
+      >
+    </li>
+  </ol>
+  <p>
+    This is not a vetting of an APP but rather a review of the APP based on
+    available industry information. Per CMS, health plans can deny API access to
+    a third-party app that a patient wishes to use only if the payer assesses
+    that such access would pose a risk to the PHI on their system.
+  </p>
+</div>
+<!-- Background - End -->
+<!-- App Review - Start -->
+<h4>APP Review Summary</h4>
+<table>
+  <tbody>
+    <tr>
+      <td>
+        Health Plan:
+        <br />
+        {{ r.health_plan_name }}
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        APP:
+        <br />
+        {{ r.app_name }}
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>
+        Connection Request Date:
+        <br />
+        {{ r.created_date.strftime('%B %d, %Y') }}
+      </td>
+    </tr>
+    <tr>
+      <td>API(s) Requested:</td>
+      {% if r.fhir_patient_access_api %}
+      <td>Patient Access API</td>
+      {% else %}
+      <td></td>
+      {% endif %} {% if r.fhir_provider_directory_api %}
+      <td>Provider Directory API</td>
+      {% else %}
+      <td></td>
+      {% endif %} {% if r.fhir_drug_formulary_api %}
+      <td>Drug Formulary API</td>
+      {% else %}
+      <td></td>
+      {% endif %}
+    </tr>
+    <tr>
+      <td>
+        Requestor Name:
+        <br />
+        {{ r.firstname }} {{ r.lastname }}
+      </td>
+      <td></td>
+      <td>
+        Requestor Phone:
+        <br />
+        ({{ r.phone_number[:3] }}) {{ r.phone_number[3:6] }}-{{
+        r.phone_number[6:10] }}
+      </td>
+      <td></td>
+      <td>
+        Requestor Email:
+        <br />
+        {{ r.email }}
+      </td>
+    </tr>
+    <tr>
+      <td>App Type(s):</td>
+      {% if r.app_type_web %}
+      <td>Web App</td>
+      {% else %}
+      <td></td>
+      {% endif %} {% if r.app_type_mobile %}
+      <td>Mobile App</td>
+      {% else %}
+      <td></td>
+      {% endif %} {% if r.app_type_native %}
+      <td>Native (Desktop) App</td>
+      {% else %}
+      <td></td>
+      {% endif %} {% if r.app_type_other %}
+      <td>Other</td>
+      {% else %}
+      <td></td>
+      {% endif %}
+    </tr>
+    <tr>
+      <td colspan="5">
+        App Description:
+        <br />
+        {{ r.app_description }}
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        CARIN Alliance:
+        <br />
+        {% if r.carin_alliance %}
+        <span>Match found: link and app name goes here</span>
+        {% else %}
+        <span>No match found.</span>
+        {% endif %}
+      </td>
+      <td>
+        Medicare Blue Button:
+        <br />
+        {% if r.medicare_bb %}
+        <span>Match found: link and app name goes here</span>
+        {% else %}
+        <span>No match found.</span>
+        {% endif %}
+      </td>
+      <td>
+        CAQH Endpoint Directory:
+        <br />
+        {% if r.caqh %}
+        <span>Match found: link and app name goes here</span>
+        {% else %}
+        <span>No match found.</span>
+        {% endif %}
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- App Review - End -->
+<!-- Signatures - Start -->
+<div>
+  <h4>Health Plan Approval</h4>
+  <div class="two-columns">
+    <div class="column-section">
+      <input type="checkbox" name="approve" id="approve" />
+      <label for="approve">Approve Third-Pary Application Connection"</label>
+    </div>
+    <div class="column-section">
+      <input type="checkbox" name="dney" id="deny" />
+      <label for="deny">Deny Third-Party Application Connection</label>
+    </div>
+  </div>
+  <div class="two-columns">
+    <div class="column-section">
+      <p>Printed Name: _________________________________________</p>
+      <br />
+      <br />
+      <p>Title: ___________________________________________________</p>
+    </div>
+    <div class="column-section">
+      <p>Signature: _______________________________________________</p>
+      <br />
+      <br />
+      <p>Date: ____________________________________________________</p>
+    </div>
+  </div>
+</div>
+<!-- Signature - End -->
+<!-- Footer - Start -->
+<div class="align-center">
+  <p>
+    Proprietary and Confidential | &copy; 2021 - {{ current_year }} HealthTrio
+    LLC
+  </p>
+</div>
+<!-- Footer - End -->

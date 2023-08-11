@@ -3,6 +3,7 @@ Requests > Views
 """
 
 # Imports
+import pdfkit
 from datetime import datetime
 from flask import (
     Blueprint,
@@ -12,6 +13,7 @@ from flask import (
     redirect,
     url_for,
     jsonify,
+    make_response,
 )
 from flask_login import (
     login_required,
@@ -285,3 +287,24 @@ def healthapp_match(request_id):
     match_info = calculate_affiliate_match_probability(connection_request)
 
     return jsonify(match_info)
+
+
+# Function - Request PDF Form Generator
+@requests_bp.route("/request_pdf/<int:request_id>")
+@login_required
+def request_pdf(request_id):
+    """Generates a PDF of the Connection Request
+    to submit to the Health Plan."""
+
+    connection_request = ConnectionRequest.query.get_or_404(request_id)
+    current_year = datetime.utcnow().year
+
+    rendered = render_template("requests/request_pdf.html",
+                               r=connection_request,
+                               current_year=current_year)
+    config = pdfkit.configuration(wkhtmltopdf="/usr/bin/wkhtmltopdf")
+    pdf = pdfkit.from_string(rendered, False, configuration=config)
+    response = make_response(pdf)
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = "inline; filename=visit_note.pdf"
+    return response

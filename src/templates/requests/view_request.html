@@ -18,6 +18,10 @@
       >
         <button>Edit Jira Tickets</button>
       </a>
+      <a
+        href="{{ url_for('requests.request_pdf', request_id=connection_request.id) }}"
+        ><button>Generate Request PDF</button></a
+      >
     </div>
   </div>
   <!-- Actions - End -->
