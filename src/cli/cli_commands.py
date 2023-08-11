@@ -15,6 +15,7 @@ from src.models import (
     RequestJira,
 )
 from src.dictionaries.working_status import WORKING_STATUS
+from src.dictionaries.demo_health_apps import DEMO_HEALTH_APP_NAMES
 
 # Faker instance
 faker = Faker()
@@ -70,7 +71,8 @@ def db_seed():
                 phone_number=faker.phone_number(),
                 company=faker.company(),
                 company_website=faker.url(),
-                app_name=faker.company(),
+                app_name=random.choice([item[0]
+                                       for item in DEMO_HEALTH_APP_NAMES]),
                 app_link=faker.url(),
                 app_type_web=random.choice([True, False]),
                 app_type_mobile=random.choice([True, False]),
