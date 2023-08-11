@@ -55,7 +55,7 @@
   <!-- Health App Matching - Start -->
   <h5>Health App Matching</h5>
   <button id="matchButton" data-request-id="{{ connection_request.id }}">
-    Check Health App Match
+    Re-check Health App Match
   </button>
   <div class="row">
     <div class="six columns">
@@ -175,9 +175,34 @@
 </div>
 
 <script>
-  // Fetch the health app match info
+  // Function to update match result
+  function updateMatchResult(element, isMatch) {
+    element.innerHTML = isMatch
+      ? '<i class="fas fa-bolt"></i><span> Match</span>'
+      : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
+  }
+
+  // Function to fetch match info
+  function fetchMatchInfo(requestId) {
+    fetch(`/healthapp_match/${requestId}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the HTML content based on the returned data
+        updateMatchResult(carinCompanyMatch, data.carin_company_match);
+        updateMatchResult(medicareCompanyMatch, data.medicare_company_match);
+        updateMatchResult(carinAppMatch, data.carin_app_match);
+        updateMatchResult(medicareAppMatch, data.medicare_app_match);
+        matchProbability.textContent = data.match_probability;
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+      });
+  }
+
+  // Fetch the health app match info when the page loads
   document.addEventListener("DOMContentLoaded", function () {
-    const matchButton = document.getElementById("matchButton");
     const carinCompanyMatch = document.getElementById("carinCompanyMatch");
     const medicareCompanyMatch = document.getElementById(
       "medicareCompanyMatch"
@@ -187,32 +212,15 @@
     const matchProbability = document.getElementById("matchProbability");
 
     const requestId = matchButton.getAttribute("data-request-id");
+    fetchMatchInfo(requestId);
+  });
 
-    matchButton.addEventListener("click", function () {
-      fetch(`/healthapp_match/${requestId}`, {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Update the HTML content based on the returned data
-          carinCompanyMatch.innerHTML = data.carin_company_match
-            ? '<i class="fas fa-bolt"></i><span> Match</span>'
-            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
-          medicareCompanyMatch.innerHTML = data.medicare_company_match
-            ? '<i class="fas fa-bolt"></i><span> Match</span>'
-            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
-          carinAppMatch.innerHTML = data.carin_app_match
-            ? '<i class="fas fa-bolt"></i><span> Match</span>'
-            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
-          medicareAppMatch.innerHTML = data.medicare_app_match
-            ? '<i class="fas fa-bolt"></i><span> Match</span>'
-            : '<i class="fas fa-circle-xmark"></i><span> No match</span>';
-          matchProbability.textContent = data.match_probability;
-        })
-        .catch((error) => {
-          console.error("An error occurred:", error);
-        });
-    });
+  // Fetch the health app match info when the user clicks the button
+  const matchButton = document.getElementById("matchButton");
+  matchButton.addEventListener("click", function () {
+    const requestId = matchButton.getAttribute("data-request-id");
+    fetchMatchInfo(requestId);
   });
 </script>
+
 {% endblock content %}
