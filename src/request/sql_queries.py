@@ -7,7 +7,6 @@ This file contains the SQL queries for the Requests > views.py file.
 from src import db
 from src.models import (
     ConnectionRequest,
-    RequestWorkingStatus,
     RequestJira,
 )
 
@@ -25,15 +24,11 @@ def get_all_connection_requests():
             ConnectionRequest.fhir_drug_formulary_api,
             ConnectionRequest.health_plan_name,
             ConnectionRequest.created_date,
-            RequestWorkingStatus.working_status,
+            ConnectionRequest.working_status,
             RequestJira.jira_cc_id,
             RequestJira.jira_cc_url,
             RequestJira.jira_csm1_id,
             RequestJira.jira_csm1_url,
-        )
-        .outerjoin(
-            RequestWorkingStatus,
-            RequestWorkingStatus.connectionrequest_id == ConnectionRequest.id,
         )
         .outerjoin(
             RequestJira,
@@ -74,17 +69,13 @@ def get_connection_request(request_id):
             ConnectionRequest.fhir_drug_formulary_api,
             ConnectionRequest.health_plan_name,
             ConnectionRequest.created_date,
-            RequestWorkingStatus.working_status,
+            ConnectionRequest.working_status,
             RequestJira.jira_cc_id,
             RequestJira.jira_cc_url,
             RequestJira.jira_csm1_id,
             RequestJira.jira_csm1_url,
         )
         .filter(ConnectionRequest.id == request_id)
-        .outerjoin(
-            RequestWorkingStatus,
-            RequestWorkingStatus.connectionrequest_id == ConnectionRequest.id,
-        )
         .outerjoin(
             RequestJira,
             RequestJira.connectionrequest_id == ConnectionRequest.id,

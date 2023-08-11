@@ -25,7 +25,6 @@ from src.request.forms import (
 from src import db
 from src.models import (
     ConnectionRequest,
-    RequestWorkingStatus,
     RequestJira,
 )
 from src.request.sql_queries import (
@@ -190,42 +189,20 @@ def status_updates(request_id):
     form = RequestWorkingStatusForm()
 
     connection_request = ConnectionRequest.query.get_or_404(request_id)
-    connection_status = RequestWorkingStatus.query.filter_by(
-        connectionrequest_id=request_id).first()
 
-    # If this is the first time adding a status update, create a new record
-    if connection_status is None:
-        if form.validate_on_submit():
-            connection_status = RequestWorkingStatus(
-                connectionrequest_id=request_id,
-                working_status=form.working_status.data,
-                notes=form.notes.data,
-                created_date=datetime.utcnow(),
-                created_by=current_user.id,
-            )
-            db.session.add(connection_status)
-            db.session.commit()
-            flash("Status has been updated.", "success")
-            return redirect(url_for("requests.view_request",
-                                    request_id=request_id))
+    # Populate form fields with existing data
+    if request.method == "GET":
+        form.working_status.data = connection_request.working_status
 
-    # If there is an existing status update, update the record
-    if connection_status is not None:
-        # Populate form fields with existing data
-        if request.method == "GET":
-            form.working_status.data = connection_status.working_status
-            form.notes.data = connection_status.notes
-
-        # Update the status of the request
-        if form.validate_on_submit():
-            connection_status.working_status = form.working_status.data
-            connection_status.notes = form.notes.data
-            connection_status.updated_date = datetime.utcnow()
-            connection_status.updated_by = current_user.id
-            db.session.commit()
-            flash("Status has been updated.", "success")
-            return redirect(url_for("requests.view_request",
-                                    request_id=request_id))
+    # Update the status of the request
+    if form.validate_on_submit():
+        connection_request.working_status = form.working_status.data
+        connection_request.updated_date = datetime.utcnow()
+        connection_request.updated_by = current_user.id
+        db.session.commit()
+        flash("Status has been updated.", "success")
+        return redirect(url_for("requests.view_request",
+                                request_id=request_id))
 
     return render_template("requests/status_updates.html",
                            title="Status Updates",

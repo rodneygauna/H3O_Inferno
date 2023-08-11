@@ -13,7 +13,6 @@ from src.models import (
     User,
     ConnectionRequest,
     RequestJira,
-    RequestWorkingStatus,
 )
 from src.dictionaries.working_status import WORKING_STATUS
 
@@ -87,6 +86,8 @@ def db_seed():
                 health_plan_name=faker.company(),
                 created_date=faker.date_between(
                     start_date="-1y", end_date="today"),
+                working_status=random.choice(
+                    [item[0] for item in WORKING_STATUS]),
             )
         )
 
@@ -99,17 +100,6 @@ def db_seed():
                 jira_cc_url=faker.url(),
                 jira_csm1_id=random.randint(1, 999999),
                 jira_csm1_url=faker.url(),
-            )
-        )
-
-    # Create Working Status
-    for i in range(1, max_range):
-        data.append(
-            RequestWorkingStatus(
-                connectionrequest_id=random.randint(1, max_range),
-                working_status=random.choice(
-                    [item[0] for item in WORKING_STATUS]),
-                notes=random.choice([faker.text(), ""]),
             )
         )
 

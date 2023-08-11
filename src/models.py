@@ -107,9 +107,15 @@ class ConnectionRequest(db.Model):
     fhir_drug_formulary_api = db.Column(db.Boolean, nullable=False)
     # Health Plan Information
     health_plan_name = db.Column(db.Text, nullable=False)
+    # Working Status
+    working_status = db.Column(db.String(100), default="New")
     # Timestamps
     created_date = db.Column(db.DateTime, nullable=False,
                              default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime)
+    # Updatestamps
+    created_by = db.Column(db.Integer, db.ForeignKey("users.id"))
+    updated_by = db.Column(db.Integer, db.ForeignKey("users.id"))
 
 
 # Model - Request Jira Ticket
@@ -127,28 +133,6 @@ class RequestJira(db.Model):
     jira_cc_url = db.Column(db.String(255), nullable=False)
     jira_csm1_id = db.Column(db.String(255))
     jira_csm1_url = db.Column(db.String(255))
-    # Timestamps
-    created_date = db.Column(db.DateTime, nullable=False,
-                             default=datetime.utcnow)
-    updated_date = db.Column(db.DateTime)
-    # Updatestamps
-    created_by = db.Column(db.Integer, db.ForeignKey("users.id"))
-    updated_by = db.Column(db.Integer, db.ForeignKey("users.id"))
-
-
-# Model - Request Working Status
-class RequestWorkingStatus(db.Model):
-    """Request working status model"""
-
-    __tablename__ = "request_working_status"
-
-    # IDs
-    id = db.Column(db.Integer, primary_key=True)
-    connectionrequest_id = db.Column(
-        db.Integer, db.ForeignKey("connection_requests.id"))
-    # Working Status Information
-    working_status = db.Column(db.String(255))
-    notes = db.Column(db.Text)
     # Timestamps
     created_date = db.Column(db.DateTime, nullable=False,
                              default=datetime.utcnow)
