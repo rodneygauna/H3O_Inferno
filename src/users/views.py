@@ -5,6 +5,7 @@ Users > Views
 # Imports
 from flask import (
     Blueprint,
+    abort,
     render_template,
     request,
     flash,
@@ -16,10 +17,12 @@ from flask_login import (
     login_user,
     login_required,
     logout_user,
+    current_user,
 )
 from src.users.forms import (
     RegisterUserForm,
     LoginForm,
+    ChangePasswordForm,
 )
 from src import db
 from src.models import (
@@ -99,3 +102,43 @@ def logout():
 
     logout_user()
     return redirect(url_for('core.index'))
+
+
+# Route - User Account
+@users_bp.route('/account/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def user_profile(user_id):
+    """Routes the current user to their profile page"""
+
+    user = User.query.get_or_404(user_id)
+
+    if user != current_user:
+        abort(403)
+
+    return render_template('users/account.html',
+                           title='H30 Inferno - Account',
+                           user=user)
+
+
+# Route - Change Password
+@users_bp.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    """Allows the user to change their password"""
+
+    user = User.query.get_or_404(current_user.id)
+
+    if user != current_user:
+        abort(403)
+
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        user.password_hash = generate_password_hash(form.password.data)
+        db.session.commit()
+        flash('Your password has been updated.', 'success')
+        return redirect(url_for('users.user_profile', user_id=user.id))
+
+    return render_template('users/change_password.html',
+                           title='H30 Inferno - Change Password',
+                           form=form)

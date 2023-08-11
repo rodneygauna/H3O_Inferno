@@ -12,7 +12,8 @@ from wtforms import (
 from wtforms.validators import (
     DataRequired,
     Email,
-    EqualTo
+    EqualTo,
+    Length,
 )
 
 
@@ -35,3 +36,17 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
+
+
+# Form - Change Password
+class ChangePasswordForm(FlaskForm):
+    """Change Password Form"""
+
+    password = PasswordField(
+        label="Password*", validators=[DataRequired(), Length(min=6, max=50)]
+    )
+    confirm_password = PasswordField(
+        label="Confirm Password*", validators=[DataRequired(),
+                                               EqualTo("password")]
+    )
+    submit = SubmitField(label="Change Password")

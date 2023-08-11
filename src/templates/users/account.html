@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<h1>User Account</h1>
+<div class="row">
+  <div class="u-full-width">
+    <a href="{{ url_for('users.change_password') }}"
+      ><button>Change Password</button></a
+    >
+    <a href="{{ url_for('users.logout') }}"><button>Logout</button></a>
+  </div>
+</div>
+<div class="row">
+  <div class="u-full-width">
+    <p>Email: {{ user.email }}</p>
+  </div>
+</div>
+{% endblock content %}

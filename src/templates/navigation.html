@@ -57,7 +57,10 @@
             </a>
           </li>
           <li class="topbar-item">
-            <a href="#" class="topbar-link">
+            <a
+              href="{{ url_for('users.user_profile', user_id=current_user.id) }}"
+              class="topbar-link"
+            >
               <i class="fas fa-user"></i>
               <span class="topbar-link-text"></span>
             </a>
