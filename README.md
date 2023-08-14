@@ -99,9 +99,12 @@ If you're using a Linux ARM operating system, follow these steps to use Firefox 
 10. Make it an executable file with `sudo chmod +x /usr/local/bin/geckodriver`
 11. Check that it works with `geckodriver --version`
 
-*Important* If you had to swap to Firefox, you'll need to update the ap_scraping_MedicareBlueButton.py (`src/utils/app_scraping_MedicareBlueButton.py) with these changes:
+*Important* If you had to swap to Firefox, you'll need to update the app_scraping_MedicareBlueButton.py (`src/utils/app_scraping_MedicareBlueButton.py) with these changes:
 
-1. add stuff here
+1. Line : ```python print(ln)```
+2. Line :
+3. Line :
+4. Line :
 
 
 ### Step 3: Python VENV (Optional but Recommended)
