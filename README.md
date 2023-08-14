@@ -101,10 +101,21 @@ If you're using a Linux ARM operating system, follow these steps to use Firefox 
 
 *Important* If you had to swap to Firefox, you'll need to update the app_scraping_MedicareBlueButton.py (`src/utils/app_scraping_MedicareBlueButton.py) with these changes:
 
-1. Line : ```python print(ln)```
+1. Line :
+```python
+```
 2. Line :
+```python
+```
 3. Line :
+```python
+```
 4. Line :
+```python
+```
+5. Line :
+```python
+```
 
 
 ### Step 3: Python VENV (Optional but Recommended)
