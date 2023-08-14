@@ -36,6 +36,9 @@ from src.request.sql_queries import (
 from src.utils.app_match import (
     calculate_affiliate_match_probability
 )
+from src.utils.outlook_request_scraping import (
+    scrape_outlook_email_connection_requests_and_store,
+)
 
 
 # Blueprint Configuration
@@ -324,3 +327,19 @@ def request_pdf(request_id):
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = f"inline; filename={filename}"
     return response
+
+
+# Function  - Scrape Outlook for Requests
+@requests_bp.route("/scrape_outlook", methods=["POST"])
+@login_required
+def scrape_outlook():
+    """asdf"""
+
+    try:
+        scrape_outlook_email_connection_requests_and_store()
+        print(table_rows)
+        flash("Outlook requests have been scraped and stored.", "success")
+    except Exception as e:
+        flash(f"Error: {e}", "danger")
+
+    return redirect(url_for("requests.view_requests"))
