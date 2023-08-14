@@ -337,7 +337,6 @@ def scrape_outlook():
 
     try:
         scrape_outlook_email_connection_requests_and_store()
-        print(table_rows)
         flash("Outlook requests have been scraped and stored.", "success")
     except Exception as e:
         flash(f"Error: {e}", "danger")
