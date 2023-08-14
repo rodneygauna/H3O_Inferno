@@ -27,11 +27,12 @@ Summary to run this application:
 
 1. Have Python (3.10 or higher installed)
 2. Have WKHTMLTOPDF
-3. Set up a Python Virtual Environment (optional but recommened)
-4. Install the needed Python packages
-5. Add the enviroment keys
-6. Create the database
-7. Run the app
+3. Have Chrome browser installed
+4. Set up a Python Virtual Environment (optional but recommened)
+5. Install the needed Python packages
+6. Add the enviroment keys
+7. Create the database
+8. Run the app
 
 Additional details for each step are below
 
@@ -63,6 +64,44 @@ sudo apt install wkhtmltopdf
 Confirm the installation was sucessful using the `wkhtmltopdf --version` command.
 
 For Windows and Mac, you can find more information here: [WKHTMLTOPDF](https://wkhtmltopdf.org/)
+
+### Step 3:
+
+This application scrapes the Medicare Blue Button Apps website. To have the feature function, a Chrome browser must be installed.
+You're probably asking "Why?!". Great question. It's because that site is such a dumpster fire (no pun intended), that we have to have Selenium parse the site before it can be passed to Beautiful Soup. Yet, sucks.
+
+You can download Chrome here: [Chrome Downloads](https://www.google.com/chrome/)
+
+Install with these steps:
+
+1. Open the terminal
+2. Update your packages with `sudo apt update`
+3. Upgrade your packages with `sudo apt upgrade`
+4. Install Chromium with `sudo apt install chromium-browser`
+5. Note the version with `chromium-browser --version`
+6. Go to the [ChromeDriver - Downloads page](https://sites.google.com/chromium.org/driver/downloads)
+7. Download the latest version (or one the fits the Chromium version you installed) with `wget linkToZipFile.zip`
+8. Unzip the file with `unzip chromedriver_linux64.zip`
+9. Move the driver with `sudo mv chromedriver /usr/local/bin/`
+10. Make it an executable file with `sudo chmod +x /usr/local/bin/chromedriver`
+11. Check that it works with `chromedriver --version`
+
+If you're using a Linux ARM operating system, follow these steps to use Firefox and the geckodriver:
+
+1. Open the terminal
+2. Update your packages with `sudo apt update`
+3. Upgrade your packages with `sudo apt upgrade`
+4. Install Chromium with `sudo apt install firefox-esr`
+6. Go to the [Mozilla geckodriver - GitHub Downloads page](https://github.com/mozilla/geckodriver/releases/)
+7. Download the latest version (or one the fix the firefox version you installed) with `wget linkToAARCH64.tar.gz`
+8. Unzip the binary with `tar -xvzf geckodriver-vX.X.X.tar.gz`
+9. Move the driver with `sudo mv geckodriver /usr/local/bin/`
+10. Make it an executable file with `sudo chmod +x /usr/local/bin/geckodriver`
+11. Check that it works with `geckodriver --version`
+
+*Important* If you had to swap to Firefox, you'll need to update the ap_scraping_MedicareBlueButton.py (`src/utils/app_scraping_MedicareBlueButton.py) with these changes:
+
+1. add stuff here
 
 
 ### Step 3: Python VENV (Optional but Recommended)
