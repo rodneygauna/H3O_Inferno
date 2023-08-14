@@ -26,11 +26,12 @@ Solution summary goes here
 Summary to run this application:
 
 1. Have Python (3.10 or higher installed)
-2. Set up a Python Virtual Environment (optional but recommened)
-3. Install the needed Python packages
-4. Add the enviroment keys
-5. Create the database
-6. Run the app
+2. Have WKHTMLTOPDF
+3. Set up a Python Virtual Environment (optional but recommened)
+4. Install the needed Python packages
+5. Add the enviroment keys
+6. Create the database
+7. Run the app
 
 Additional details for each step are below
 
@@ -39,7 +40,32 @@ Additional details for each step are below
 In order to run the application, you'll need to have Python (version 3.10 or higher) installed on the host machine.
 You can download it here [Python](https://www.python.org/)
 
-### Step 2: Python VENV (Optional but Recommended)
+### Step 2: WKHTMLTOPDF
+
+There is a feature in the application that will generate a PDF (from an HTML page). Ensure WKHTMLTOPDF is installed and reachable for the page to generate.
+
+Linux (Debian 11) Steps:
+
+1. Open the terminal
+2. Update your packages
+```bash
+sudo apt install wkhtmltopdf
+```
+3. Install dependencies
+```bash
+   sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6
+```
+4. Install WKTHMLTOPDF
+```bash
+sudo apt install wkhtmltopdf
+```
+
+Confirm the installation was sucessful using the `wkhtmltopdf --version` command.
+
+For Windows and Mac, you can find more information here: [WKHTMLTOPDF](https://wkhtmltopdf.org/)
+
+
+### Step 3: Python VENV (Optional but Recommended)
 
 After installing Python, it's recommeneded to set up a virtual enviromnet.
 This ensures that all packages for the application are specific to this instance and will not cause any conflicts with other Python projects.
@@ -53,7 +79,7 @@ MacOS or Linux: `python3 -m venv H3O_Inferno/venv`
 
 Once completed, you should see a direction/folder titled 'venv' as a sub-directory in the 'H3O_Inferno' folder.
 
-### Step 3: Python Packages
+### Step 4: Python Packages
 
 Once the Python virtual enviroment is set up, navigate into the 'H3O_Inferno' directory and follow these steps using the terminal:
 
@@ -67,7 +93,7 @@ MacOS or Linux: `pip3 install -r requirements.txt`
 
 Python will install all the packages and their appropriate versions from the requirements.txt file.
 
-### Step 4: Enviroment Keys
+### Step 5: Enviroment Keys
 
 After changing your email settings, create a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
 
@@ -87,7 +113,7 @@ SECRET_KEY="this is a super secret string of letters and numbers 123456"
 
 Save the changes you've made.
 
-### Step 5: Create Database
+### Step 6: Create Database
 
 Last step before running the app is to create and initialize the database. We are using SQLite3 for this project.
 
@@ -100,7 +126,7 @@ You should see the following output:
 This will create the database and tables for the application.
 You should find the database in the 'src' folder (H3O_Inferno/src/database.db).
 
-### Step 6: Run App
+### Step 7: Run App
 
 To run the app, type the following command in the terminal:
 
