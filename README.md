@@ -54,7 +54,7 @@ sudo apt install wkhtmltopdf
 ```
 3. Install dependencies
 ```bash
-   sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6
+sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6
 ```
 4. Install WKTHMLTOPDF
 ```bash
