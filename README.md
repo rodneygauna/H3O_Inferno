@@ -20,7 +20,7 @@ This project was created for the HealthTrio Innovation Day - 2023 Q3 Event.
 2. Evaluation for exploitable vulnerabilities and undesirable behaviors.​
 3. Research App with CARIN Alliance, Medicare's Blue Button Apps, and CAQH Endpoint Directory.​
 4. Review of the developer's websites for additional insights.​
-​
+
 ### Step 3: APP Summary and Health Plan Review​
 
 1. Step 2 findings summarized in Jira and presented to health plan in APP review.​
