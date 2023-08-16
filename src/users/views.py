@@ -74,7 +74,7 @@ def register_user():
 # Route - Login and send Short Code (2FA)
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    """Logs in a user"""
+    """Logs in a user and sends a short code (2FA) to their email"""
 
     form = LoginForm()
 
@@ -111,6 +111,8 @@ def login():
 # Route - Enter Short Code (2FA)
 @users_bp.route('/short_code', methods=['GET', 'POST'])
 def enter_code():
+    """Validates the short code (2FA) and completes the login process"""
+
     form = ShortCodeForm()
 
     if form.validate_on_submit():
@@ -133,7 +135,7 @@ def enter_code():
 # Route - Complete Login
 @users_bp.route('/complete_login')
 def complete_login():
-    """Completes the login process"""
+    """Completes the login process if the short code (2FA) is correct"""
 
     # Variables
     stored_user_id = session.get('user_id')
