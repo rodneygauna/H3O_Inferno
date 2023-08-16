@@ -12,11 +12,17 @@ Background goes here
 
 ### The Problem
 
-Problem(s) summary goes here
+In the context of our Health Plan's FHIR APIs, the integration of third-party applications has historically been a time-intensive process.​
+
++ HealthTrio's product management team engages in the laborious task of collecting, reviewing, validating, and processing connection requests from external applications. This involves navigating through a multitude of sources to compile and verify the requisite information.
++ This decentralized approach often results in inefficiencies, with connection requests occasionally slipping through the cracks, leading to a lack of comprehensive tracking.​
++ Streamlining this process to ensure a more efficient and accurate integration pathway is crucial to enhance operational effectiveness.​
 
 ### The Solution
 
-Solution summary goes here
++ Optimize the efficiency of information compilation by embracing automation to streamline the process of gathering connection requests. By automating key elements, the time investment required for this task can be significantly reduced.
++ Implement an automated validation mechanism for the requestors' applications across the platforms of CARIN, Medicare, and CAQH. This automation will alleviate the time-consuming burden of manual validation efforts.
++ Enhance request tracking capabilities through the incorporation of a comprehensive tracking system. This system will encompass tracking various facets, including the request initiation, its current status, and pertinent reporting metrics such as time cycles, requester submissions, and successful connections with the health plan.
 
 ## How To Run The Project
 
@@ -30,9 +36,10 @@ Summary to run this application:
 3. Have Chrome browser installed
 4. Set up a Python Virtual Environment (optional but recommened)
 5. Install the needed Python packages
-6. Add the enviroment keys
-7. Create the database
-8. Run the app
+6. Configure email settings
+7. Add the environment keys
+8. Create the database
+9. Run the app
 
 Additional details for each step are below
 
@@ -48,24 +55,15 @@ There is a feature in the application that will generate a PDF (from an HTML pag
 Linux (Debian 11) Steps:
 
 1. Open the terminal
-2. Update your packages
-```bash
-sudo apt install wkhtmltopdf
-```
-3. Install dependencies
-```bash
-sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6
-```
-4. Install WKTHMLTOPDF
-```bash
-sudo apt install wkhtmltopdf
-```
+2. Update your packages `sudo apt install wkhtmltopdf`
+3. Install dependencies `sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6`
+4. Install WKTHMLTOPDF `sudo apt install wkhtmltopdf`
 
-Confirm the installation was sucessful using the `wkhtmltopdf --version` command.
+Confirm the installation was successful using the `wkhtmltopdf --version` command.
 
 For Windows and Mac, you can find more information here: [WKHTMLTOPDF](https://wkhtmltopdf.org/)
 
-### Step 3:
+### Step 3: Selenium and Chrome WebDriver Configuration
 
 This application scrapes the Medicare Blue Button Apps website. To have the feature function, a Chrome browser must be installed.
 You're probably asking "Why?!". Great question. It's because that site is such a dumpster fire (no pun intended), that we have to have Selenium parse the site before it can be passed to Beautiful Soup. Yet, sucks.
@@ -84,41 +82,10 @@ Install with these steps:
 8. Unzip the file with `unzip chromedriver_linux64.zip`
 9. Move the driver with `sudo mv chromedriver /usr/local/bin/`
 10. Make it an executable file with `sudo chmod +x /usr/local/bin/chromedriver`
-11. Check that it works with `chromedriver --version`
 
-If you're using a Linux ARM operating system, follow these steps to use Firefox and the geckodriver:
+Confirm that the installation is successful using `chromedriver --version`
 
-1. Open the terminal
-2. Update your packages with `sudo apt update`
-3. Upgrade your packages with `sudo apt upgrade`
-4. Install Chromium with `sudo apt install firefox-esr`
-6. Go to the [Mozilla geckodriver - GitHub Downloads page](https://github.com/mozilla/geckodriver/releases/)
-7. Download the latest version (or one the fix the firefox version you installed) with `wget linkToAARCH64.tar.gz`
-8. Unzip the binary with `tar -xvzf geckodriver-vX.X.X.tar.gz`
-9. Move the driver with `sudo mv geckodriver /usr/local/bin/`
-10. Make it an executable file with `sudo chmod +x /usr/local/bin/geckodriver`
-11. Check that it works with `geckodriver --version`
-
-*Important* If you had to swap to Firefox, you'll need to update the app_scraping_MedicareBlueButton.py (`src/utils/app_scraping_MedicareBlueButton.py) with these changes:
-
-1. Line :
-```python
-```
-2. Line :
-```python
-```
-3. Line :
-```python
-```
-4. Line :
-```python
-```
-5. Line :
-```python
-```
-
-
-### Step 3: Python VENV (Optional but Recommended)
+### Step 4: Python VENV (Optional but Recommended)
 
 After installing Python, it's recommeneded to set up a virtual enviromnet.
 This ensures that all packages for the application are specific to this instance and will not cause any conflicts with other Python projects.
@@ -132,7 +99,7 @@ MacOS or Linux: `python3 -m venv H3O_Inferno/venv`
 
 Once completed, you should see a direction/folder titled 'venv' as a sub-directory in the 'H3O_Inferno' folder.
 
-### Step 4: Python Packages
+### Step 5: Python Packages
 
 Once the Python virtual enviroment is set up, navigate into the 'H3O_Inferno' directory and follow these steps using the terminal:
 
@@ -146,7 +113,17 @@ MacOS or Linux: `pip3 install -r requirements.txt`
 
 Python will install all the packages and their appropriate versions from the requirements.txt file.
 
-### Step 5: Enviroment Keys
+### Step 6: Email Configuration
+
+Next, change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
+
+Find the flask-mail configurations starting with the comment "# Mail configuration and initialization" (around line 51).
+
+Update the information to reflect where outgoing emails should come from; such as the 'MAIL_SERVER', 'MAIL_PORT', etc.
+
+Save the changes you've made.
+
+### Step 7: Enviroment Keys
 
 After changing your email settings, create a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
 
@@ -154,19 +131,23 @@ Open the '.env' file and add the following:
 
 ```text
 SECRET_KEY=""
+EMAIL_PASSWORD=""
 ```
 
 The 'SECRET_KEY' is used by Flask for security and encryption of the forms when saving (POST) to the database.
+
+The 'EMAIL_PASSWORD' is the password that's used to log into the email account you set up in step 5.
 
 Here is an example of what your '.env' file could look like:
 
 ```text
 SECRET_KEY="this is a super secret string of letters and numbers 123456"
+EMAIL_PASSWORD="Password1234"
 ```
 
 Save the changes you've made.
 
-### Step 6: Create Database
+### Step 8: Create Database
 
 Last step before running the app is to create and initialize the database. We are using SQLite3 for this project.
 
@@ -179,7 +160,7 @@ You should see the following output:
 This will create the database and tables for the application.
 You should find the database in the 'src' folder (H3O_Inferno/src/database.db).
 
-### Step 7: Run App
+### Step 9: Run App
 
 To run the app, type the following command in the terminal:
 
@@ -200,7 +181,10 @@ Using the following commands for testing and seeding the database with fake (usi
 
 Meet **Team Inferno**!
 
++ Nicole Naegeli
++ Robert (Bob) Martin
 + Rodney Gauna
++ Sherri Yandell
 
 ## Support
 
