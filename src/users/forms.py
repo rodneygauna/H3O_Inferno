@@ -29,6 +29,16 @@ class RegisterUserForm(FlaskForm):
     submit = SubmitField('Register')
 
 
+# Form - Short Code
+class ShortCodeForm(FlaskForm):
+    """Short Code Form"""
+
+    short_code = StringField(
+        label="Short Code*", validators=[DataRequired(), Length(min=6, max=6)]
+    )
+    submit = SubmitField(label="Submit")
+
+
 # Form - Login
 class LoginForm(FlaskForm):
     '''Form to login a user'''

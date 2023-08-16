@@ -3,6 +3,7 @@ Users > Views
 """
 
 # Imports
+from random import randint
 from flask import (
     Blueprint,
     abort,
@@ -11,6 +12,7 @@ from flask import (
     flash,
     redirect,
     url_for,
+    session,
 )
 from werkzeug.security import generate_password_hash
 from flask_login import (
@@ -23,8 +25,10 @@ from src.users.forms import (
     RegisterUserForm,
     LoginForm,
     ChangePasswordForm,
+    ShortCodeForm,
 )
-from src import db
+from flask_mail import Message
+from src import db, mail
 from src.models import (
     User,
 )
@@ -67,7 +71,7 @@ def register_user():
                            form=form)
 
 
-# Login user
+# Route - Login and send Short Code (2FA)
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
     """Logs in a user"""
@@ -78,20 +82,79 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
 
         if user.check_password(form.password.data) and user is not None:
-            login_user(user)
+            # Generate a short code to complete the login process
+            short_code = str(randint(100000, 999999))
 
-            next = request.args.get('next')
+            # Send the short code to the user's email
+            msg = Message(
+                'H30 Inferno - Short Code for Login',
+                recipients=[user.email],
+                sender="noreply-2FA@healthtrio.com")
+            msg.body = f'Your short code is: {short_code}'
+            mail.send(msg)
 
-            if next is None or not next[0] == '/':
-                next = url_for('core.index')
+            # Store the short code in the session
+            session['short_code'] = short_code
+            # After generating the short code and sending the email
+            session['user_id'] = user.id
 
-            flash('Login successful.', 'success')
-            return redirect(next)
+            # Redirect the user to the short code page
+            return redirect(url_for('users.enter_code'))
+
         flash('Invalid email or password.', 'error')
 
     return render_template('users/login.html',
                            title='H30 Inferno - Login',
                            form=form)
+
+
+# Route - Enter Short Code (2FA)
+@users_bp.route('/short_code', methods=['GET', 'POST'])
+def enter_code():
+    form = ShortCodeForm()
+
+    if form.validate_on_submit():
+        # Variables
+        entered_code = form.short_code.data
+        stored_code = session.get('short_code')
+
+        # Check if the entered code matches the stored code
+        if entered_code == stored_code:
+            flash('Short Code (2FA) is correct. Completing login.', 'success')
+            return redirect(url_for('users.complete_login'))
+        else:
+            flash('Short Code (2FA) is incorrect. Please try again.', 'error')
+
+    return render_template('users/short_code.html',
+                           title='H30 Inferno - Short Code (2FA)',
+                           form=form)
+
+
+# Route - Complete Login
+@users_bp.route('/complete_login')
+def complete_login():
+    """Completes the login process"""
+
+    # Variables
+    stored_user_id = session.get('user_id')
+    user = User.query.get_or_404(stored_user_id)
+
+    # Log the user in
+    if user:
+        login_user(user)
+        session.pop('short_code', None)
+
+        next = request.args.get('next')
+
+        if next is None or not next[0] == '/':
+            next = url_for('core.index')
+
+        flash('Login successful.', 'success')
+        return redirect(next)
+
+    # If the user is not found, redirect to the login page
+    flash('Login failed.', 'error')
+    return redirect(url_for('users.login'))
 
 
 # Logout user
