@@ -6,9 +6,31 @@
 
 This project was created for the HealthTrio Innovation Day - 2023 Q3 Event.
 
-## Backgroud
+## 3rd Party Request Process
 
-Background goes here
+### Step 1: APP / Organization Submission​
+
+1. Third-party applications follow instructions to connect to APIs via payer's website or materials.​
+2. Submission request captures basic App and developer/organization information.​
+3. Upon 'Register Now' click, the product management team at HealthTrio initiates Jira ticket for review.​
+
+### Step 2: Intake and Review​
+
+1. Compliance check with CMS final rules (OAuth2, FHIR, etc.).​
+2. Evaluation for exploitable vulnerabilities and undesirable behaviors.​
+3. Research App with CARIN Alliance, Medicare's Blue Button Apps, and CAQH Endpoint Directory.​
+4. Review of the developer's websites for additional insights.​
+​
+### Step 3: APP Summary and Health Plan Review​
+
+1. Step 2 findings summarized in Jira and presented to health plan in APP review.​
+2. Health plan review to approve or deny the request.​
+
+### Step 4: Approval - API Connection and Health Plan Notification​
+
+1. HealthTrio technical team initiates connectivity steps based on API type.​
+2. Confirmation from health plan leads to "live" status for Third-Party App.​
+3. OAuth framework, scopes, redirect URLs, logout support, token endpoint authentication method, Client IDs, Client Secret managed.
 
 ### The Problem
 
