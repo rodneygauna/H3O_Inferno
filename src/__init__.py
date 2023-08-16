@@ -10,11 +10,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mail import Mail
 
 
 # Read .env file
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 
 # SQLite database
@@ -44,6 +46,17 @@ Migrate(app, db)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "users.login"
+
+
+# Mail configuration and initialization
+mail = Mail()
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'rodneygauna@gmail.com'
+app.config['MAIL_PASSWORD'] = EMAIL_PASSWORD
+mail.init_app(app)
 
 
 # Flask Blueprints - Imports
