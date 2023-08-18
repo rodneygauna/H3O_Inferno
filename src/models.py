@@ -39,6 +39,8 @@ class User(db.Model, UserMixin):
     created_date = db.Column(db.DateTime, nullable=False,
                              default=datetime.utcnow)
     updated_date = db.Column(db.DateTime)
+    # Role
+    role = db.Column(db.String(100), default="user")
     # Status
     status = db.Column(db.String(10), default="ACTIVE")
     # Profile Picture

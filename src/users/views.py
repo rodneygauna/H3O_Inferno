@@ -82,6 +82,12 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
 
         if user.check_password(form.password.data) and user is not None:
+            # Check user's status
+            if user.status == 'INACTIVE':
+                flash('Your account is inactive. Please contact your administrator.',
+                      'error')
+                return redirect(url_for('users.login'))
+
             # Generate a short code to complete the login process
             short_code = str(randint(100000, 999999))
 

@@ -58,6 +58,7 @@ def db_seed():
             User(
                 email=random_email,
                 password_hash=generate_password_hash("password"),
+                role=random.choice(["admin", "user"]),
             )
         )
 
