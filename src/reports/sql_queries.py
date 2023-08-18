@@ -314,7 +314,7 @@ def get_report_connect_requests_change_log(start_date, end_date):
         ConnectionRequestChangeLog.changed_date >= start_date,
         ConnectionRequestChangeLog.changed_date <= end_date
     ).order_by(
-        ConnectionRequest.id,
+        ConnectionRequestChangeLog.changed_date.desc()
     ).all()
 
     # Return

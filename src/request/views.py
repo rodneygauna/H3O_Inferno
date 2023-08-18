@@ -207,8 +207,8 @@ def status_updates(request_id):
             connectionrequest_id=request_id,
             previous_working_status=connection_request.working_status,
             changed_working_status=form.working_status.data,
-            created_date=datetime.utcnow(),
-            created_by=current_user.id,
+            changed_date=datetime.utcnow(),
+            changed_by=current_user.id,
         )
         db.session.add(new_change_log)
         db.session.commit()
