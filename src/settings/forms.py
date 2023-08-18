@@ -4,10 +4,8 @@ This file contains the forms for the Settings Blueprint.
 """
 
 # Imports
-from datetime import datetime, timedelta
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, SelectField, DateField
-from wtforms.validators import DataRequired
+from wtforms import SubmitField, SelectField
 
 
 # Form - Change User's Role
