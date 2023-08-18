@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Generate Reports</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="row">
+    <div class="u-full-width">
+      {{ form.report_options.label }} {{ form.report_options() }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      {{ form.start_date.label }} {{ form.start_date(class="u-full-width") }}
+    </div>
+    <div class="six columns">
+      {{ form.end_date.label }} {{ form.end_date(class="u-full-width") }}
+    </div>
+  </div>
+  {{ form.submit() }}
+</form>
+{% endblock %}

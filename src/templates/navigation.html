@@ -20,7 +20,7 @@
               class="topbar-link"
             >
               <i class="fas fa-file-circle-plus"></i>
-              <span class="topbar-link-text">Request Connection</span>
+              <span class="topbar-link-text"></span>
             </a>
           </li>
           {% if current_user.is_authenticated %}
@@ -30,7 +30,7 @@
               class="topbar-link"
             >
               <i class="fas fa-file-circle-check"></i>
-              <span class="topbar-link-text">View Requests</span>
+              <span class="topbar-link-text"></span>
             </a>
           </li>
           <li class="topbar-item">
@@ -39,7 +39,16 @@
               class="topbar-link"
             >
               <i class="fas fa-box"></i>
-              <span class="topbar-link-text">Health Apps</span>
+              <span class="topbar-link-text"></span>
+            </a>
+          </li>
+          <li class="topbar-item">
+            <a
+              href="{{ url_for('reports.generate_report') }}"
+              class="topbar-link"
+            >
+              <i class="fas fa-chart-simple"></i>
+              <span class="topbar-link-text"></span>
             </a>
           </li>
           {% endif %}
