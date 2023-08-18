@@ -13,6 +13,7 @@ from src.models import (
     User,
     ConnectionRequest,
     RequestJira,
+    ConnectionRequestChangeLog,
 )
 from src.dictionaries.working_status import WORKING_STATUS
 from src.dictionaries.demo_health_apps import DEMO_HEALTH_APP_NAMES
@@ -91,6 +92,21 @@ def db_seed():
                     start_date="-1y", end_date="today"),
                 working_status=random.choice(
                     [item[0] for item in WORKING_STATUS]),
+            )
+        )
+
+    # Create Connection Request Change Logs
+    for i in range(1, max_range):
+        data.append(
+            ConnectionRequestChangeLog(
+                connectionrequest_id=random.randint(1, max_range),
+                previous_working_status=random.choice(
+                    [item[0] for item in WORKING_STATUS]),
+                changed_working_status=random.choice(
+                    [item[0] for item in WORKING_STATUS]),
+                changed_date=faker.date_between(
+                    start_date="-1m", end_date="today"),
+                changed_by=random.randint(1, max_range),
             )
         )
 

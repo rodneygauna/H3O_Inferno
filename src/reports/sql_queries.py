@@ -7,7 +7,8 @@ SQL queries for generating reports.
 from sqlalchemy import or_
 from src import db
 from src.models import (
-    User, HealthApp, ConnectionRequest
+    User, HealthApp, ConnectionRequest,
+    ConnectionRequestChangeLog,
 )
 
 
@@ -284,6 +285,36 @@ def get_report_connect_requests_denied(start_date, end_date):
         ConnectionRequest.working_status == "Request Denied by Health Plan",
         ConnectionRequest.created_date >= start_date,
         ConnectionRequest.created_date <= end_date
+    ).all()
+
+    # Return
+    return query
+
+
+# Connection Requests - Change Log
+def get_report_connect_requests_change_log(start_date, end_date):
+    """Returns the connection requests change log report data"""
+
+    # Query
+    query = db.session.query(
+        ConnectionRequestChangeLog.connectionrequest_id,
+        ConnectionRequest.health_plan_name,
+        ConnectionRequest.app_name,
+        ConnectionRequestChangeLog.previous_working_status,
+        ConnectionRequestChangeLog.changed_working_status,
+        ConnectionRequestChangeLog.changed_date,
+        User.email,
+    ).join(
+        User, ConnectionRequestChangeLog.changed_by == User.id
+    ).join(
+        ConnectionRequest,
+        ConnectionRequestChangeLog.connectionrequest_id
+        == ConnectionRequest.id
+    ).filter(
+        ConnectionRequestChangeLog.changed_date >= start_date,
+        ConnectionRequestChangeLog.changed_date <= end_date
+    ).order_by(
+        ConnectionRequest.id,
     ).all()
 
     # Return

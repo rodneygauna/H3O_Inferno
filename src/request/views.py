@@ -28,6 +28,7 @@ from src import db
 from src.models import (
     ConnectionRequest,
     RequestJira,
+    ConnectionRequestChangeLog
 )
 from src.request.sql_queries import (
     get_all_connection_requests,
@@ -201,10 +202,23 @@ def status_updates(request_id):
 
     # Update the status of the request
     if form.validate_on_submit():
+        # Create a new change log record
+        new_change_log = ConnectionRequestChangeLog(
+            connectionrequest_id=request_id,
+            previous_working_status=connection_request.working_status,
+            changed_working_status=form.working_status.data,
+            created_date=datetime.utcnow(),
+            created_by=current_user.id,
+        )
+        db.session.add(new_change_log)
+        db.session.commit()
+
+        # Update the status of the request
         connection_request.working_status = form.working_status.data
         connection_request.updated_date = datetime.utcnow()
         connection_request.updated_by = current_user.id
         db.session.commit()
+
         flash("Status has been updated.", "success")
         return redirect(url_for("requests.view_request",
                                 request_id=request_id))

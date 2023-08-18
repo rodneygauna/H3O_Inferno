@@ -120,6 +120,25 @@ class ConnectionRequest(db.Model):
     updated_by = db.Column(db.Integer, db.ForeignKey("users.id"))
 
 
+# Model - Connection Request - Change Log
+class ConnectionRequestChangeLog(db.Model):
+    """Connection Request Change Log model"""
+
+    __tablename__ = "connection_request_change_logs"
+
+    # IDs
+    id = db.Column(db.Integer, primary_key=True)
+    connectionrequest_id = db.Column(
+        db.Integer, db.ForeignKey("connection_requests.id"))
+    # Change Log Information
+    previous_working_status = db.Column(db.String(100))
+    changed_working_status = db.Column(db.String(100))
+    # Timestamps
+    changed_date = db.Column(db.DateTime, nullable=False,
+                             default=datetime.utcnow)
+    changed_by = db.Column(db.Integer, db.ForeignKey("users.id"))
+
+
 # Model - Request Jira Ticket
 class RequestJira(db.Model):
     """Request Jira relationship model"""

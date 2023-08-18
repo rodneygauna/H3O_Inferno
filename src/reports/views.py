@@ -16,6 +16,7 @@ from src.reports.sql_queries import (
     get_report_connect_requests_approved,
     get_report_connect_requests_denied,
     get_report_connect_requests_all,
+    get_report_connect_requests_change_log,
     get_report_health_apps,
     get_report_inferno_users,
 )
@@ -43,6 +44,8 @@ def generate_report():
         ("Connection Requests - Approved", "Connection Requests - Approved"),
         ("Connection Requests - Denied", "Connection Requests - Denied"),
         ("Connection Requests - All", "Connection Requests - All"),
+        ("Connection Requests - Change Log",
+         "Conenction Requests - Change Log"),
         ("Health Apps", "Health Apps"),
         ("Inferno Users", "Inferno Users"),
     ]
@@ -169,6 +172,17 @@ def get_column_labels(report):
             "Updated Date",
             "Updated By",
         ]
+    # Connection Requests - Change Log - Column Labels
+    elif report == "Connection Requests - Change Log":
+        return [
+            "Connection Request ID",
+            "Health Plan Name",
+            "App Name",
+            "Chagned From Working Status",
+            "Changed To Working Status",
+            "Changed Date",
+            "Changed By",
+        ]
     # Health Apps - Column Labels
     elif report == "Health Apps":
         return [
@@ -217,6 +231,9 @@ def generate_report_data(report, start_date, end_date):
     # Connection Requests - All
     elif report == "Connection Requests - All":
         return get_report_connect_requests_all(start_date, end_date)
+    # Connection Requests - Change Log
+    elif report == "Connection Requests - Change Log":
+        return get_report_connect_requests_change_log(start_date, end_date)
     # Health Apps
     elif report == "Health Apps":
         return get_report_health_apps(start_date, end_date)
