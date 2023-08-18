@@ -66,6 +66,7 @@ from src.users.views import users_bp
 from src.healthapps.views import healthapps_bp
 from src.request.views import requests_bp
 from src.reports.views import reports_bp
+from src.settings.views import settings_bp
 
 # Flask Blueprints - Register
 app.register_blueprint(commands_bp)
@@ -74,3 +75,4 @@ app.register_blueprint(users_bp)
 app.register_blueprint(healthapps_bp)
 app.register_blueprint(requests_bp)
 app.register_blueprint(reports_bp)
+app.register_blueprint(settings_bp)

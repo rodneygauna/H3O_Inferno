@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Infero Users</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.status }}</td>
+      <td>
+        <a
+          href="{{ url_for('settings.change_role', user_id=user.id) }}"
+          class="button"
+          >Change Role</a
+        >
+        <a
+          href="{{ url_for('settings.change_status', user_id=user.id) }}"
+          class="button"
+          >Update Status</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}
