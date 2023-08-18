@@ -84,8 +84,10 @@ def login():
         if user.check_password(form.password.data) and user is not None:
             # Check user's status
             if user.status == 'INACTIVE':
-                flash('Your account is inactive. Please contact your administrator.',
-                      'error')
+                flash(
+                    """Your account is inactive.
+                    Please contact an administrator.""",
+                    'error')
                 return redirect(url_for('users.login'))
 
             # Generate a short code to complete the login process
