@@ -11,7 +11,13 @@ from flask import Blueprint, request, render_template, make_response
 from flask_login import login_required, current_user
 from src.reports.forms import GenerateReportForm
 from src.reports.sql_queries import (
+    get_report_connect_requests_active,
+    get_report_connect_requests_new,
+    get_report_connect_requests_approved,
+    get_report_connect_requests_denied,
     get_report_connect_requests_all,
+    get_report_health_apps,
+    get_report_inferno_users,
 )
 
 
@@ -196,9 +202,27 @@ def generate_report_data(report, start_date, end_date):
     and date parameters.
     """
 
+    # Connection Requests - Active
+    if report == "Connection Requests - Active":
+        return get_report_connect_requests_active(start_date, end_date)
+    # Connection Requests - New
+    elif report == "Connection Requests - New":
+        return get_report_connect_requests_new(start_date, end_date)
+    # Connection Requests - Approved
+    elif report == "Connection Requests - Approved":
+        return get_report_connect_requests_approved(start_date, end_date)
+    # Connection Requests - Denied
+    elif report == "Connection Requests - Denied":
+        return get_report_connect_requests_denied(start_date, end_date)
     # Connection Requests - All
-    if report == "Connection Requests - All":
+    elif report == "Connection Requests - All":
         return get_report_connect_requests_all(start_date, end_date)
+    # Health Apps
+    elif report == "Health Apps":
+        return get_report_health_apps(start_date, end_date)
+    # Inferno Users
+    elif report == "Inferno Users":
+        return get_report_inferno_users(start_date, end_date)
     else:
         # Handle other report options if needed
         return []
