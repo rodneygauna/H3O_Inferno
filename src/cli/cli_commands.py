@@ -47,12 +47,12 @@ def db_seed():
     """Seeds the database"""
 
     # Variable for the maximum range
-    max_range = 10+1
+    max_range = 10
     # Data to seed the database with
     data = []
 
     # Create users
-    for i in range(1, max_range):
+    for i in range(1, max_range+1):
         random_email = (
             f"{faker.first_name()}{faker.last_name()}@healthtrio.com"
         )
@@ -65,7 +65,7 @@ def db_seed():
         )
 
     # Create health plans
-    for i in range(1, max_range):
+    for i in range(1, max_range+1):
         data.append(
             HealthPlan(
                 name=faker.company(),
@@ -74,7 +74,7 @@ def db_seed():
         )
 
     # Create connection requests
-    for i in range(1, max_range):
+    for i in range(1, max_range+1):
         data.append(
             ConnectionRequest(
                 firstname=faker.first_name(),
@@ -106,7 +106,7 @@ def db_seed():
         )
 
     # Create Connection Request Change Logs
-    for i in range(1, max_range):
+    for i in range(1, max_range+1):
         data.append(
             ConnectionRequestChangeLog(
                 connectionrequest_id=random.randint(1, max_range),
@@ -121,7 +121,7 @@ def db_seed():
         )
 
     # Create Jira Tickets
-    for i in range(1, max_range):
+    for i in range(1, max_range+1):
         data.append(
             RequestJira(
                 connectionrequest_id=i,
