@@ -10,14 +10,16 @@ from flask import (
     redirect,
     url_for,
     request,
+    flash,
 )
 from flask_login import login_required
 from src.settings.forms import (
-    ChangeRoleForm, ChangeStatusForm
+    ChangeRoleForm, ChangeStatusForm, HealthPlanForm,
 )
 from src.decorators.decorators import admin_required
+from sqlalchemy import or_
 from src import db
-from src.models import User
+from src.models import User, HealthPlan
 
 
 # Blueprint Configuration
@@ -38,7 +40,6 @@ def settings():
 # Route - Settings > Manage Users
 @settings_bp.route('/settings/manage-users',
                    methods=['GET', 'POST'])
-@admin_required
 @login_required
 def manage_users():
     """Manage users page"""
@@ -102,3 +103,84 @@ def change_status(user_id):
                            title='Change Status',
                            form=form,
                            user=user)
+
+
+# Settings - Manage Health Plans
+@settings_bp.route('/settings/manage-health-plans',
+                   methods=['GET', 'POST'])
+@admin_required
+@login_required
+def manage_health_plans():
+    """Manage health plans page"""
+
+    health_plans = HealthPlan.query.all()
+
+    return render_template('settings/manage-health-plans.html',
+                           title='Manage Health Plans',
+                           health_plans=health_plans)
+
+
+# Settings - Manage Health Plans > Add Health Plan
+@settings_bp.route('/settings/manage-health-plans/add-health-plan',
+                   methods=['GET', 'POST'])
+@login_required
+def add_health_plan():
+    """Add health plan page"""
+
+    form = HealthPlanForm()
+
+    if form.validate_on_submit():
+        # Check if health plan already exists via name or health plan ID
+        health_plan = HealthPlan.query.filter(
+            or_(HealthPlan.name == form.name.data,
+                HealthPlan.hp_id == form.hp_id.data)).first()
+        if health_plan:
+            flash('Health plan already exists.', 'danger')
+
+        # Add to the database
+        health_plan = HealthPlan(
+            name=form.name.data,
+            hp_id=form.hp_id.data,
+            status=form.status.data,)
+        db.session.add(health_plan)
+        db.session.commit()
+
+        flash('Health Plan added successfully.', 'success')
+        return redirect(url_for('settings.manage_health_plans'))
+
+    return render_template('settings/add-edit-health-plan.html',
+                           title='Add Health Plan',
+                           form=form)
+
+
+# Settings - Manage Health Plans > Edit Health Plan
+@settings_bp.route(
+    '/settings/manage-health-plans/edit-health-plan/<int:health_plan_id>',
+    methods=['GET', 'POST'])
+@login_required
+def edit_health_plan(health_plan_id):
+    """Edit health plan page"""
+
+    health_plan = HealthPlan.query.get_or_404(health_plan_id)
+
+    form = HealthPlanForm()
+
+    if request.method == 'GET':
+        form.name.data = health_plan.name
+        form.hp_id.data = health_plan.hp_id
+        form.status.data = health_plan.status
+
+    if form.validate_on_submit():
+        # Update the database
+        health_plan.name = form.name.data
+        health_plan.hp_id = form.hp_id.data
+        health_plan.status = form.status.data
+        db.session.commit()
+
+        flash('Health Plan updated successfully.', 'success')
+        return redirect(url_for('settings.manage_health_plans'))
+
+    return render_template('settings/add-edit-health-plan.html',
+                           title='Edit Health Plan',
+                           form=form,
+                           health_plan=health_plan)
