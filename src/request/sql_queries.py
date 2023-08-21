@@ -8,7 +8,17 @@ from src import db
 from src.models import (
     ConnectionRequest,
     RequestJira,
+    HealthPlan,
 )
+
+
+# Query - All Connection Requests Count
+def get_all_connection_requests_count():
+    """Returns the count of all connection requests"""
+
+    count = db.session.query(ConnectionRequest).count()
+
+    return count
 
 
 # Query - All Connection Requests
@@ -22,13 +32,18 @@ def get_all_connection_requests():
             ConnectionRequest.fhir_patient_access_api,
             ConnectionRequest.fhir_provider_directory_api,
             ConnectionRequest.fhir_drug_formulary_api,
-            ConnectionRequest.health_plan_name,
             ConnectionRequest.created_date,
             ConnectionRequest.working_status,
             RequestJira.jira_cc_id,
             RequestJira.jira_cc_url,
             RequestJira.jira_csm1_id,
             RequestJira.jira_csm1_url,
+            HealthPlan.name,
+            HealthPlan.hp_id,
+        )
+        .join(
+            HealthPlan,
+            HealthPlan.id == ConnectionRequest.health_plan_id,
         )
         .outerjoin(
             RequestJira,
@@ -67,15 +82,20 @@ def get_connection_request(request_id):
             ConnectionRequest.fhir_patient_access_api,
             ConnectionRequest.fhir_provider_directory_api,
             ConnectionRequest.fhir_drug_formulary_api,
-            ConnectionRequest.health_plan_name,
             ConnectionRequest.created_date,
             ConnectionRequest.working_status,
             RequestJira.jira_cc_id,
             RequestJira.jira_cc_url,
             RequestJira.jira_csm1_id,
             RequestJira.jira_csm1_url,
+            HealthPlan.name,
+            HealthPlan.hp_id,
         )
         .filter(ConnectionRequest.id == request_id)
+        .join(
+            HealthPlan,
+            HealthPlan.id == ConnectionRequest.health_plan_id,
+        )
         .outerjoin(
             RequestJira,
             RequestJira.connectionrequest_id == ConnectionRequest.id,

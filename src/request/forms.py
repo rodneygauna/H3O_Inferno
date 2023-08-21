@@ -68,10 +68,12 @@ class ConnectionRequestForm(FlaskForm):
     fhir_drug_formulary_api = BooleanField(
         'Drug Formulary API',
         render_kw={"class": "u-full-width"})
-    # Health Plan Information
-    health_plan_name = StringField(
-        'Health Plan Name*', validators=[DataRequired()],
-        render_kw={"class": "u-full-width"})
+    # Health Plan ID
+    health_plan_id = SelectField(
+        'Health Plan', coerce=int,
+        validators=[DataRequired()],
+        render_kw={"class": "u-full-width"}
+    )
     # Submit
     submit = SubmitField('Submit')
 

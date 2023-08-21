@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash
 from src import db
 from src.models import (
     User,
+    HealthPlan,
     ConnectionRequest,
     RequestJira,
     ConnectionRequestChangeLog,
@@ -63,6 +64,15 @@ def db_seed():
             )
         )
 
+    # Create health plans
+    for i in range(1, max_range):
+        data.append(
+            HealthPlan(
+                name=faker.company(),
+                hp_id=i,
+            )
+        )
+
     # Create connection requests
     for i in range(1, max_range):
         data.append(
@@ -87,7 +97,7 @@ def db_seed():
                 fhir_patient_access_api=random.choice([True, False]),
                 fhir_provider_directory_api=random.choice([True, False]),
                 fhir_drug_formulary_api=random.choice([True, False]),
-                health_plan_name=faker.company(),
+                health_plan_id=random.randint(1, max_range),
                 created_date=faker.date_between(
                     start_date="-1y", end_date="today"),
                 working_status=random.choice(
@@ -114,7 +124,7 @@ def db_seed():
     for i in range(1, max_range):
         data.append(
             RequestJira(
-                connectionrequest_id=random.randint(1, max_range),
+                connectionrequest_id=i,
                 jira_cc_id=random.randint(1, 999999),
                 jira_cc_url=faker.url(),
                 jira_csm1_id=random.randint(1, 999999),

@@ -8,7 +8,7 @@ from sqlalchemy import or_
 from src import db
 from src.models import (
     User, HealthApp, ConnectionRequest,
-    ConnectionRequestChangeLog,
+    ConnectionRequestChangeLog, HealthPlan,
 )
 
 
@@ -22,7 +22,7 @@ def get_report_connect_requests_all(start_date, end_date):
     # Query
     query = db.session.query(
         ConnectionRequest.id,
-        ConnectionRequest.health_plan_name,
+        HealthPlan.name,
         ConnectionRequest.firstname,
         ConnectionRequest.lastname,
         ConnectionRequest.email,
@@ -47,6 +47,8 @@ def get_report_connect_requests_all(start_date, end_date):
         CreatingUser.email.label("created_by"),
         ConnectionRequest.updated_date,
         UpdatingUser.email.label("updated_by"),
+    ).join(
+        HealthPlan, ConnectionRequest.health_plan_id == HealthPlan.id
     ).outerjoin(
         CreatingUser, ConnectionRequest.created_by == CreatingUser.id
     ).outerjoin(
@@ -78,7 +80,7 @@ def get_report_connect_requests_active(start_date, end_date):
     # Query
     query = db.session.query(
         ConnectionRequest.id,
-        ConnectionRequest.health_plan_name,
+        HealthPlan.name,
         ConnectionRequest.firstname,
         ConnectionRequest.lastname,
         ConnectionRequest.email,
@@ -103,6 +105,8 @@ def get_report_connect_requests_active(start_date, end_date):
         CreatingUser.email.label("created_by"),
         ConnectionRequest.updated_date,
         UpdatingUser.email.label("updated_by"),
+    ).join(
+        HealthPlan, ConnectionRequest.health_plan_id == HealthPlan.id
     ).outerjoin(
         CreatingUser, ConnectionRequest.created_by == CreatingUser.id
     ).outerjoin(
@@ -138,7 +142,7 @@ def get_report_connect_requests_new(start_date, end_date):
     # Query
     query = db.session.query(
         ConnectionRequest.id,
-        ConnectionRequest.health_plan_name,
+        HealthPlan.name,
         ConnectionRequest.firstname,
         ConnectionRequest.lastname,
         ConnectionRequest.email,
@@ -163,6 +167,8 @@ def get_report_connect_requests_new(start_date, end_date):
         CreatingUser.email.label("created_by"),
         ConnectionRequest.updated_date,
         UpdatingUser.email.label("updated_by"),
+    ).join(
+        HealthPlan, ConnectionRequest.health_plan_id == HealthPlan.id
     ).outerjoin(
         CreatingUser, ConnectionRequest.created_by == CreatingUser.id
     ).outerjoin(
@@ -194,7 +200,7 @@ def get_report_connect_requests_approved(start_date, end_date):
     # Query
     query = db.session.query(
         ConnectionRequest.id,
-        ConnectionRequest.health_plan_name,
+        HealthPlan.name,
         ConnectionRequest.firstname,
         ConnectionRequest.lastname,
         ConnectionRequest.email,
@@ -219,6 +225,8 @@ def get_report_connect_requests_approved(start_date, end_date):
         CreatingUser.email.label("created_by"),
         ConnectionRequest.updated_date,
         UpdatingUser.email.label("updated_by"),
+    ).join(
+        HealthPlan, ConnectionRequest.health_plan_id == HealthPlan.id
     ).outerjoin(
         CreatingUser, ConnectionRequest.created_by == CreatingUser.id
     ).outerjoin(
@@ -252,7 +260,7 @@ def get_report_connect_requests_denied(start_date, end_date):
     # Query
     query = db.session.query(
         ConnectionRequest.id,
-        ConnectionRequest.health_plan_name,
+        HealthPlan.name,
         ConnectionRequest.firstname,
         ConnectionRequest.lastname,
         ConnectionRequest.email,
@@ -277,6 +285,8 @@ def get_report_connect_requests_denied(start_date, end_date):
         CreatingUser.email.label("created_by"),
         ConnectionRequest.updated_date,
         UpdatingUser.email.label("updated_by"),
+    ).join(
+        HealthPlan, ConnectionRequest.health_plan_id == HealthPlan.id
     ).outerjoin(
         CreatingUser, ConnectionRequest.created_by == CreatingUser.id
     ).outerjoin(
@@ -298,12 +308,14 @@ def get_report_connect_requests_change_log(start_date, end_date):
     # Query
     query = db.session.query(
         ConnectionRequestChangeLog.connectionrequest_id,
-        ConnectionRequest.health_plan_name,
+        HealthPlan.name,
         ConnectionRequest.app_name,
         ConnectionRequestChangeLog.previous_working_status,
         ConnectionRequestChangeLog.changed_working_status,
         ConnectionRequestChangeLog.changed_date,
         User.email,
+    ).join(
+        HealthPlan, ConnectionRequest.health_plan_id == HealthPlan.id
     ).join(
         User, ConnectionRequestChangeLog.changed_by == User.id
     ).join(

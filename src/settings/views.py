@@ -28,7 +28,6 @@ settings_bp = Blueprint('settings', __name__)
 
 # Route - Settings Landing Page
 @settings_bp.route('/settings', methods=['GET', 'POST'])
-@admin_required
 @login_required
 def settings():
     """Settings landing page"""
@@ -40,6 +39,7 @@ def settings():
 # Route - Settings > Manage Users
 @settings_bp.route('/settings/manage-users',
                    methods=['GET', 'POST'])
+@admin_required
 @login_required
 def manage_users():
     """Manage users page"""
@@ -108,7 +108,6 @@ def change_status(user_id):
 # Settings - Manage Health Plans
 @settings_bp.route('/settings/manage-health-plans',
                    methods=['GET', 'POST'])
-@admin_required
 @login_required
 def manage_health_plans():
     """Manage health plans page"""

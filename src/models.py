@@ -107,6 +107,8 @@ class ConnectionRequest(db.Model):
 
     # IDs
     id = db.Column(db.Integer, primary_key=True)
+    health_plan_id = db.Column(
+        db.Integer, db.ForeignKey("health_plans.id"))
     # Requester Information
     firstname = db.Column(db.String(255), nullable=False)
     lastname = db.Column(db.String(255), nullable=False)
@@ -129,8 +131,6 @@ class ConnectionRequest(db.Model):
     fhir_patient_access_api = db.Column(db.Boolean, nullable=False)
     fhir_provider_directory_api = db.Column(db.Boolean, nullable=False)
     fhir_drug_formulary_api = db.Column(db.Boolean, nullable=False)
-    # Health Plan Information
-    health_plan_name = db.Column(db.Text, nullable=False)
     # Working Status
     working_status = db.Column(db.String(100), default="New")
     # Timestamps

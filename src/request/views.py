@@ -27,11 +27,13 @@ from src.request.forms import (
 from src import db
 from src.models import (
     ConnectionRequest,
+    HealthPlan,
     RequestJira,
     ConnectionRequestChangeLog
 )
 from src.request.sql_queries import (
     get_all_connection_requests,
+    get_all_connection_requests_count,
     get_connection_request,
 )
 from src.utils.app_match import (
@@ -52,6 +54,17 @@ def connection_request():
     """Form for connection request. This is an unauthenticated route."""
 
     form = ConnectionRequestForm()
+
+    # Populate the Health Plan ID dropdown
+    form.health_plan_id.choices = [
+        (health_plan.id, f"{health_plan.name} ({health_plan.hp_id})")
+        for health_plan in db.session.query(
+            HealthPlan.id, HealthPlan.name, HealthPlan.hp_id,
+        ).filter(
+            HealthPlan.status == "ACTIVE"
+        ).order_by(
+            HealthPlan.name.asc()
+        ).all()]
 
     if form.validate_on_submit():
         new_request = ConnectionRequest(
@@ -74,7 +87,7 @@ def connection_request():
             fhir_patient_access_api=form.fhir_patient_access_api.data,
             fhir_provider_directory_api=form.fhir_provider_directory_api.data,
             fhir_drug_formulary_api=form.fhir_drug_formulary_api.data,
-            health_plan_name=form.health_plan_name.data,
+            health_plan_id=form.health_plan_id.data,
         )
         db.session.add(new_request)
         db.session.commit()
@@ -94,10 +107,12 @@ def view_requests():
     """View all requests. This is an authenticated route."""
 
     requests = get_all_connection_requests()
+    count = get_all_connection_requests_count()
 
     return render_template("requests/view_requests.html",
                            title="View Requests",
-                           requests=requests)
+                           requests=requests,
+                           count=count)
 
 
 # Route - View Request
@@ -123,6 +138,17 @@ def edit_request(request_id):
 
     connection_request = ConnectionRequest.query.get_or_404(request_id)
 
+    # Populate the Health Plan ID dropdown
+    form.health_plan_id.choices = [
+        (health_plan.id, f"{health_plan.name} ({health_plan.hp_id})")
+        for health_plan in db.session.query(
+            HealthPlan.id, HealthPlan.name, HealthPlan.hp_id,
+        ).filter(
+            HealthPlan.status == "ACTIVE"
+        ).order_by(
+            HealthPlan.name.asc()
+        ).all()]
+
     # Populate form fields with existing data
     if request.method == "GET":
         form.firstname.data = connection_request.firstname
@@ -147,7 +173,7 @@ def edit_request(request_id):
             connection_request.fhir_provider_directory_api
         form.fhir_drug_formulary_api.data = \
             connection_request.fhir_drug_formulary_api
-        form.health_plan_name.data = connection_request.health_plan_name
+        form.health_plan_id.data = connection_request.health_plan_id
 
     if form.validate_on_submit():
         connection_request.firstname = form.firstname.data
@@ -172,7 +198,7 @@ def edit_request(request_id):
             form.fhir_provider_directory_api.data
         connection_request.fhir_drug_formulary_api = \
             form.fhir_drug_formulary_api.data
-        connection_request.health_plan_name = form.health_plan_name.data
+        connection_request.health_plan_id = form.health_plan_id.data
         connection_request.updated_date = datetime.utcnow()
         connection_request.updated_by = current_user.id
         db.session.commit()

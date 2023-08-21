@@ -9,7 +9,13 @@
   <div class="row">
     <h4>Tell us about which health plan you're requestion from</h4>
     <div class="u-full-width">
-      {{ form.health_plan_name.label }} {{ form.health_plan_name }}
+      {{ form.health_plan_id.label }} {{ form.health_plan_id }}
+      <p>
+        Can't find the Health Plan?
+        <a href="{{ url_for('settings.add_health_plan') }}"
+          >Create a new Health Plan here.</a
+        >
+      </p>
     </div>
   </div>
   <h4>Tell us about yourself and your company</h4>
