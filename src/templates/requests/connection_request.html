@@ -1,110 +1,157 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Connection Request</h1>
-<p>
-  Please tell us about yourself and the application you wish to connect to our
-  FHIR APIs.
-</p>
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-  <div class="row">
-    <h4>Tell us about which health plan you're requestion from</h4>
-    <div class="u-full-width">
-      {{ form.health_plan_id.label }} {{ form.health_plan_id }}
-      <p>
-        Can't find the Health Plan?
-        <a href="{{ url_for('settings.add_health_plan') }}"
-          >Create a new Health Plan here.</a
-        >
-      </p>
+<div id="request_form">
+  <p>
+    Please tell us about yourself and the application you wish to connect to our
+    FHIR APIs.
+  </p>
+  <form action="" method="post">
+    {{ form.hidden_tag() }} {% if current_user.is_authenticated %}
+    <div class="row">
+      <h4>Tell us about which health plan you're requestion from</h4>
+      <div class="u-full-width">
+        {{ form.health_plan_id.label }} {{ form.health_plan_id }}
+        <p>
+          Can't find the Health Plan?
+          <a href="{{ url_for('settings.add_health_plan') }}"
+            >Create a new Health Plan here.</a
+          >
+        </p>
+      </div>
     </div>
-  </div>
-  <h4>Tell us about yourself and your company</h4>
-  <div class="row">
-    <div class="one-half column">
-      {{ form.firstname.label }} {{ form.firstname }}
+    {% else %}
+    <div class="row" hidden>
+      <h4>Tell us about which health plan you're requestion from</h4>
+      <div class="u-full-width">
+        {{ form.health_plan_id.label }} {{ form.health_plan_id }}
+      </div>
     </div>
-    <div class="one-half column">
-      {{ form.lastname.label }} {{ form.lastname }}
+    {% endif %}
+    <h4>Tell us about yourself and your company</h4>
+    <div class="row">
+      <div class="one-half column">
+        {{ form.firstname.label }} {{ form.firstname }}
+      </div>
+      <div class="one-half column">
+        {{ form.lastname.label }} {{ form.lastname }}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="one-half column">{{ form.email.label }} {{ form.email }}</div>
-    <div class="one-half column">
-      {{ form.phone_number.label }} {{ form.phone_number }}
+    <div class="row">
+      <div class="one-half column">{{ form.email.label }} {{ form.email }}</div>
+      <div class="one-half column">
+        {{ form.phone_number.label }} {{ form.phone_number }}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="one-half column">
-      {{ form.company.label }} {{ form.company }}
+    <div class="row">
+      <div class="one-half column">
+        {{ form.company.label }} {{ form.company }}
+      </div>
+      <div class="one-half column">
+        {{ form.company_website.label }} {{ form.company_website }}
+      </div>
     </div>
-    <div class="one-half column">
-      {{ form.company_website.label }} {{ form.company_website }}
+    <div class="row">
+      <h4>Tell us about your app</h4>
+      <div class="u-full-width">
+        {{ form.app_name.label }} {{ form.app_name }}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <h4>Tell us about your app</h4>
-    <div class="u-full-width">
-      {{ form.app_name.label }} {{ form.app_name }}
+    <h4>App Type</h4>
+    <div class="row">
+      <div class="three columns checkbox-group">
+        {{ form.app_type_web(class="checkbox-input") }} {{
+        form.app_type_web.label }}
+      </div>
+      <div class="three columns checkbox-group">
+        {{ form.app_type_mobile(class="checkbox-input") }} {{
+        form.app_type_mobile.label }}
+      </div>
+      <div class="three columns checkbox-group">
+        {{ form.app_type_native(class="checkbox-input") }} {{
+        form.app_type_native.label }}
+      </div>
+      <div class="three columns checkbox-group">
+        {{ form.app_type_other(class="checkbox-input") }} {{
+        form.app_type_other.label }}
+      </div>
     </div>
-  </div>
-  <h4>App Type</h4>
-  <div class="row">
-    <div class="three columns checkbox-group">
-      {{ form.app_type_web(class="checkbox-input") }} {{ form.app_type_web.label
-      }}
+    <div class="row">
+      <div class="u-full-width">
+        {{ form.app_link.label }} {{ form.app_link }}
+      </div>
     </div>
-    <div class="three columns checkbox-group">
-      {{ form.app_type_mobile(class="checkbox-input") }} {{
-      form.app_type_mobile.label }}
+    <div class="row">
+      <div class="u-full-width">
+        {{ form.app_description.label }} {{ form.app_description }}
+      </div>
     </div>
-    <div class="three columns checkbox-group">
-      {{ form.app_type_native(class="checkbox-input") }} {{
-      form.app_type_native.label }}
+    <div class="row">
+      <h4>Links to authorized health apps</h4>
+      <div class="u-full-width">
+        {{ form.carin_link.label }} {{ form.carin_link }}
+      </div>
+      <div class="u-full-width">
+        {{ form.medicare_link.label }} {{ form.medicare_link }}
+      </div>
+      <div class="u-full-width">
+        {{ form.caqh_link.label }} {{ form.caqh_link }}
+      </div>
     </div>
-    <div class="three columns checkbox-group">
-      {{ form.app_type_other(class="checkbox-input") }} {{
-      form.app_type_other.label }}
+    <h4>Tell us which API(s) you want to connect to</h4>
+    <div class="row">
+      <div class="four columns checkbox-group">
+        {{ form.fhir_patient_access_api(class="checkbox-input") }} {{
+        form.fhir_patient_access_api.label }}
+      </div>
+      <div class="four columns checkbox-group">
+        {{ form.fhir_provider_directory_api(class="checkbox-input") }} {{
+        form.fhir_provider_directory_api.label }}
+      </div>
+      <div class="four columns checkbox-group">
+        {{ form.fhir_drug_formulary_api(class="checkbox-input") }} {{
+        form.fhir_drug_formulary_api.label }}
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="u-full-width">
-      {{ form.app_link.label }} {{ form.app_link }}
+    <div class="row">
+      <div>{{ form.submit }}</div>
     </div>
-  </div>
-  <div class="row">
-    <div class="u-full-width">
-      {{ form.app_description.label }} {{ form.app_description }}
-    </div>
-  </div>
-  <div class="row">
-    <h4>Links to authorized health apps</h4>
-    <div class="u-full-width">
-      {{ form.carin_link.label }} {{ form.carin_link }}
-    </div>
-    <div class="u-full-width">
-      {{ form.medicare_link.label }} {{ form.medicare_link }}
-    </div>
-    <div class="u-full-width">
-      {{ form.caqh_link.label }} {{ form.caqh_link }}
-    </div>
-  </div>
-  <h4>Tell us which API(s) you want to connect to</h4>
-  <div class="row">
-    <div class="four columns checkbox-group">
-      {{ form.fhir_patient_access_api(class="checkbox-input") }} {{
-      form.fhir_patient_access_api.label }}
-    </div>
-    <div class="four columns checkbox-group">
-      {{ form.fhir_provider_directory_api(class="checkbox-input") }} {{
-      form.fhir_provider_directory_api.label }}
-    </div>
-    <div class="four columns checkbox-group">
-      {{ form.fhir_drug_formulary_api(class="checkbox-input") }} {{
-      form.fhir_drug_formulary_api.label }}
-    </div>
-  </div>
-  <div class="row">
-    <div>{{ form.submit }}</div>
-  </div>
-</form>
+  </form>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Extract the health_plan_id from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const healthPlanId = urlParams.get("health_plan_id");
+
+    // Select the dropdown element
+    const healthPlanDropdown = document.getElementById("health_plan_id");
+
+    // Get the existing options in the dropdown
+    const existingOptions = healthPlanDropdown.options;
+
+    {% if current_user.is_authenticated %}
+    // If the user is logged in, ignore the healthPlanId from the URL
+    // and make the dropdown selection null
+    healthPlanDropdown.value = null;
+    {% else %}
+    // Check if the healthPlanId matches an existing option
+    let matchFound = false;
+    for (let i = 0; i < existingOptions.length; i++) {
+      if (existingOptions[i].value === healthPlanId) {
+        // If a match is found, select that option and exit the loop
+        healthPlanDropdown.value = healthPlanId;
+        matchFound = true;
+        break;
+      }
+    }
+
+    // If no match is found, display the "Unfortunately" paragraph
+    if (!matchFound) {
+      const requestForm = document.getElementById("request_form");
+      requestForm.innerHTML =
+        "<p>Unfortunately, we can't process your request at this time. Please reach out to your health plan to get the correct URL to request access to their FHIR APIs.</p>";
+    }
+    {% endif %}
+  });
+</script>
 {% endblock content %}
