@@ -45,7 +45,7 @@ def generate_report():
         ("Connection Requests - Denied", "Connection Requests - Denied"),
         ("Connection Requests - All", "Connection Requests - All"),
         ("Connection Requests - Change Log",
-         "Conenction Requests - Change Log"),
+         "Connection Requests - Change Log"),
         ("Health Apps", "Health Apps"),
         ("Inferno Users", "Inferno Users"),
     ]
@@ -177,7 +177,7 @@ def get_column_labels(report):
         return [
             "Connection Request ID",
             "Health Plan Name",
-            "App Name",
+            "Request App Name",
             "Chagned From Working Status",
             "Changed To Working Status",
             "Changed Date",
