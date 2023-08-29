@@ -309,7 +309,7 @@ def get_report_connect_requests_change_log(start_date, end_date):
     query = db.session.query(
         ConnectionRequestChangeLog.connectionrequest_id,
         HealthPlan.name,
-        ConnectionRequest.app_name,
+        ConnectionRequest.app_name.label('request_app_name'),
         ConnectionRequestChangeLog.previous_working_status,
         ConnectionRequestChangeLog.changed_working_status,
         ConnectionRequestChangeLog.changed_date,
@@ -319,9 +319,8 @@ def get_report_connect_requests_change_log(start_date, end_date):
     ).join(
         User, ConnectionRequestChangeLog.changed_by == User.id
     ).join(
-        ConnectionRequest,
-        ConnectionRequestChangeLog.connectionrequest_id
-        == ConnectionRequest.id
+        ConnectionRequestChangeLog,
+        ConnectionRequest.id == ConnectionRequestChangeLog.connectionrequest_id
     ).filter(
         ConnectionRequestChangeLog.changed_date >= start_date,
         ConnectionRequestChangeLog.changed_date <= end_date
