@@ -1,0 +1,11 @@
+# docker-compose.yaml
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - '1025:1025'
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - SQLITE_LOCATION=/app/src/
