@@ -20,6 +20,9 @@ RUN apt update && apt upgrade -y
 RUN apt install libxrender1 libfontconfig1 libxext6 libx11-6 -y
 RUN apt install wkhtmltopdf -y
 
+# install chrome for selenium
+RUN apt install chromium -y
+
 # explose the port 1025
 EXPOSE 1025
 
