@@ -1,12 +1,11 @@
 # Dockerfile
-FROM python:3.11-debian:12
+FROM python:3.11.6-bookworm
 
 WORKDIR /app
 
 # install the python packages
 COPY requirements.txt /app
-RUN --mount=type=cache, target=/root/cache/pip \
-	pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # copy the app files and folder to the workdir
 COPY . /app
