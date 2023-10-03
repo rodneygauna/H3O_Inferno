@@ -1,5 +1,5 @@
 # Dockerfile
-FROM python:3.11-debian:12
+FROM python:3.11-bookworm
 
 WORKDIR /app
 
