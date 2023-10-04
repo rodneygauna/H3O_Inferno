@@ -97,8 +97,8 @@ Install with these steps:
 1. Open the terminal
 2. Update your packages with `sudo apt update`
 3. Upgrade your packages with `sudo apt upgrade`
-4. Install Chromium with `sudo apt install chromium-browser`
-5. Note the version with `chromium-browser --version`
+4. Install Chromium with `sudo apt install chromium`
+5. Note the version with `chromium --version`
 6. Go to the [ChromeDriver - Downloads page](https://sites.google.com/chromium.org/driver/downloads)
 7. Download the latest version (or one the fits the Chromium version you installed) with `wget linkToZipFile.zip`
 8. Unzip the file with `unzip chromedriver_linux64.zip`
@@ -139,7 +139,7 @@ Python will install all the packages and their appropriate versions from the req
 
 Next, change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
 
-Find the flask-mail configurations starting with the comment "# Mail configuration and initialization" (around line 51).
+Find the flask-mail configurations starting with the comment "# Mail configuration and initialization" (around line 68).
 
 Update the information to reflect where outgoing emails should come from; such as the 'MAIL_SERVER', 'MAIL_PORT', etc.
 
