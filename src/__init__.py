@@ -48,15 +48,11 @@ Migrate(app, db)
 def create_database_if_not_exists():
     """Create the database if it doesn't exist."""
 
-    db_url = app.config['SQLALCHEMY_DATABASE_URI']
-
     try:
-        engine = create_engine(db_url)
+        engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
         engine.connect()
     except OperationalError:
-        # Database does not exist, so create it
         db.create_all()
-        print("Database created.")
 
 
 # Login manager initialization
