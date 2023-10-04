@@ -8,6 +8,8 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -40,6 +42,21 @@ db = SQLAlchemy(app)
 
 # Migrations initialization
 Migrate(app, db)
+
+
+# Function to create the database if it doesn't exist
+def create_database_if_not_exists():
+    """Create the database if it doesn't exist."""
+
+    db_url = app.config['SQLALCHEMY_DATABASE_URI']
+
+    try:
+        engine = create_engine(db_url)
+        engine.connect()
+    except OperationalError:
+        # Database does not exist, so create it
+        db.create_all()
+        print("Database created.")
 
 
 # Login manager initialization
