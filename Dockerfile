@@ -24,10 +24,11 @@ RUN apt install wkhtmltopdf -y
 RUN apt install chromium -y
 
 # install chromedriver for selenium
+RUN apt install wget unzip -y
 RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.92/linux64/chromedriver-linux64.zip
 RUN unzip chromedriver-linux64.zip
-RUN mv chromedriver /usr/bin/chromedriver
-RUN chmod +x /usr/bin/chromedriver
+RUN mv chromedriver-linux64 /usr/local/bin/
+RUN chmod +x /usr/local/bin/chromedriver-linux64
 
 # explose the port 1025
 EXPOSE 1025
