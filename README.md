@@ -77,7 +77,7 @@ There is a feature in the application that will generate a PDF (from an HTML pag
 Linux (Debian 11) Steps:
 
 1. Open the terminal
-2. Update your packages `sudo apt install wkhtmltopdf`
+2. Update your packages `sudo apt update`
 3. Install dependencies `sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6`
 4. Install WKTHMLTOPDF `sudo apt install wkhtmltopdf`
 

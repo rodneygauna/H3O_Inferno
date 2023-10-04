@@ -1,18 +1,30 @@
 # Dockerfile
-FROM python:3.11-alpine
+FROM python:3.11.6-slim-bookworm
 
 WORKDIR /app
 
 # install the python packages
 COPY requirements.txt /app
-RUN --mount=type=cache, target=/root/cache/pip \
-	pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # copy the app files and folder to the workdir
 COPY . /app
 
 # set the flask environment
 ENV FLASK_APP=app
+
+# runs apt update and upgrade -y
+RUN apt update && apt upgrade -y
+
+# install WKHTMLTOPDF
+RUN apt install libxrender1 libfontconfig1 libxext6 libx11-6 -y
+RUN apt install wkhtmltopdf -y
+
+# install chrome for selenium
+RUN apt install chromium -y
+
+# explose the port 1025
+EXPOSE 1025
 
 # runs app.py using python3
 ENTRYPOINT ["python3"]
