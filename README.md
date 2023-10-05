@@ -48,6 +48,24 @@ In the context of our Health Plan's FHIR APIs, the integration of third-party ap
 
 ## How To Run The Project
 
+### Docker
+
+H3O Inferno can be ran on Docker.
+
+To build the image, use the following command:
+
+```terminal
+docker build -t h3o-inferno .
+```
+
+Once the image has been built successfully, use this command to run the container:
+
+```terminal
+docker run -d -p 1025:1025 -e SECRET_KEY="your secret key goes here" -e EMAIL_PASSWORD="password goes here" h3o-inferno
+```
+
+### Hardware/Local Environment
+
 **Important:** Before starting you're own instance of this application, it is recommened to fork this GitHub project. Learn more about forking here:
 [GitHub - Fork a repo](https://docs.github.com/en/get-started/quickstart/fork-a-repo)
 
@@ -65,12 +83,12 @@ Summary to run this application:
 
 Additional details for each step are below
 
-### Step 1: Python
+#### Step 1: Python
 
 In order to run the application, you'll need to have Python (version 3.10 or higher) installed on the host machine.
 You can download it here [Python](https://www.python.org/)
 
-### Step 2: WKHTMLTOPDF
+#### Step 2: WKHTMLTOPDF
 
 There is a feature in the application that will generate a PDF (from an HTML page). Ensure WKHTMLTOPDF is installed and reachable for the page to generate.
 
@@ -85,7 +103,7 @@ Confirm the installation was successful using the `wkhtmltopdf --version` comman
 
 For Windows and Mac, you can find more information here: [WKHTMLTOPDF](https://wkhtmltopdf.org/)
 
-### Step 3: Selenium and Chrome WebDriver Configuration
+#### Step 3: Selenium and Chrome WebDriver Configuration
 
 This application scrapes the Medicare Blue Button Apps website. To have the feature function, a Chrome browser must be installed.
 You're probably asking "Why?!". Great question. It's because that site is such a dumpster fire (no pun intended), that we have to have Selenium parse the site before it can be passed to Beautiful Soup. Yet, sucks.
@@ -107,7 +125,7 @@ Install with these steps:
 
 Confirm that the installation is successful using `chromedriver --version`
 
-### Step 4: Python VENV (Optional but Recommended)
+#### Step 4: Python VENV (Optional but Recommended)
 
 After installing Python, it's recommeneded to set up a virtual enviromnet.
 This ensures that all packages for the application are specific to this instance and will not cause any conflicts with other Python projects.
@@ -121,7 +139,7 @@ MacOS or Linux: `python3 -m venv H3O_Inferno/venv`
 
 Once completed, you should see a direction/folder titled 'venv' as a sub-directory in the 'H3O_Inferno' folder.
 
-### Step 5: Python Packages
+#### Step 5: Python Packages
 
 Once the Python virtual enviroment is set up, navigate into the 'H3O_Inferno' directory and follow these steps using the terminal:
 
@@ -135,7 +153,7 @@ MacOS or Linux: `pip3 install -r requirements.txt`
 
 Python will install all the packages and their appropriate versions from the requirements.txt file.
 
-### Step 6: Email Configuration
+#### Step 6: Email Configuration
 
 Next, change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
 
@@ -145,7 +163,7 @@ Update the information to reflect where outgoing emails should come from; such a
 
 Save the changes you've made.
 
-### Step 7: Enviroment Keys
+#### Step 7: Enviroment Keys
 
 After changing your email settings, create a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
 
@@ -169,7 +187,7 @@ EMAIL_PASSWORD="Password1234"
 
 Save the changes you've made.
 
-### Step 8: Create Database
+#### Step 8: Create Database
 
 Last step before running the app is to create and initialize the database. We are using SQLite3 for this project.
 
@@ -182,7 +200,7 @@ You should see the following output:
 This will create the database and tables for the application.
 You should find the database in the 'src' folder (H3O_Inferno/src/database.db).
 
-### Step 9: Run App
+#### Step 9: Run App
 
 To run the app, type the following command in the terminal:
 
