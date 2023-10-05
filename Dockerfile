@@ -16,25 +16,9 @@ ENV FLASK_APP=app
 # runs apt update and upgrade -y
 RUN apt update && apt upgrade -y
 
-# install wget and unzip
-RUN apt install wget unzip -y
-
 # install WKHTMLTOPDF
 RUN apt install libxrender1 libfontconfig1 libxext6 libx11-6 -y
 RUN apt install wkhtmltopdf -y
-
-# install xvfb for selenium
-RUN apt install xvfb -y
-
-# install google chrome for selenium
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt install ./google-chrome-stable_current_amd64.deb -f -y
-
-# install chromedriver for selenium
-RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.92/linux64/chromedriver-linux64.zip
-RUN unzip chromedriver-linux64.zip
-RUN mv chromedriver-linux64 /usr/local/bin/
-RUN chmod +x /usr/local/bin/chromedriver-linux64
 
 # explose the port 1025
 EXPOSE 1025
