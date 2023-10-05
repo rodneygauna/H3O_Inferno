@@ -6,24 +6,21 @@ Health Apps > Views
 from flask import (
     Blueprint,
     render_template,
-    request,
     flash,
     redirect,
     url_for,
 )
 from flask_login import (
     login_required,
-    current_user,
 )
-from src import db
 from src.models import (
     HealthApp,
 )
 from src.utils.app_scraping_CARIN import (
     scrape_carin_health_apps_and_store,
 )
-from src.utils.app_scraping_MedicareBlueButton import (
-    scrape_medicare_blue_button_health_apps_and_store,
+from src.utils.app_scraping_api_MedicareBlueButton import (
+    scrape_medicare_api_health_apps,
 )
 
 
@@ -36,10 +33,10 @@ healthapps_bp = Blueprint('healthapps', __name__)
 @login_required
 def healthapps():
     """Health Apps page"""
-    healthapps = HealthApp.query.all()
+    healthapps_list = HealthApp.query.all()
     return render_template('healthapps/healthapps.html',
                            title='Health Apps',
-                           healthapps=healthapps)
+                           healthapps_list=healthapps_list)
 
 
 # Function - CARIN Scraper
@@ -52,9 +49,8 @@ def scrape_carin():
         scrape_carin_health_apps_and_store()
         flash('CARIN health apps successfully scraped and stored.',
               'success')
-    except Exception as e:
-        flash(f'Error scraping CARIN health apps. {e}', 'error')
-        print(e)
+    except Exception as error:
+        flash(f'Error scraping CARIN health apps. {error}', 'error')
 
     return redirect(url_for('healthapps.healthapps'))
 
@@ -66,11 +62,15 @@ def scrape_medicare():
     """Scrape and store health apps from Medicare website"""
 
     try:
-        scrape_medicare_blue_button_health_apps_and_store()
-        flash('Medicare Blue Button health apps successfully scraped and stored.',
-              'success')
-    except Exception as e:
-        flash(f'Error scraping Medicare Blue Button health apps. {e}', 'error')
-        print(e)
+        scrape_medicare_api_health_apps()
+        flash(
+            'Medicare Blue Button health apps successfully stored.',
+            'success'
+        )
+    except Exception as error:
+        flash(
+            f'Error scraping Medicare Blue Button health apps. {error}',
+            'error'
+        )
 
     return redirect(url_for('healthapps.healthapps'))

@@ -8,16 +8,16 @@ URL: https://www.medicare.gov/manage-your-health/medicares-blue-button-blue-butt
 
 # Imports
 import time
-from bs4 import BeautifulSoup
 from datetime import datetime
-from src import db
-from src.models import HealthApp
+from bs4 import BeautifulSoup
 from flask import current_app
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from flask_login import current_user
+from src.models import HealthApp
+from src import db
 
 
 def scrape_medicare_blue_button_health_apps_and_store():
@@ -26,7 +26,9 @@ def scrape_medicare_blue_button_health_apps_and_store():
     and stores or updates the information for each app in the database.
     """
 
-    url = "https://www.medicare.gov/manage-your-health/medicares-blue-button-blue-button-20/blue-button-apps"
+    url = (
+        "https://www.medicare.gov/manage-your-health/medicares-blue-button-blue-button-20/blue-button-apps"
+    )
 
     # Set up Selenium Chrome driver
     chrome_options = ChromeOptions()
