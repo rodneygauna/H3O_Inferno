@@ -6,7 +6,6 @@ URL: https://api.bluebutton.cms.gov/.well-known/applications?page_size=1000&page
 """
 
 # Imports
-import time
 from datetime import datetime
 import requests
 from flask import current_app
@@ -36,9 +35,6 @@ def scrape_medicare_api_health_apps():
         },
         timeout=10
     )
-
-    # Wait for the page to load
-    time.sleep(5)
 
     # Get the JSON data
     json_data = response.json()

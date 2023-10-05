@@ -11,7 +11,6 @@ Historical links
 """
 
 # Imports
-import time
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
@@ -38,7 +37,6 @@ def scrape_carin_health_apps_and_store():
         },
         timeout=10
     )
-    time.sleep(5)
     soup = BeautifulSoup(response.content, "html.parser")
 
     app_list_carin = []
