@@ -64,6 +64,12 @@ Once the image has been built successfully, use this command to run the containe
 docker run -d -p 1025:1025 -e SECRET_KEY="your secret key goes here" -e EMAIL_PASSWORD="password goes here" h3o-inferno
 ```
 
+If the .env file has been added, remove the environment variable arguments:
+
+```terminal
+docker run -d -p 1025:1025 h3o-inferno
+```
+
 ### Hardware/Local Environment
 
 **Important:** Before starting you're own instance of this application, it is recommened to fork this GitHub project. Learn more about forking here:
