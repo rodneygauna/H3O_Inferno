@@ -1,0 +1,13 @@
+# docker-compose.yaml
+version: '3'
+
+services:
+  h3o-inferno:
+    build: .
+    ports:
+      - "1025:1025"
+    volumes:
+      - ./data:/app/data
+    environment:
+      FLASK_APP: app
+      SQLITE_LOCATION: /app/data
