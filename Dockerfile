@@ -1,5 +1,13 @@
+# Dockerfile
 FROM python:3.11.6-slim-bookworm
 
+# Set environment variables
+ARG SECRET_KEY
+ARG EMAIL_PASSWORD
+ENV SECRET_KEY=$SECRET_KEY
+ENV EMAIL_PASSWORD=$EMAIL_PASSWORD
+
+# Set work directory
 WORKDIR /app
 
 # Install dependencies
