@@ -77,6 +77,12 @@ app.config['MAIL_PASSWORD'] = EMAIL_PASSWORD # Leave this as is, it will use the
 
 Make the changes necessary  and save the changes you've made.
 
+Lastly, for the data to save on the server, a database will need to be created. This can be done with the following command:
+
+```python
+flask commands db_create
+```
+
 #### Docker Build and Run
 
 Build the image and run the container:
