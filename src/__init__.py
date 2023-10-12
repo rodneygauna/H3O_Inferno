@@ -21,19 +21,19 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 
-# SQLite database
-SQLITE_LOCATION = os.getenv(
-    "SQLITE_LOCATION", os.path.abspath(os.path.dirname(__file__))
-)
-
-
 # Flask initialization
 app = Flask(__name__)
-basedir = SQLITE_LOCATION
 app.config["SECRET_KEY"] = SECRET_KEY
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
-    basedir, "database.db"
-)
+
+# Database Path
+database_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                             'data', 'database.db')
+
+# Ensure the 'data' directory exists; if not, create it
+os.makedirs(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data'),
+            exist_ok=True)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + database_path
 
 
 # Database initialization
