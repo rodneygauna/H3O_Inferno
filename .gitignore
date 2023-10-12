@@ -163,9 +163,11 @@ cython_debug/
 .vscode/
 
 # Database - Local SQLite files
-data/*.db
+data/database.db
 src/database.db
-src/data/*.db
+src/data/database.db
+.src/data/database.db
+
 
 # Log file
 logs.txt
