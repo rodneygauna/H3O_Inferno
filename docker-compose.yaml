@@ -4,6 +4,7 @@ version: '3'
 services:
   h3o-inferno:
     build: .
+    command: ["python3", "app.py"]
     ports:
       - "1025:1025"
     volumes:
