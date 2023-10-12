@@ -24,15 +24,9 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 # Flask initialization
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
-
-# Database Path
-database_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                             'data', 'database.db')
-
-# Ensure the 'data' directory exists; if not, create it
-os.makedirs(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data'),
-            exist_ok=True)
-
+# Database configuration
+database_path = os.path.join(app.root_path, 'data', 'database.db')
+os.makedirs(os.path.join(app.root_path, 'data'), exist_ok=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + database_path
 
 
@@ -47,12 +41,19 @@ Migrate(app, db)
 # Function to create the database if it doesn't exist
 def create_database_if_not_exists():
     """Create the database if it doesn't exist."""
-
     try:
         engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
         engine.connect()
-    except OperationalError:
-        db.create_all()
+    except OperationalError as e:
+        app.logger.error("Database connection failed due to: %s", e)
+        app.logger.info("Attempting to create the database...")
+        try:
+            with app.app_context():
+                db.create_all()
+            app.logger.info("Database created successfully.")
+        except Exception as e_inner:
+            app.logger.error("Database creation failed due to: %s", e_inner)
+            raise e_inner
 
 
 # Login manager initialization
