@@ -50,24 +50,65 @@ In the context of our Health Plan's FHIR APIs, the integration of third-party ap
 
 ### Docker
 
-H3O Inferno can be ran on Docker.
+#### Environment Keys and Email Configuration
 
-To build the image, use the following command:
+Before building the image and running the container, you'll have to create a `.env` file.
+This can be done by creating a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
 
-```terminal
-docker build -t h3o-inferno .
+Open the `.env` file and add the following:
+
+```text
+SECRET_KEY="secret key goes here"
+EMAIL_PASSWORD="password goes here"
 ```
 
-Once the image has been built successfully, use this command to run the container:
+Remember to replay examples in the quotes on your .env file.
 
-```terminal
-docker run -d -p 1025:1025 -e SECRET_KEY="your secret key goes here" -e EMAIL_PASSWORD="password goes here" h3o-inferno
+It is also recommended to change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
+
+```python
+app.config['MAIL_SERVER'] = 'smtp.gmail.com' # SMTP address goes here
+app.config['MAIL_PORT'] = 465 # Port for the SMTP server
+app.config['MAIL_USE_TLS'] = False # Change the TLS as needed
+app.config['MAIL_USE_SSL'] = True # Change the SSL as needed
+app.config['MAIL_USERNAME'] = 'rodneygauna@gmail.com' # Add the email address outgoing emails come from
+app.config['MAIL_PASSWORD'] = EMAIL_PASSWORD # Leave this as is, it will use the .env file
 ```
 
-If the .env file has been added, remove the environment variable arguments:
+Make the changes necessary  and save the changes you've made.
+
+#### Docker Build and Run
+
+Build the image and run the container:
 
 ```terminal
-docker run -d -p 1025:1025 h3o-inferno
+docker-compose up --build -d
+```
+
+#### Additional Docker commands
+
+Build the image:
+
+```terminal
+docker-compose build
+```
+
+Run the container:
+
+```terminal
+docker-compose up -d
+```
+
+Stop the container:
+
+```terminal
+docker-compose down
+```
+
+Stop and remove the image:
+
+```terminal
+docker-compose down --rmi all
 ```
 
 ### Hardware/Local Environment
@@ -163,7 +204,7 @@ Python will install all the packages and their appropriate versions from the req
 
 Next, change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
 
-Find the flask-mail configurations starting with the comment "# Mail configuration and initialization" (around line 68).
+Find the flask-mail configurations starting with the comment "# Mail configuration and initialization".
 
 Update the information to reflect where outgoing emails should come from; such as the 'MAIL_SERVER', 'MAIL_PORT', etc.
 
