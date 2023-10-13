@@ -2,7 +2,7 @@
 version: '3'
 
 services:
-  h3o-inferno:
+  app:
     build:
       context: .
       args:
