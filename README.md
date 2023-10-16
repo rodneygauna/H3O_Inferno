@@ -54,6 +54,7 @@ In the context of our Health Plan's FHIR APIs, the integration of third-party ap
 
 Before building the image and running the container, you'll have to create a `.env` file.
 This can be done by creating a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
+See the file named `.env.sample` for an example.
 
 Open the `.env` file and add the following:
 
@@ -62,7 +63,7 @@ SECRET_KEY="secret key goes here"
 EMAIL_PASSWORD="password goes here"
 ```
 
-Remember to replay examples in the quotes on your .env file.
+Remember to replace the example text in the quotes on your .env file.
 
 It is also recommended to change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
 
@@ -75,15 +76,17 @@ app.config['MAIL_USERNAME'] = 'rodneygauna@gmail.com' # Add the email address ou
 app.config['MAIL_PASSWORD'] = EMAIL_PASSWORD # Leave this as is, it will use the .env file
 ```
 
-Make the changes necessary  and save the changes you've made.
+Make the changes necessary and save the changes you've made.
 
-Lastly, for the data to save on the server, a database will need to be created. This can be done with the following command:
+Lastly, for the data to save on the server, a database will need to be created.
+Review the section titled [Hardware/Local Environment](#hardwarelocal-environment) for the steps
+This can be done with the following command:
 
 ```python
 flask commands db_create
 ```
 
-#### Docker Build and Run
+#### Docker Build, Run, Stop, and Remove
 
 Build the image and run the container:
 
@@ -91,30 +94,26 @@ Build the image and run the container:
 docker-compose up --build -d
 ```
 
-#### Additional Docker commands
-
-Build the image:
+Stop and remove the image:
 
 ```terminal
-docker-compose build
+docker-compose down --rmi all
 ```
 
-Run the container:
+#### Make Commands
+
+If you prefer to use `make` instead of the docker-compose commands, here are the corrisponding commands:
+
+Build the image and run the container:
 
 ```terminal
-docker-compose up -d
-```
-
-Stop the container:
-
-```terminal
-docker-compose down
+make up
 ```
 
 Stop and remove the image:
 
 ```terminal
-docker-compose down --rmi all
+make clean
 ```
 
 ### Hardware/Local Environment
@@ -126,13 +125,12 @@ Summary to run this application:
 
 1. Have Python (3.10 or higher installed)
 2. Have WKHTMLTOPDF
-3. Have Chrome browser installed
-4. Set up a Python Virtual Environment (optional but recommened)
-5. Install the needed Python packages
-6. Configure email settings
-7. Add the environment keys
-8. Create the database
-9. Run the app
+3. Set up a Python Virtual Environment (optional but recommened)
+4. Install the needed Python packages
+5. Configure email settings
+6. Add the environment keys
+7. Create the database
+8. Run the app
 
 Additional details for each step are below
 
@@ -148,37 +146,15 @@ There is a feature in the application that will generate a PDF (from an HTML pag
 Linux (Debian 11) Steps:
 
 1. Open the terminal
-2. Update your packages `sudo apt update`
-3. Install dependencies `sudo apt install libxrender1 libfontconfig1 libxext6 libx11-6`
+2. Update your packages `apt update`
+3. Install dependencies `apt install libxrender1 libfontconfig1 libxext6 libx11-6`
 4. Install WKTHMLTOPDF `sudo apt install wkhtmltopdf`
 
 Confirm the installation was successful using the `wkhtmltopdf --version` command.
 
 For Windows and Mac, you can find more information here: [WKHTMLTOPDF](https://wkhtmltopdf.org/)
 
-#### Step 3: Selenium and Chrome WebDriver Configuration
-
-This application scrapes the Medicare Blue Button Apps website. To have the feature function, a Chrome browser must be installed.
-You're probably asking "Why?!". Great question. It's because that site is such a dumpster fire (no pun intended), that we have to have Selenium parse the site before it can be passed to Beautiful Soup. Yet, sucks.
-
-You can download Chrome here: [Chrome Downloads](https://www.google.com/chrome/)
-
-Install with these steps:
-
-1. Open the terminal
-2. Update your packages with `sudo apt update`
-3. Upgrade your packages with `sudo apt upgrade`
-4. Install Chromium with `sudo apt install chromium`
-5. Note the version with `chromium --version`
-6. Go to the [ChromeDriver - Downloads page](https://sites.google.com/chromium.org/driver/downloads)
-7. Download the latest version (or one the fits the Chromium version you installed) with `wget linkToZipFile.zip`
-8. Unzip the file with `unzip chromedriver_linux64.zip`
-9. Move the driver with `sudo mv chromedriver /usr/local/bin/`
-10. Make it an executable file with `sudo chmod +x /usr/local/bin/chromedriver`
-
-Confirm that the installation is successful using `chromedriver --version`
-
-#### Step 4: Python VENV (Optional but Recommended)
+#### Step 3: Python VENV (Optional but Recommended)
 
 After installing Python, it's recommeneded to set up a virtual enviromnet.
 This ensures that all packages for the application are specific to this instance and will not cause any conflicts with other Python projects.
@@ -192,7 +168,7 @@ MacOS or Linux: `python3 -m venv H3O_Inferno/venv`
 
 Once completed, you should see a direction/folder titled 'venv' as a sub-directory in the 'H3O_Inferno' folder.
 
-#### Step 5: Python Packages
+#### Step 4: Python Packages
 
 Once the Python virtual enviroment is set up, navigate into the 'H3O_Inferno' directory and follow these steps using the terminal:
 
@@ -206,7 +182,7 @@ MacOS or Linux: `pip3 install -r requirements.txt`
 
 Python will install all the packages and their appropriate versions from the requirements.txt file.
 
-#### Step 6: Email Configuration
+#### Step 5: Email Configuration
 
 Next, change the configuration of flask-mail settings in the `__init__.py` file (`src/__init__.py`).
 
@@ -216,7 +192,7 @@ Update the information to reflect where outgoing emails should come from; such a
 
 Save the changes you've made.
 
-#### Step 7: Enviroment Keys
+#### Step 6 Enviroment Keys
 
 After changing your email settings, create a new file in the parent directory ('H3O_Inferno') with the filename of `.env`.
 
@@ -228,8 +204,8 @@ EMAIL_PASSWORD=""
 ```
 
 The 'SECRET_KEY' is used by Flask for security and encryption of the forms when saving (POST) to the database.
-
 The 'EMAIL_PASSWORD' is the password that's used to log into the email account you set up in step 5.
+You can find an example of what the .env file should contain in the `.env.sample`
 
 Here is an example of what your '.env' file could look like:
 
@@ -240,12 +216,15 @@ EMAIL_PASSWORD="Password1234"
 
 Save the changes you've made.
 
-#### Step 8: Create Database
+#### Step 7: Create Database
 
 Last step before running the app is to create and initialize the database. We are using SQLite3 for this project.
 
 In the terminal, type the following command:
-`flask commands create_db`
+
+```python
+flask commands db_create
+```
 
 You should see the following output:
 "Database created!"
@@ -253,7 +232,7 @@ You should see the following output:
 This will create the database and tables for the application.
 You should find the database in the 'src' folder (H3O_Inferno/src/database.db).
 
-#### Step 9: Run App
+#### Step 8: Run App
 
 To run the app, type the following command in the terminal:
 
