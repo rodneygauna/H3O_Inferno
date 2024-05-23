@@ -19,4 +19,4 @@ COPY . /app
 
 # System packages installation
 RUN apt update && apt upgrade -y
-RUN apt install libxrender1 libfontconfig1 libxext6 libx11-6 wkhtmltopdf -y
+RUN apt install wkhtmltopdf -y
