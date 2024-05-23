@@ -6,16 +6,23 @@
     <div class="col">
       {{ form.report_options.label(class="form-label") }} {{
       form.report_options(class="form-select") }}
+      <div class="form-text">
+        Select the type of report you would like to generate.
+      </div>
     </div>
   </div>
   <div class="row mb-3">
     <div class="col">
       {{ form.start_date.label(class="form-label") }} {{
       form.start_date(class="form-control") }}
+      <div class="form-text">
+        Required. Select the start date for the report.
+      </div>
     </div>
     <div class="col">
       {{ form.end_date.label(class="form-label") }} {{
       form.end_date(class="form-control") }}
+      <div class="form-text">Required. Select the end date for the report.</div>
     </div>
   </div>
   {{ form.submit(class="btn btn-primary") }}
