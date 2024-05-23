@@ -19,27 +19,27 @@ from flask_login import (
     login_required,
     current_user,
 )
-from src.request.forms import (
+from web.request.forms import (
     ConnectionRequestForm,
     RequestWorkingStatusForm,
     JiraTicketsForm,
 )
-from src import db
-from src.models import (
+from web import db
+from web.models import (
     ConnectionRequest,
     HealthPlan,
     RequestJira,
     ConnectionRequestChangeLog
 )
-from src.request.sql_queries import (
+from web.request.sql_queries import (
     get_all_connection_requests,
     get_all_connection_requests_count,
     get_connection_request,
 )
-from src.utils.app_match import (
+from web.utils.app_match import (
     calculate_affiliate_match_probability
 )
-from src.utils.outlook_request_scraping import (
+from web.utils.outlook_request_scraping import (
     scrape_outlook_email_connection_requests_and_store,
 )
 

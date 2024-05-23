@@ -14,7 +14,7 @@ from wtforms import (
 from wtforms.validators import (
     DataRequired,
 )
-from src.dictionaries.working_status import (
+from web.dictionaries.working_status import (
     WORKING_STATUS,
 )
 

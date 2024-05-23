@@ -9,8 +9,8 @@ import csv
 from datetime import datetime
 from flask import Blueprint, request, render_template, make_response
 from flask_login import login_required, current_user
-from src.reports.forms import GenerateReportForm
-from src.reports.sql_queries import (
+from web.reports.forms import GenerateReportForm
+from web.reports.sql_queries import (
     get_report_connect_requests_active,
     get_report_connect_requests_new,
     get_report_connect_requests_approved,

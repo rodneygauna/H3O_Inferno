@@ -11,8 +11,8 @@ import os
 from time import time
 from datetime import datetime
 from dotenv import load_dotenv
-from src import db
-from src.models import ConnectionRequest
+from web import db
+from web.models import ConnectionRequest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService

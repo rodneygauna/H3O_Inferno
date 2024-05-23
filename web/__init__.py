@@ -4,6 +4,13 @@ Initialization and configuration for the application.
 
 
 # Imports
+from web.settings.views import settings_bp
+from web.reports.views import reports_bp
+from web.request.views import requests_bp
+from web.healthapps.views import healthapps_bp
+from web.users.views import users_bp
+from web.core.views import core_bp
+from web.cli.cli_commands import commands_bp
 import os
 from dotenv import load_dotenv
 from flask import Flask
@@ -74,13 +81,6 @@ mail.init_app(app)
 
 
 # Flask Blueprints - Imports
-from src.cli.cli_commands import commands_bp
-from src.core.views import core_bp
-from src.users.views import users_bp
-from src.healthapps.views import healthapps_bp
-from src.request.views import requests_bp
-from src.reports.views import reports_bp
-from src.settings.views import settings_bp
 
 # Flask Blueprints - Register
 app.register_blueprint(commands_bp)

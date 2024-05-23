@@ -5,8 +5,8 @@ SQL queries for generating reports.
 
 # Imports
 from sqlalchemy import or_
-from src import db
-from src.models import (
+from web import db
+from web.models import (
     User, HealthApp, ConnectionRequest,
     ConnectionRequestChangeLog, HealthPlan,
 )

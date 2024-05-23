@@ -8,16 +8,16 @@ import random
 from faker import Faker
 from flask import Blueprint
 from werkzeug.security import generate_password_hash
-from src import db
-from src.models import (
+from web import db
+from web.models import (
     User,
     HealthPlan,
     ConnectionRequest,
     RequestJira,
     ConnectionRequestChangeLog,
 )
-from src.dictionaries.working_status import WORKING_STATUS
-from src.dictionaries.demo_health_apps import DEMO_HEALTH_APP_NAMES
+from web.dictionaries.working_status import WORKING_STATUS
+from web.dictionaries.demo_health_apps import DEMO_HEALTH_APP_NAMES
 
 # Faker instance
 faker = Faker()

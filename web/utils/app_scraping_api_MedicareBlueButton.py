@@ -10,8 +10,8 @@ from datetime import datetime
 import requests
 from flask import current_app
 from flask_login import current_user
-from src import db
-from src.models import HealthApp
+from web import db
+from web.models import HealthApp
 
 
 def scrape_medicare_api_health_apps():

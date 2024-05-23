@@ -3,7 +3,7 @@ This is the main file for the application.
 """
 
 # Imports
-from src import (
+from web import (
     app, db,
     create_database_if_not_exists
 )

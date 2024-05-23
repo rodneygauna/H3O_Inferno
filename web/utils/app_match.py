@@ -10,7 +10,7 @@ request matches the app.
 
 # Imports
 from sqlalchemy import func
-from src.models import HealthApp
+from web.models import HealthApp
 
 
 # Function - Probability Matching

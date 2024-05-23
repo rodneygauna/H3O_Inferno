@@ -13,13 +13,13 @@ from flask import (
     flash,
 )
 from flask_login import login_required
-from src.settings.forms import (
+from web.settings.forms import (
     ChangeRoleForm, ChangeStatusForm, HealthPlanForm,
 )
-from src.decorators.decorators import admin_required
+from web.decorators.decorators import admin_required
 from sqlalchemy import or_
-from src import db
-from src.models import User, HealthPlan
+from web import db
+from web.models import User, HealthPlan
 
 
 # Blueprint Configuration

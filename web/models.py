@@ -7,7 +7,7 @@ from datetime import datetime
 from flask import redirect, url_for
 from werkzeug.security import check_password_hash
 from flask_login import UserMixin
-from src import db, login_manager
+from web import db, login_manager
 
 
 # Login Manager - User Loader

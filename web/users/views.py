@@ -21,15 +21,15 @@ from flask_login import (
     logout_user,
     current_user,
 )
-from src.users.forms import (
+from web.users.forms import (
     RegisterUserForm,
     LoginForm,
     ChangePasswordForm,
     ShortCodeForm,
 )
 from flask_mail import Message
-from src import db, mail
-from src.models import (
+from web import db, mail
+from web.models import (
     User,
 )
 

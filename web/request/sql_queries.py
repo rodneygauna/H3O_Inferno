@@ -4,8 +4,8 @@ This file contains the SQL queries for the Requests > views.py file.
 """
 
 # Imports
-from src import db
-from src.models import (
+from web import db
+from web.models import (
     ConnectionRequest,
     RequestJira,
     HealthPlan,

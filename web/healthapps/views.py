@@ -13,13 +13,13 @@ from flask import (
 from flask_login import (
     login_required,
 )
-from src.models import (
+from web.models import (
     HealthApp,
 )
-from src.utils.app_scraping_CARIN import (
+from web.utils.app_scraping_CARIN import (
     scrape_carin_health_apps_and_store,
 )
-from src.utils.app_scraping_api_MedicareBlueButton import (
+from web.utils.app_scraping_api_MedicareBlueButton import (
     scrape_medicare_api_health_apps,
 )
 
