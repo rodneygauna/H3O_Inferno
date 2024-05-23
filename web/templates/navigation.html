@@ -1,102 +1,94 @@
 {% block navbar %}
-<div class="topbar">
-  <div class="topbar-row">
-    <img
-      src="{{ url_for('static', filename='assets/logo/h3o-inferno-logo-329x569.png') }}"
-      alt="logo"
-    />
-    <div class="topbar-column">
-      <div class="topbar-left">
-        <ul>
-          <li class="topbar-item">
-            <a href="{{ url_for('core.index') }}" class="topbar-link">
-              <i class="fas fa-home"></i>
-              <span class="topbar-link-text"></span>
-            </a>
-          </li>
-          <li class="topbar-item">
-            <a
-              href="{{ url_for('requests.connection_request') }}"
-              class="topbar-link"
-            >
-              <i class="fas fa-file-circle-plus"></i>
-              <span class="topbar-link-text"></span>
-            </a>
-          </li>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('core.index') }}">
+      <img
+        src="{{ url_for('static', filename='assets/logo/h3o-inferno-logo-329x569.png') }}"
+        alt="Logo"
+        width="24"
+        height="30"
+        class="d-inline-block align-text-top"
+      />
+      H3O Inferno
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('core.index') }}"
+            ><i class="fas fa-home"></i> Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="{{ url_for('requests.connection_request') }}"
+            ><i class="fas fa-file-circle-plus"></i> Request</a
+          >
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('requests.view_requests') }}"
+            ><i class="fas fa-file-circle-check"></i> View Requests</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('healthapps.healthapps') }}"
+            ><i class="fas fa-box"></i> Health Apps</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('reports.generate_report') }}"
+            ><i class="fas fa-chart-simple"></i> Reports</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+      <span class="navbar-text">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           {% if current_user.is_authenticated %}
-          <li class="topbar-item">
-            <a
-              href="{{ url_for('requests.view_requests') }}"
-              class="topbar-link"
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('settings.settings') }}"
+              ><i class="fas fa-cog"></i> Settings</a
             >
-              <i class="fas fa-file-circle-check"></i>
-              <span class="topbar-link-text"></span>
-            </a>
           </li>
-          <li class="topbar-item">
+          <li class="nav-item">
             <a
-              href="{{ url_for('healthapps.healthapps') }}"
-              class="topbar-link"
-            >
-              <i class="fas fa-box"></i>
-              <span class="topbar-link-text"></span>
-            </a>
-          </li>
-          <li class="topbar-item">
-            <a
-              href="{{ url_for('reports.generate_report') }}"
-              class="topbar-link"
-            >
-              <i class="fas fa-chart-simple"></i>
-              <span class="topbar-link-text"></span>
-            </a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-    <div class="topbar-column">
-      <div class="topbar-right">
-        <ul>
-          {% if current_user.is_authenticated %}
-          <li class="topbar-item">
-            <a href="{{ url_for('settings.settings')}}" class="topbar-link">
-              <i class="fas fa-cog"></i>
-              <span class="topbar-link-text"></span>
-            </a>
-          </li>
-          <li class="topbar-item">
-            <a
+              class="nav-link"
               href="{{ url_for('users.user_profile', user_id=current_user.id) }}"
-              class="topbar-link"
+              ><i class="fas fa-user"></i> Profile</a
             >
-              <i class="fas fa-user"></i>
-              <span class="topbar-link-text"></span>
-            </a>
           </li>
-          <li class="topbar-item">
-            <a href="{{ url_for('users.logout') }}" class="topbar-link">
-              <i class="fas fa-sign-out-alt"></i>
-              <span class="topbar-link-text"></span>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('users.logout') }}"
+              ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
           </li>
           {% else %}
-          <li class="topbar-item">
-            <a href="{{ url_for('users.register_user') }}" class="topbar-link">
-              <i class="fas fa-arrow-right"></i>
-              <span class="topbar-link-text">Register</span>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('users.register_user') }}"
+              ><i class="fas fa-arrow-right"></i> Register</a
+            >
           </li>
-          <li class="topbar-item">
-            <a href="{{ url_for('users.login') }}" class="topbar-link">
-              <i class="fas fa-sign-in-alt"></i>
-              <span class="topbar-link-text">Login</span>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('users.login') }}"
+              ><i class="fas fa-sign-in-alt"></i> Login</a
+            >
           </li>
           {% endif %}
         </ul>
-      </div>
+      </span>
     </div>
   </div>
-</div>
+</nav>
 {% endblock navbar %}
