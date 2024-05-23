@@ -5,37 +5,36 @@
     ><button>Add Health Plan</button></a
   >
 </div>
-<div class="row">
-  <div class="u-full-width">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>HealthTrio ID</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if health_plans %} {% for plan in health_plans %}
-        <tr>
-          <td>{{ plan.name }}</td>
-          <td>{{ plan.hp_id }}</td>
-          <td>{{ plan.status }}</td>
-          <td>
-            <a
-              href="{{ url_for('settings.edit_health_plan', health_plan_id=plan.id) }}"
-              ><button>Edit</button></a
-            >
-          </td>
-        </tr>
-        {% endfor %} {% else %}
-        <tr>
-          <td colspan="4">No health plans found.</td>
-        </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
+<div class="row mb-3">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>HealthTrio ID</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if health_plans %} {% for plan in health_plans %}
+      <tr>
+        <td>{{ plan.name }}</td>
+        <td>{{ plan.hp_id }}</td>
+        <td>{{ plan.status }}</td>
+        <td>
+          <a
+            href="{{ url_for('settings.edit_health_plan', health_plan_id=plan.id) }}"
+            class="btn btn-primary"
+            >Edit</a
+          >
+        </td>
+      </tr>
+      {% endfor %} {% else %}
+      <tr>
+        <td colspan="4">No health plans found.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
 </div>
 {% endblock content %}

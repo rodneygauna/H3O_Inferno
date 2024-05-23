@@ -10,8 +10,8 @@
   DF = Drug Formulary API
 </p>
 <!-- Requests Table - Start -->
-<div class="row">
-  <table class="u-full-width">
+<div class="row mb-3">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>ID</th>
@@ -78,7 +78,8 @@
         <td>
           <a
             href=" {{url_for('requests.view_request', request_id=request.id) }}"
-            ><button>View</button></a
+            class="btn btn-primary"
+            >View</a
           >
         </td>
       </tr>

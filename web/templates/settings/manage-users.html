@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Infero Users</h1>
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Email</th>
@@ -16,16 +16,18 @@
       <td>{{ user.role }}</td>
       <td>{{ user.status }}</td>
       <td>
-        <a
-          href="{{ url_for('settings.change_role', user_id=user.id) }}"
-          class="button"
-          >Change Role</a
-        >
-        <a
-          href="{{ url_for('settings.change_status', user_id=user.id) }}"
-          class="button"
-          >Update Status</a
-        >
+        <div class="btn-group">
+          <a
+            href="{{ url_for('settings.change_role', user_id=user.id) }}"
+            class="btn btn-primary"
+            >Change Role</a
+          >
+          <a
+            href="{{ url_for('settings.change_status', user_id=user.id) }}"
+            class="btn btn-primary"
+            >Update Status</a
+          >
+        </div>
       </td>
     </tr>
     {% endfor %}

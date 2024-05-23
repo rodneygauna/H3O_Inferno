@@ -6,15 +6,17 @@
     {% include 'favicon.html' %} {% include 'styles.html' %}
   </head>
   <body>
-    <!-- Navbar - Start -->
-    {% include 'navigation.html' %}
-    <!-- Navbar - End -->
-    <main>
-      <!-- Flash - Start -->
-      {% include 'flash.html' %}
-      <!-- Flash - End -->
-      {% block content %}{% endblock content %}
-    </main>
+    <div class="container">
+      <!-- Navbar - Start -->
+      {% include 'navigation.html' %}
+      <!-- Navbar - End -->
+      <main>
+        <!-- Flash - Start -->
+        {% include 'flash.html' %}
+        <!-- Flash - End -->
+        {% block content %}{% endblock content %}
+      </main>
+    </div>
     {% include 'javascript.html' %}
   </body>
 </html>

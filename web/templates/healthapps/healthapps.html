@@ -3,20 +3,16 @@
 <!-- Health Apps - Force Scraping - Start -->
 <div class="button-group">
   <form action="{{ url_for('healthapps.scrape_carin') }}" method="post">
-    <input type="submit" value="Update CARIN" class="button-primary" />
+    <input type="submit" value="Update CARIN" class="btn btn-primary" />
   </form>
   <form action="{{ url_for('healthapps.scrape_medicare') }}" method="post">
-    <input
-      type="submit"
-      value="Update Medicare BB"
-      class="button-primary"
-    />
+    <input type="submit" value="Update Medicare BB" class="btn btn-primary" />
   </form>
 </div>
 <!-- Health Apps - Force Scraping - End -->
 <!-- Health Apps - Start -->
-<div class="row">
-  <table class="u-full-width">
+<div class="row mb-3">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Source</th>

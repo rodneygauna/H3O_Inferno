@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Report</h1>
-<div class="row">
+<div class="row mb-3">
   <p>
     Report Type: {{ selected_report }}
     <br />
@@ -9,18 +9,18 @@
     Report End Date: {{ end_date }}
   </p>
 </div>
-<div class="row">
+<div class="row mb-3">
   <form method="post" action="{{ url_for('reports.export_csv') }}">
     <input type="hidden" name="selected_report" value="{{ selected_report }}" />
     <input type="hidden" name="start_date" value="{{ start_date }}" />
     <input type="hidden" name="end_date" value="{{ end_date }}" />
-    <button type="submit" id="download-csv">
+    <button type="submit" id="download-csv" class="btn btn-primary">
       <i class="fe fe-download"></i> Export to CSV
     </button>
   </form>
 </div>
-<div class="row">
-  <table class="u-full-width">
+<div class="row mb-3">
+  <table class="table table-striped">
     <thead>
       <tr>
         {% for column in column_labels %}

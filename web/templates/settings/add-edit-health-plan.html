@@ -2,19 +2,22 @@
 <h1>Add/Edit Health Plan</h1>
 <form method="post">
   {{ form.hidden_tag() }}
-  <div class="row">
-    <div class="six columns">
-      {{ form.name.label }} {{ form.name(class="u-full-width") }}
+  <div class="row mb-3">
+    <div class="col">
+      {{ form.name.label(class="form-label") }} {{
+      form.name(class="form-control") }}
     </div>
-    <div class="six columns">
-      {{ form.hp_id.label }} {{ form.hp_id(class="u-full-width") }}
+    <div class="col">
+      {{ form.hp_id.label(class="form-label") }} {{
+      form.hp_id(class="form-control") }}
     </div>
   </div>
-  <div class="row">
-    <div class="six columns">
-      {{ form.status.label }} {{ form.status(class="u-full-width") }}
+  <div class="row mb-3">
+    <div class="col">
+      {{ form.status.label(class="form-label") }} {{
+      form.status(class="form-select") }}
     </div>
-    <div class="six columns">{{ form.submit }}</div>
   </div>
+  {{ form.submit(class="btn btn-primary") }}
 </form>
 {% endblock content %}

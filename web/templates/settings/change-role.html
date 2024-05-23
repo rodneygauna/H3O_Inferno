@@ -2,7 +2,10 @@
 <h1>Change User's Role</h1>
 <form method="post">
   {{ form.hidden_tag() }}
-  <div class="row">{{ form.role.label }} {{ form.role }}</div>
-  {{ form.submit() }}
+  <div class="row mb-3">
+    {{ form.role.label(class="form-label") }} {{ form.role(class="form-select")
+    }}
+  </div>
+  {{ form.submit(class="btn btn-primary") }}
 </form>
 {% endblock content %}

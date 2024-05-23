@@ -1,18 +1,20 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Settings</h1>
 <p>Change the settings for the Inferno application here.</p>
-<div class="row">
-  <div class="six columns">
+<div class="row mb-3">
+  <div class="col">
     <h3>Users</h3>
     <p>Manage users here.</p>
-    <a href="{{ url_for('settings.manage_users') }}" class="button"
+    <a href="{{ url_for('settings.manage_users') }}" class="btn btn-primary"
       >Manage Users</a
     >
   </div>
-  <div class="six columns">
+  <div class="col">
     <h3>Health Plans</h3>
     <p>Manage health plans here.</p>
-    <a href="{{ url_for('settings.manage_health_plans') }}" class="button"
+    <a
+      href="{{ url_for('settings.manage_health_plans') }}"
+      class="btn btn-primary"
       >Manage Health Plans</a
     >
   </div>

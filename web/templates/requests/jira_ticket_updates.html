@@ -3,24 +3,26 @@
 <p>Add or update the Jira CC and CSM1 IDs and URLs below.</p>
 <form method="post">
   {{ form.hidden_tag() }}
-  <div class="row">
-    <div class="three columns">
-      {{ form.jira_cc_id.label }} {{ form.jira_cc_id }}
+  <div class="row mb-3">
+    <div class="col-3">
+      {{ form.jira_cc_id.label(class="form-label") }} {{
+      form.jira_cc_id(class="form-control") }}
     </div>
-    <div class="nine columns">
-      {{ form.jira_cc_url.label }} {{ form.jira_cc_url }}
-    </div>
-  </div>
-  <div class="row">
-    <div class="three columns">
-      {{ form.jira_csm1_id.label }} {{ form.jira_csm1_id }}
-    </div>
-    <div class="nine columns">
-      {{ form.jira_csm1_url.label }} {{ form.jira_csm1_url }}
+    <div class="col-9">
+      {{ form.jira_cc_url.label(class="form-label") }} {{
+      form.jira_cc_url(class="form-control") }}
     </div>
   </div>
-  <div class="row">
-    <div class="u-full-width">{{ form.submit() }}</div>
+  <div class="row mb-3">
+    <div class="col-3">
+      {{ form.jira_csm1_id.label(class="form-label") }} {{
+      form.jira_csm1_id(class="form-control") }}
+    </div>
+    <div class="col-9">
+      {{ form.jira_csm1_url.label(class="form-label") }} {{
+      form.jira_csm1_url(class="form-control") }}
+    </div>
   </div>
+  {{ form.submit(class="btn btn-primary") }}
 </form>
 {% endblock content %}

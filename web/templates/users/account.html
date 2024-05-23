@@ -1,15 +1,15 @@
 {% extends 'base.html' %} {% block content %}
 <h1>User Account</h1>
-<div class="row">
-  <div class="u-full-width">
-    <a href="{{ url_for('users.change_password') }}"
-      ><button>Change Password</button></a
+<div class="row mb-3">
+  <div class="col">
+    <a href="{{ url_for('users.change_password') }}" class="btn btn-primary"
+      >Change Password</a
     >
-    <a href="{{ url_for('users.logout') }}"><button>Logout</button></a>
+    <a href="{{ url_for('users.logout') }}" class="btn btn-primary">Logout</a>
   </div>
 </div>
-<div class="row">
-  <div class="u-full-width">
+<div class="row mb-3">
+  <div class="col">
     <p>Email: {{ user.email }}</p>
   </div>
 </div>

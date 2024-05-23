@@ -1,9 +1,15 @@
-{% extends 'base.html' %}
-{% block content %}
-    <h1>Authentication</h1>
-    <p>An short code has been sent to your HealthTrio email address. Please enter it here to continue the login process.</p>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        {{ form.short_code.label }} {{ form.short_code }}
-        {{ form.submit() }}
-{% endblock content %}
+{% extends 'base.html' %} {% block content %}
+<h1>Authentication</h1>
+<p>
+  An short code has been sent to your HealthTrio email address. Please enter it
+  here to continue the login process.
+</p>
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <div class="row mb-3">
+    {{ form.short_code.label(class="form-label") }} {{
+    form.short_code(class="form-control") }}
+    <div class="form-text">Required</div>
+  </div>
+  {{ form.submit(class="btn btn-primary") }} {% endblock content %}
+</form>
