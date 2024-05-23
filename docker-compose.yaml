@@ -1,8 +1,6 @@
 # docker-compose.yaml
-version: '3'
-
 services:
-  app:
+  web:
     build:
       context: .
       args:
@@ -12,7 +10,7 @@ services:
     ports:
       - "1025:1025"
     volumes:
-      - ./src/data:/app/src/data
+      - ./web/data:/app/web/data
     env_file:
       - ./.env
 
