@@ -52,8 +52,8 @@ def register_user():
             return redirect(url_for('users.register_user'))
 
         # Check if email ends with @healthtrio.com
-        if not form.email.data.endswith('@healthtrio.com'):
-            flash('Please use your HealthTrio email.', 'error')
+        if not form.email.data.endswith('@healthtrio.com') and not form.email.data.endswith('@mpulse.com'):
+            flash('Please use your HealthTrio or mPulse email.', 'error')
             return redirect(url_for('users.register_user'))
 
         # Commit the new user to the database
@@ -67,7 +67,7 @@ def register_user():
         return redirect(url_for('users.login'))
 
     return render_template('users/register.html',
-                           title='H30 Inferno - Register',
+                           title='H3O Inferno - Register',
                            form=form)
 
 
@@ -95,7 +95,7 @@ def login():
 
             # Send the short code to the user's email
             msg = Message(
-                'H30 Inferno - Short Code for Login',
+                'H3O Inferno - Short Code for Login',
                 recipients=[user.email],
                 sender="noreply-2FA@healthtrio.com")
             msg.body = f'Your short code is: {short_code}'
@@ -112,7 +112,7 @@ def login():
         flash('Invalid email or password.', 'error')
 
     return render_template('users/login.html',
-                           title='H30 Inferno - Login',
+                           title='H3O Inferno - Login',
                            form=form)
 
 
@@ -136,7 +136,7 @@ def enter_code():
             flash('Short Code (2FA) is incorrect. Please try again.', 'error')
 
     return render_template('users/short_code.html',
-                           title='H30 Inferno - Short Code (2FA)',
+                           title='H3O Inferno - Short Code (2FA)',
                            form=form)
 
 
@@ -189,7 +189,7 @@ def user_profile(user_id):
         abort(403)
 
     return render_template('users/account.html',
-                           title='H30 Inferno - Account',
+                           title='H3O Inferno - Account',
                            user=user)
 
 
@@ -213,5 +213,5 @@ def change_password():
         return redirect(url_for('users.user_profile', user_id=user.id))
 
     return render_template('users/change_password.html',
-                           title='H30 Inferno - Change Password',
+                           title='H3O Inferno - Change Password',
                            form=form)
