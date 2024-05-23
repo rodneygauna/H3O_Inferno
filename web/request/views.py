@@ -1,47 +1,23 @@
-"""
-Requests > Views
-"""
-
+"""Requests > Views"""
 # Imports
 import pdfkit
 from datetime import datetime
 from flask import (
-    Blueprint,
-    render_template,
-    request,
-    flash,
-    redirect,
-    url_for,
-    jsonify,
+    Blueprint, render_template, request, flash, redirect, url_for, jsonify,
     make_response,
 )
-from flask_login import (
-    login_required,
-    current_user,
+from flask_login import login_required, current_user
+from .forms import (
+    ConnectionRequestForm, RequestWorkingStatusForm, JiraTicketsForm,
 )
-from web.request.forms import (
-    ConnectionRequestForm,
-    RequestWorkingStatusForm,
-    JiraTicketsForm,
-)
-from web import db
-from web.models import (
-    ConnectionRequest,
-    HealthPlan,
-    RequestJira,
-    ConnectionRequestChangeLog
-)
-from web.request.sql_queries import (
-    get_all_connection_requests,
-    get_all_connection_requests_count,
+from app import db
+from settings.models import HealthPlan
+from .models import ConnectionRequest, RequestJira, ConnectionRequestChangeLog
+from request.sql_queries import (
+    get_all_connection_requests, get_all_connection_requests_count,
     get_connection_request,
 )
-from web.utils.app_match import (
-    calculate_affiliate_match_probability
-)
-from web.utils.outlook_request_scraping import (
-    scrape_outlook_email_connection_requests_and_store,
-)
+from utils.app_match import calculate_affiliate_match_probability
 
 
 # Blueprint Configuration
@@ -367,18 +343,3 @@ def request_pdf(request_id):
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = f"inline; filename={filename}"
     return response
-
-
-# Function  - Scrape Outlook for Requests
-@requests_bp.route("/scrape_outlook", methods=["POST"])
-@login_required
-def scrape_outlook():
-    """asdf"""
-
-    try:
-        scrape_outlook_email_connection_requests_and_store()
-        flash("Outlook requests have been scraped and stored.", "success")
-    except Exception as e:
-        flash(f"Error: {e}", "danger")
-
-    return redirect(url_for("requests.view_requests"))

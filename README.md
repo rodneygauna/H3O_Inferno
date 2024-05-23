@@ -1,6 +1,6 @@
 # H3O_Inferno
 
-![H3O Inferno](/src/static/assets/logo/h3o-inferno-logo-1024x1024.png "H3O Inferno")
+![H3O Inferno](/web/static/assets/logo/h3o-inferno-logo-1024x1024.png "H3O Inferno")
 
 ## HealthTrio Innovation Day - 2023 Q3
 

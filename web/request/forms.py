@@ -1,22 +1,11 @@
-"""
-Requests > Forms
-"""
-
+"""Requests > Forms"""
 # Imports
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField,
-    TextAreaField,
-    BooleanField,
-    SelectField,
-    SubmitField,
+    StringField, TextAreaField, BooleanField, SelectField, SubmitField
 )
-from wtforms.validators import (
-    DataRequired,
-)
-from web.dictionaries.working_status import (
-    WORKING_STATUS,
-)
+from wtforms.validators import DataRequired
+from dictionaries.working_status import WORKING_STATUS
 
 
 # Form - Connection Request

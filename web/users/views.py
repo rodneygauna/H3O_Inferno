@@ -1,37 +1,18 @@
-"""
-Users > Views
-"""
-
+"""Users > Views"""
 # Imports
 from random import randint
 from flask import (
-    Blueprint,
-    abort,
-    render_template,
-    request,
-    flash,
-    redirect,
-    url_for,
+    Blueprint, abort, render_template, request, flash, redirect, url_for,
     session,
 )
 from werkzeug.security import generate_password_hash
-from flask_login import (
-    login_user,
-    login_required,
-    logout_user,
-    current_user,
-)
-from web.users.forms import (
-    RegisterUserForm,
-    LoginForm,
-    ChangePasswordForm,
-    ShortCodeForm,
+from flask_login import login_user, login_required, logout_user, current_user
+from users.forms import (
+    RegisterUserForm, LoginForm, ChangePasswordForm, ShortCodeForm,
 )
 from flask_mail import Message
-from web import db, mail
-from web.models import (
-    User,
-)
+from app import db, mail
+from .models import User
 
 
 # Blueprint Configuration

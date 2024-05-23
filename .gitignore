@@ -164,9 +164,9 @@ cython_debug/
 
 # Database - Local SQLite files
 data/database.db
-src/database.db
-src/data/database.db
-.src/data/database.db
+web/database.db
+web/data/database.db
+.web/data/database.db
 
 
 # Log file

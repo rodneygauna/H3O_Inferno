@@ -1,25 +1,12 @@
-"""
-Health Apps > Views
-"""
-
+"""Health Apps > Views"""
 # Imports
-from flask import (
-    Blueprint,
-    render_template,
-    flash,
-    redirect,
-    url_for,
-)
-from flask_login import (
-    login_required,
-)
-from web.models import (
-    HealthApp,
-)
-from web.utils.app_scraping_CARIN import (
+from flask import Blueprint, render_template, flash, redirect, url_for
+from flask_login import login_required
+from .models import HealthApp
+from utils.app_scraping_CARIN import (
     scrape_carin_health_apps_and_store,
 )
-from web.utils.app_scraping_api_MedicareBlueButton import (
+from utils.app_scraping_api_MedicareBlueButton import (
     scrape_medicare_api_health_apps,
 )
 

@@ -16,8 +16,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from flask_login import current_user
-from web.models import HealthApp
-from web import db
+from healthapps.models import HealthApp
+from app import db
 
 
 def scrape_medicare_blue_button_health_apps_and_store():

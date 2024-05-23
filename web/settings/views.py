@@ -2,24 +2,15 @@
 Settings > views.py
 Routes and functions to manage application settings.
 """
-
 # Imports
-from flask import (
-    Blueprint,
-    render_template,
-    redirect,
-    url_for,
-    request,
-    flash,
-)
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required
-from web.settings.forms import (
-    ChangeRoleForm, ChangeStatusForm, HealthPlanForm,
-)
-from web.decorators.decorators import admin_required
+from .forms import ChangeRoleForm, ChangeStatusForm, HealthPlanForm
+from decorators.decorators import admin_required
 from sqlalchemy import or_
-from web import db
-from web.models import User, HealthPlan
+from app import db
+from .models import HealthPlan
+from users.models import User
 
 
 # Blueprint Configuration

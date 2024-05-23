@@ -2,14 +2,10 @@
 Requests > sql_queries.py
 This file contains the SQL queries for the Requests > views.py file.
 """
-
 # Imports
-from web import db
-from web.models import (
-    ConnectionRequest,
-    RequestJira,
-    HealthPlan,
-)
+from app import db
+from .models import ConnectionRequest, RequestJira
+from settings.models import HealthPlan
 
 
 # Query - All Connection Requests Count

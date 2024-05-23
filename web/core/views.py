@@ -1,7 +1,4 @@
-"""
-Core > Views
-"""
-
+"""Core > Views"""
 # Imports
 from flask import render_template, Blueprint
 
@@ -16,4 +13,4 @@ def index():
     """Home page"""
 
     return render_template('core/index.html',
-                           title='H30 Inferno - Home')
+                           title='H3O Inferno - Home')

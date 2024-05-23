@@ -2,7 +2,8 @@
 Utils > app_scraping_api_medicareBlueButton
 This file contains the function to scrape the Medicare Blue Button API.
 
-URL: https://api.bluebutton.cms.gov/.well-known/applications?page_size=1000&page=1
+URL:
+https://api.bluebutton.cms.gov/.well-known/applications?page_size=1000&page=1
 """
 
 # Imports
@@ -10,8 +11,8 @@ from datetime import datetime
 import requests
 from flask import current_app
 from flask_login import current_user
-from web import db
-from web.models import HealthApp
+from app import db
+from healthapps.models import HealthApp
 
 
 def scrape_medicare_api_health_apps():
@@ -19,7 +20,8 @@ def scrape_medicare_api_health_apps():
     This function will scrape the Medicare Blue Button API and return a list
     of apps.
 
-    URL: https://api.bluebutton.cms.gov/.well-known/applications?page_size=1000&page=1
+    URL:
+    https://api.bluebutton.cms.gov/.well-known/applications?page_size=1000&page=1
     """
 
     # URL to the API
