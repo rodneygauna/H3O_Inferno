@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.Text, nullable=False)
     # Timestamps
     created_date = db.Column(db.DateTime, nullable=False,
-                             default=datetime.utcnow)
+                             default=datetime.now())
     updated_date = db.Column(db.DateTime)
     # Role
     role = db.Column(db.String(100), default="user")

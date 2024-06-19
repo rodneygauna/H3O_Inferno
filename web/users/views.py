@@ -30,17 +30,25 @@ def register_user():
         # Check if email is already registered
         if User.query.filter_by(email=form.email.data).first():
             flash('This email is already registered.', 'error')
-            return redirect(url_for('users.register_user'))
+            return redirect(url_for('users.login'))
 
-        # Check if email ends with @healthtrio.com
+        # If the email does not end with @healthtrio or @mpulse, make user
         if not form.email.data.endswith('@healthtrio.com') and not form.email.data.endswith('@mpulse.com'):
-            flash('Please use your HealthTrio or mPulse email.', 'error')
-            return redirect(url_for('users.register_user'))
+            # Commit the new user to the database
+            user = User(
+                email=form.email.data,
+                password_hash=generate_password_hash(form.password.data),
+            )
+            db.session.add(user)
+            db.session.commit()
+            flash('You have successfully registered!', 'success')
+            return redirect(url_for('users.login'))
 
-        # Commit the new user to the database
+        # If the email ends with @healthtrio or @mpulse, make admin
         user = User(
             email=form.email.data,
             password_hash=generate_password_hash(form.password.data),
+            role='admin'
         )
         db.session.add(user)
         db.session.commit()
@@ -75,10 +83,9 @@ def login():
             short_code = str(randint(100000, 999999))
 
             # Send the short code to the user's email
-            msg = Message(
-                'H3O Inferno - Short Code for Login',
-                recipients=[user.email],
-                sender="noreply-2FA@healthtrio.com")
+            msg = Message('H3O Inferno - Short Code for Login',
+                          recipients=[user.email],
+                          sender="noreply-2FA@healthtrio.com")
             msg.body = f'Your short code is: {short_code}'
             mail.send(msg)
 
