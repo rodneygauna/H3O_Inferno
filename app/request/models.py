@@ -19,10 +19,6 @@ class ConnectionRequest(db.Model):
     # Requester Information
     firstname = db.Column(db.String(255), nullable=False)
     lastname = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False)
-    phone_number = db.Column(db.String(255), nullable=False)
-    company = db.Column(db.String(255), nullable=False)
-    company_website = db.Column(db.String(255), nullable=False)
     # Application Information
     app_name = db.Column(db.String(255), nullable=False)
     app_link = db.Column(db.String(255), nullable=False)
