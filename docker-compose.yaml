@@ -3,16 +3,20 @@ services:
   nginx:
     restart: always
     build: ./nginx
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
       - ./web/static:/static
     links:
       - web:web
+    networks:
+      - frontnet
 
   web:
     restart: always
     build: ./web
+    container_name: web
     environment:
       SECRET_KEY: ${SECRET_KEY}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -29,22 +33,19 @@ services:
       - ./web/data:/app/web/data
     expose:
       - "80:8000"
+    networks:
+      - frontnet
+      - backnet
     depends_on:
       - postgres
     command: >
       sh -c "python3 ./create_db.py &&
              gunicorn -w 2 -b :8000 app:app"
-    develop:
-      watch:
-        - action: sync+restart
-          path: ./web
-          target: /
-        - action: rebuild
-          path: ./web/requirements.txt
 
   postgres:
     restart: always
     image: postgres:latest
+    container_name: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
@@ -55,7 +56,12 @@ services:
       - "5432"
     ports:
       - "5432:5432"
+    networks:
+      - backnet
+
+networks:
+  frontnet:
+  backnet:
 
 volumes:
-  db-data: {}
-
+  db-data:
