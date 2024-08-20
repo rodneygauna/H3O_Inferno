@@ -15,7 +15,7 @@ from settings.settings_models import HealthPlan
 from models.request_models import (
     ConnectionRequest, RequestJira, ConnectionRequestChangeLog
 )
-from request.sql_queries import (
+from queries.requests_queries import (
     get_all_connection_requests, get_all_connection_requests_count,
     get_connection_request,
 )
