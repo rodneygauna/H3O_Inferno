@@ -8,7 +8,7 @@ import csv
 from datetime import datetime
 from flask import Blueprint, request, render_template, make_response
 from flask_login import login_required, current_user
-from .forms import GenerateReportForm
+from forms.reports_forms import GenerateReportForm
 from .sql_queries import (
     get_report_connect_requests_active,
     get_report_connect_requests_new,

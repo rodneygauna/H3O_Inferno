@@ -5,7 +5,7 @@ Routes and functions to manage application settings.
 # Imports
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required
-from .forms import ChangeRoleForm, ChangeStatusForm, HealthPlanForm
+from forms.settings_forms import ChangeRoleForm, ChangeStatusForm, HealthPlanForm
 from decorators.decorators import admin_required
 from sqlalchemy import or_
 from app import db

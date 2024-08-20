@@ -7,7 +7,7 @@ from flask import (
     make_response,
 )
 from flask_login import login_required, current_user
-from .forms import (
+from forms.requests_forms import (
     ConnectionRequestForm, RequestWorkingStatusForm, JiraTicketsForm,
 )
 from app import db

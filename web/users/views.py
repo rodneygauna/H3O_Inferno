@@ -7,7 +7,7 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from users.forms import (
+from forms.users_forms import (
     RegisterUserForm, LoginForm, ChangePasswordForm, ShortCodeForm,
 )
 from flask_mail import Message
