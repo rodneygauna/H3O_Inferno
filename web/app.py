@@ -33,12 +33,12 @@ mail.init_app(app)
 
 
 # Flask Blueprints - Imports
-from core.views import core_bp
-from users.views import users_bp
-from healthapps.views import healthapps_bp
-from request.views import requests_bp
-from reports.views import reports_bp
-from settings.views import settings_bp
+from views.core_views import core_bp
+from views.users_views import users_bp
+from views.healthapps_views import healthapps_bp
+from views.request_views import requests_bp
+from views.reports_views import reports_bp
+from views.settings_views import settings_bp
 
 # Flask Blueprints - Register
 app.register_blueprint(core_bp)
