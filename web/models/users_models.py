@@ -40,7 +40,7 @@ class User(db.Model, UserMixin):
                              default=datetime.now())
     updated_date = db.Column(db.DateTime)
     # User Type
-    user_type = db.Column(db.String(100), default="user")
+    user_type = db.Column(db.String(100), nullable=False)
     # Role
     role = db.Column(db.String(100), default="user")
     # Status
