@@ -38,6 +38,7 @@ def register_user():
             user = User(
                 email=form.email.data,
                 password_hash=generate_password_hash(form.password.data),
+                user_type=form.user_type.data
             )
             db.session.add(user)
             db.session.commit()

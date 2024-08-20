@@ -1,8 +1,9 @@
 """Users > Forms"""
 # Imports
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
+from dictionaries.user_dictioneries import USER_TYPES
 
 
 # Register user form
@@ -10,6 +11,8 @@ class RegisterUserForm(FlaskForm):
     """Register user form"""
 
     email = StringField('Email', validators=[DataRequired(), Email()])
+    user_type = SelectField('User Type', choices=[
+                            USER_TYPES], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo(
         'pass_confirm', message='Passwords must match.')])
     pass_confirm = PasswordField(
