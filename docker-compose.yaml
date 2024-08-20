@@ -9,14 +9,14 @@ services:
     volumes:
       - ./web/static:/static
     links:
-      - app:app
+      - web:web
     networks:
       - frontnet
 
-  app:
+  web:
     restart: always
-    build: ./app
-    container_name: app
+    build: ./web
+    container_name: web
     environment:
       SECRET_KEY: ${SECRET_KEY}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -30,7 +30,7 @@ services:
       MAIL_USERNAME: ${MAIL_USERNAME}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
     volumes:
-      - ./app/data:/app/web/data
+      - ./web/data:/app/web/data
     expose:
       - "80:8000"
     networks:
