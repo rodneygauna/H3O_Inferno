@@ -16,7 +16,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from flask_login import current_user
-from healthapps.models import HealthApp
+from models.healthapps_models import HealthApp
 from app import db
 
 

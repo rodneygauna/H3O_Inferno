@@ -18,10 +18,7 @@ db = SQLAlchemy(app)
 
 
 # Importing the models to create the tables
-from users.models import *
-from healthapps.models import *
-from request.models import *
-from settings.models import *
+from models import *
 
 
 # Login manager initialization

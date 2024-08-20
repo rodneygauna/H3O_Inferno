@@ -6,10 +6,10 @@ SQL queries for generating reports.
 # Imports
 from sqlalchemy import or_
 from app import db
-from healthapps.models import HealthApp
-from users.models import User
-from request.models import ConnectionRequest, ConnectionRequestChangeLog
-from settings.models import HealthPlan
+from models.healthapps_models import HealthApp
+from models.users_models import User
+from models.request_models import ConnectionRequest, ConnectionRequestChangeLog
+from models.settings_models import HealthPlan
 
 
 # Connection Requests - All

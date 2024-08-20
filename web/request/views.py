@@ -11,8 +11,10 @@ from .forms import (
     ConnectionRequestForm, RequestWorkingStatusForm, JiraTicketsForm,
 )
 from app import db
-from settings.models import HealthPlan
-from .models import ConnectionRequest, RequestJira, ConnectionRequestChangeLog
+from settings.settings_models import HealthPlan
+from models.request_models import (
+    ConnectionRequest, RequestJira, ConnectionRequestChangeLog
+)
 from request.sql_queries import (
     get_all_connection_requests, get_all_connection_requests_count,
     get_connection_request,

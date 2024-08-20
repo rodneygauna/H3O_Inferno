@@ -12,7 +12,7 @@ from users.forms import (
 )
 from flask_mail import Message
 from app import db, mail
-from .models import User
+from models.users_models import User
 
 
 # Blueprint Configuration

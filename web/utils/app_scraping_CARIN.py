@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 from flask import current_app
 from flask_login import current_user
 from app import db
-from healthapps.models import HealthApp
+from models.healthapps_models import HealthApp
 
 
 def scrape_carin_health_apps_and_store():

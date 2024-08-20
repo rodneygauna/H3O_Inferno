@@ -12,7 +12,7 @@ import requests
 from flask import current_app
 from flask_login import current_user
 from app import db
-from healthapps.models import HealthApp
+from models.healthapps_models import HealthApp
 
 
 def scrape_medicare_api_health_apps():

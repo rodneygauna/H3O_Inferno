@@ -2,7 +2,7 @@
 # Imports
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required
-from .models import HealthApp
+from models.healthapps_models import HealthApp
 from utils.app_scraping_CARIN import (
     scrape_carin_health_apps_and_store,
 )

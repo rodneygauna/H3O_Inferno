@@ -9,8 +9,8 @@ from .forms import ChangeRoleForm, ChangeStatusForm, HealthPlanForm
 from decorators.decorators import admin_required
 from sqlalchemy import or_
 from app import db
-from .models import HealthPlan
-from users.models import User
+from models.settings_models import HealthPlan
+from models.users_models import User
 
 
 # Blueprint Configuration
